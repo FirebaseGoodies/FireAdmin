@@ -17,7 +17,15 @@
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+    "paths": {
+      "fire-admin": [
+        "dist/fire-admin"
+      ],
+      "fire-admin/*": [
+        "dist/fire-admin/*"
+      ]
+    }
   },
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,
