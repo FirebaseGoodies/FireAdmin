@@ -7,7 +7,7 @@
       "projectType": "library",
       "root": "projects/fire-admin",
       "sourceRoot": "projects/fire-admin/src",
-      "prefix": "lib",
+      "prefix": "fa",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-ng-packagr:build",
@@ -59,9 +59,18 @@
               "projects/demo/src/assets"
             ],
             "styles": [
-              "projects/demo/src/styles.css"
+              "projects/demo/src/styles.css",
+              "node_modules/@fortawesome/fontawesome-free/css/all.min.css",
+              "node_modules/material-icons-font/material-icons-font.css",
+              "node_modules/bootstrap/dist/css/bootstrap.min.css"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/popper.js/dist/popper.min.js",
+              "node_modules/bootstrap/dist/js/bootstrap.min.js",
+              "node_modules/chart.js/dist/Chart.min.js",
+              "node_modules/shards-ui/dist/js/shards.min.js"
+            ]
           },
           "configurations": {
             "production": {
