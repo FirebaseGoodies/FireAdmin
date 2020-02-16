@@ -1,6 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { AuthService } from '../../services/auth.service';
+import { NavigationService } from '../../services/navigation.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'fa-login',
@@ -12,9 +14,10 @@ export class LoginComponent implements OnInit, OnDestroy {
   email: string = '';
   password: string = '';
   rememberMe: boolean = false;
+  error: string = null;
   private routeSubscription: Subscription = null;
 
-  constructor(private route: ActivatedRoute) { }
+  constructor(private auth: AuthService, private route: ActivatedRoute, private navigation: NavigationService) { }
 
   ngOnInit() {
     this.routeSubscription = this.route.queryParams.subscribe((params: any) => {
@@ -32,6 +35,20 @@ export class LoginComponent implements OnInit, OnDestroy {
     if (this.routeSubscription) {
       this.routeSubscription.unsubscribe();
     }
+  }
+
+  onSubmit() {
+    this.auth.signIn(this.email, this.password).then(() => {
+      this.navigation.redirectTo('dashboard');
+    }).catch((error: Error) => {
+      this.error = error.message;
+    });
+  }
+
+  dismissError(event: Event) {
+    event.preventDefault();
+    event.stopPropagation();
+    this.error = null;
   }
 
 }

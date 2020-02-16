@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../../services/auth.service';
+import { NavigationService } from '../../services/navigation.service';
 
 @Component({
   selector: 'fa-navbar',
@@ -7,9 +9,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavbarComponent implements OnInit {
 
-  constructor() { }
+  constructor(private auth: AuthService, private navigation: NavigationService) { }
 
   ngOnInit() {
+  }
+
+  signOut(event: Event) {
+    event.preventDefault();
+    this.auth.signOut().then(() => {
+      this.navigation.redirectTo('login');
+    });
   }
 
 }

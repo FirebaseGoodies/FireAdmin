@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';  
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { FireAdminComponent } from './fire-admin.component';
 import { FireAdminRoutingModule } from './fire-admin-routing.module';
@@ -14,6 +15,7 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
 import { FireAdminService } from './fire-admin.service';
 import { AuthService } from './services/auth.service';
 import { AuthGuardService } from './services/auth-guard.service';
+import { NavigationService } from './services/navigation.service';
 
 @NgModule({
   declarations: [
@@ -25,6 +27,7 @@ import { AuthGuardService } from './services/auth-guard.service';
     TranslatePipe
   ],
   imports: [
+    CommonModule,
     FireAdminRoutingModule,
     FormsModule,
     AngularFireModule,
@@ -39,6 +42,7 @@ import { AuthGuardService } from './services/auth-guard.service';
     TranslatePipe,
     AuthService,
     AuthGuardService,
+    NavigationService,
     // Set database config (for AngularFireModule)
     {
       provide: FirebaseOptionsToken,

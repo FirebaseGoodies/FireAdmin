@@ -19,7 +19,7 @@ export class AuthService {
   }
 
   signIn(email: string, password: string): Promise<void> {
-        // console.log('sign in', email, password);
+    // console.log('sign in', email, password);
     return new Promise((resolve, reject) => {
       if (this.isSignedIn()) {
         console.log('already signed in!');
@@ -31,20 +31,27 @@ export class AuthService {
         }).catch((error: firebase.FirebaseError) => {
           this.lastError = error;
           console.error(`[${error.code}] ${error.message}`);
-          reject();
+          reject(this.lastError);
         });
       }
     });
   }
 
-  signOut(force: boolean = false): void {
+  signOut(force: boolean = false): Promise<void> {
     // console.log('sign out', this.isSignedIn());
-    if (force || this.isSignedIn()) {
-      this.afa.auth.signOut().catch((error: firebase.FirebaseError) => {
-        this.lastError = error;
-        console.error(`[${error.code}] ${error.message}`);
-      });
-    }
+    return new Promise((resolve, reject) => {
+      if (force || this.isSignedIn()) {
+        this.afa.auth.signOut().then(() => {
+          resolve();
+        }).catch((error: firebase.FirebaseError) => {
+          this.lastError = error;
+          console.error(`[${error.code}] ${error.message}`);
+          reject(this.lastError);
+        });
+      } else {
+        resolve();
+      }
+    });
   }
 
 }
