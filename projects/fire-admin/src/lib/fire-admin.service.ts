@@ -1,12 +1,12 @@
 import { Injectable, Inject } from '@angular/core';
-import { FirebaseConfigService } from './services/firebase-config.service';
+import { FirebaseOptionsToken } from '@angular/fire';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FireAdminService {
 
-  constructor(@Inject(FirebaseConfigService) private firebaseConfig) { }
+  constructor(@Inject(FirebaseOptionsToken) private firebaseConfig) { }
 
   static getFirebaseConfig(self: FireAdminService) {
     //console.log(self.firebaseConfig);

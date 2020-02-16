@@ -14,7 +14,6 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
 import { FireAdminService } from './fire-admin.service';
 import { AuthService } from './services/auth.service';
 import { AuthGuardService } from './services/auth-guard.service';
-import { FirebaseConfigService } from './services/firebase-config.service';
 
 @NgModule({
   declarations: [
@@ -56,7 +55,7 @@ export class FireAdminModule {
       providers: [
         FireAdminService,
         {
-          provide: FirebaseConfigService,
+          provide: FirebaseOptionsToken,
           useValue: firebaseConfig
         }
       ]
