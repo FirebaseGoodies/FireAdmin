@@ -11,17 +11,17 @@
                 <h5 class="auth-form__title text-center mb-4">{{ 'SignInToYourAccount' | translate }}</h5>
                 <form>
                   <div class="form-group">
-                    <label for="exampleInputEmail1">{{ 'EmailAddress' | translate }}</label>
-                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="{{ 'EnterEmail' | translate }}">
+                    <label for="inputEmail">{{ 'EmailAddress' | translate }}</label>
+                    <input type="email" class="form-control" id="inputEmail" name="inputEmail" aria-describedby="emailHelp" placeholder="{{ 'EnterEmail' | translate }}" [(ngModel)]="email">
                   </div>
                   <div class="form-group">
-                    <label for="exampleInputPassword1">{{ 'Password' | translate }}</label>
-                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="{{ 'Password' | translate }}">
+                    <label for="inputPassword">{{ 'Password' | translate }}</label>
+                    <input type="password" class="form-control" id="inputPassword" name="inputPassword" placeholder="{{ 'Password' | translate }}" [(ngModel)]="password">
                   </div>
                   <div class="form-group mb-3 d-table mx-auto">
                     <div class="custom-control custom-checkbox mb-1">
-                      <input type="checkbox" class="custom-control-input" id="customCheck2">
-                      <label class="custom-control-label" for="customCheck2">{{ 'RememberMe' | translate }}</label>
+                      <input type="checkbox" class="custom-control-input" id="rememberMe" name="rememberMe" [(ngModel)]="rememberMe">
+                      <label class="custom-control-label" for="rememberMe">{{ 'RememberMe' | translate }}</label>
                     </div>
                   </div>
                   <button type="submit" class="btn btn-pill btn-accent d-table mx-auto">{{ 'SignIn' | translate }}</button>
