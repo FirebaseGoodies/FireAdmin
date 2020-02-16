@@ -14,7 +14,11 @@ export class NavbarComponent implements OnInit {
   ngOnInit() {
   }
 
-  signOut(event: Event) {
+  getUserName(): string {
+    return this.auth.currentUser ? this.auth.currentUser.providerData[0].displayName || this.auth.currentUser.providerData[0].email : 'unknown';
+  }
+
+  signOut(event: Event): void {
     event.preventDefault();
     this.auth.signOut().then(() => {
       this.navigation.redirectTo('login');
