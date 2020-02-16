@@ -14,9 +14,9 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { FireAdminService } from './fire-admin.service';
 import { AuthService } from './services/auth.service';
-import { AuthGuardService } from './services/auth-guard.service';
+import { AuthGuardService } from './services/guards/auth-guard.service';
 import { NavigationService } from './services/navigation.service';
-import { LoginGuardService } from './services/login-guard.service';
+import { LoginGuardService } from './services/guards/login-guard.service';
 
 @NgModule({
   declarations: [
