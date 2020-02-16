@@ -4,6 +4,7 @@ import { FireAdminComponent } from './fire-admin.component';
 import { LoginComponent } from './pages/login/login.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { AuthGuardService } from './services/auth-guard.service';
+import { LoginGuardService } from './services/login-guard.service';
 
 const routes: Routes = [
   {
@@ -12,7 +13,8 @@ const routes: Routes = [
     children: [
       {
         path: 'login',
-        component: LoginComponent
+        component: LoginComponent,
+        canActivate: [LoginGuardService]
       },
       {
         path: 'dashboard',

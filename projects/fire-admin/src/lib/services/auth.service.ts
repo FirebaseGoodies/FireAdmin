@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
+import { first } from 'rxjs/operators';
 
 @Injectable()
 export class AuthService {
@@ -14,14 +15,18 @@ export class AuthService {
     });
   }
 
-  isSignedIn(): boolean {
+  private _isSignedIn(): boolean {
     return !!this.currentUser;
+  }
+
+  isSignedIn(): Promise<firebase.User> {
+    return this.afa.authState.pipe(first()).toPromise();
   }
 
   signIn(email: string, password: string): Promise<void> {
     // console.log('sign in', email, password);
     return new Promise((resolve, reject) => {
-      if (this.isSignedIn()) {
+      if (this._isSignedIn()) {
         console.log('already signed in!');
         resolve();
       } else {
@@ -38,9 +43,9 @@ export class AuthService {
   }
 
   signOut(force: boolean = false): Promise<void> {
-    // console.log('sign out', this.isSignedIn());
+    // console.log('sign out', this._isSignedIn());
     return new Promise((resolve, reject) => {
-      if (force || this.isSignedIn()) {
+      if (force || this._isSignedIn()) {
         this.afa.auth.signOut().then(() => {
           resolve();
         }).catch((error: firebase.FirebaseError) => {

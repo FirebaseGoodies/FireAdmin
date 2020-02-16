@@ -16,6 +16,7 @@ import { FireAdminService } from './fire-admin.service';
 import { AuthService } from './services/auth.service';
 import { AuthGuardService } from './services/auth-guard.service';
 import { NavigationService } from './services/navigation.service';
+import { LoginGuardService } from './services/login-guard.service';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { NavigationService } from './services/navigation.service';
     AuthService,
     AuthGuardService,
     NavigationService,
+    LoginGuardService,
     // Set database config (for AngularFireModule)
     {
       provide: FirebaseOptionsToken,
