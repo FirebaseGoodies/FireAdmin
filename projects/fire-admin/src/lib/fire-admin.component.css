@@ -6088,9 +6088,9 @@ html .ql-toolbar .ql-picker .ql-picker-options {
   overflow-x: hidden;
   height: calc(100vh - 3.75rem - 1px);
 }
-.main-sidebar .nav {
+/* .main-sidebar .nav {
   border-bottom: 1px solid #e1e5eb;
-}
+} */
 .main-sidebar .nav .nav-item,
 .main-sidebar .nav .nav-link {
   white-space: nowrap;

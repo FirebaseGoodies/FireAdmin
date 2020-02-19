@@ -15,7 +15,17 @@ export class I18nService {
       "Password": "Password",
       "RememberMe": "Remember me",
       "SignIn": "Sign In",
-      "ForgotYourPassword": "Forgot your password?"
+      "ForgotYourPassword": "Forgot your password?",
+      // Sidebar
+      "Dashboard": "Dashboard",
+      "Pages": "Pages",
+      "List": "List",
+      "Add": "Add",
+      "Posts": "Posts",
+      "Categories": "Categories",
+      "Translations": "Translations",
+      "Menus": "Menus",
+      "Media": "Media",
     };
   }
 
