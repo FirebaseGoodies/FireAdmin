@@ -17,6 +17,7 @@ import { AuthService } from './services/auth.service';
 import { AuthGuardService } from './services/guards/auth-guard.service';
 import { NavigationService } from './services/navigation.service';
 import { LoginGuardService } from './services/guards/login-guard.service';
+import { FooterComponent } from './shared/footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { LoginGuardService } from './services/guards/login-guard.service';
     DashboardComponent,
     SidebarComponent,
     NavbarComponent,
-    TranslatePipe
+    TranslatePipe,
+    FooterComponent
   ],
   imports: [
     CommonModule,
