@@ -24,8 +24,12 @@ export class I18nService {
       "Posts": "Posts",
       "Categories": "Categories",
       "Translations": "Translations",
+      "Comments": "Comments",
       "Menus": "Menus",
       "Media": "Media",
+      // Navbar
+      "AddPost": "Add post",
+      "Logout": "Logout",
     };
   }
 
