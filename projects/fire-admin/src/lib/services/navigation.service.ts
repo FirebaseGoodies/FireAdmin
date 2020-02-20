@@ -12,10 +12,10 @@ export class NavigationService {
 
   redirectTo(path: string) {
     //console.log(path);
-    this.router.navigate(this.getRoute(path));
+    this.router.navigate(this.getRouterLink(path));
   }
 
-  getRoute(...path: string[]) {
+  getRouterLink(...path: string[]) {
     const root = this.rootPath ? '/' + this.rootPath : [];
     return [root, ...path];
   }

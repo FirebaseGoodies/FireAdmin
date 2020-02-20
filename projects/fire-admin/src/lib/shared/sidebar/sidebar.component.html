@@ -3,7 +3,7 @@
 <aside class="main-sidebar col-12 col-md-3 col-lg-2 px-0">
   <div class="main-navbar">
     <nav class="navbar align-items-stretch navbar-light bg-white flex-md-nowrap border-bottom p-0">
-      <a class="navbar-brand w-100 mr-0" [routerLink]="navigation.getRoute('dashboard')" style="line-height: 25px;">
+      <a class="navbar-brand w-100 mr-0" [routerLink]="navigation.getRouterLink('dashboard')" style="line-height: 25px;">
         <div class="d-table m-auto">
           <img
             id="main-logo"
@@ -22,7 +22,7 @@
   <div class="nav-wrapper">
     <ul class="nav flex-column">
       <li class="nav-item">
-        <a class="nav-link active" [routerLink]="navigation.getRoute('dashboard')">
+        <a class="nav-link active" [routerLink]="navigation.getRouterLink('dashboard')">
           <i class="material-icons">&#xE917;</i>
           <span>{{ 'Dashboard' | translate }}</span>
         </a>
@@ -33,8 +33,8 @@
           <span>{{ 'Pages' | translate }}</span>
         </a>
         <div class="dropdown-menu dropdown-menu-small">
-          <a class="dropdown-item " [routerLink]="navigation.getRoute('pages', 'list')">{{ 'List' | translate }}</a>
-          <a class="dropdown-item " [routerLink]="navigation.getRoute('pages', 'add')">{{ 'Add' | translate }}</a>
+          <a class="dropdown-item " [routerLink]="navigation.getRouterLink('pages', 'list')">{{ 'List' | translate }}</a>
+          <a class="dropdown-item " [routerLink]="navigation.getRouterLink('pages', 'add')">{{ 'Add' | translate }}</a>
         </div>
       </li>
       <li class="nav-item dropdown">
@@ -43,8 +43,8 @@
           <span>{{ 'Posts' | translate }}</span>
         </a>
         <div class="dropdown-menu dropdown-menu-small">
-          <a class="dropdown-item " [routerLink]="navigation.getRoute('posts', 'list')">{{ 'List' | translate }}</a>
-          <a class="dropdown-item " [routerLink]="navigation.getRoute('posts', 'add')">{{ 'Add' | translate }}</a>
+          <a class="dropdown-item " [routerLink]="navigation.getRouterLink('posts', 'list')">{{ 'List' | translate }}</a>
+          <a class="dropdown-item " [routerLink]="navigation.getRouterLink('posts', 'add')">{{ 'Add' | translate }}</a>
         </div>
       </li>
       <li class="nav-item dropdown">
