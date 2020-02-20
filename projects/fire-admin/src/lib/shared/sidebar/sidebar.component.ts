@@ -18,4 +18,10 @@ export class SidebarComponent implements OnInit, AfterViewInit {
     initDropdown();
   }
 
+  isActive(...path: string[]) {
+    const link = this.navigation.getRouterLink(...path).join('/');
+    //console.log(link);
+    return this.navigation.router.isActive(link, true);
+  }
+
 }

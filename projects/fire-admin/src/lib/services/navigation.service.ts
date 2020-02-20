@@ -6,7 +6,7 @@ export class NavigationService {
 
   rootPath: string = null;
 
-  constructor(private router: Router) {
+  constructor(public router: Router) {
     this.rootPath = this.router.routerState.snapshot.url.split('/')[1];
   }
 

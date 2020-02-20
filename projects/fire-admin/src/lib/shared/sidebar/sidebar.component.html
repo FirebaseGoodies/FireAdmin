@@ -22,33 +22,33 @@
   <div class="nav-wrapper">
     <ul class="nav flex-column">
       <li class="nav-item">
-        <a class="nav-link active" [routerLink]="navigation.getRouterLink('dashboard')">
+        <a class="nav-link" [routerLink]="navigation.getRouterLink('dashboard')" routerLinkActive="active">
           <i class="material-icons">&#xE917;</i>
           <span>{{ 'Dashboard' | translate }}</span>
         </a>
       </li>
       <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle " data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="true">
+        <a class="nav-link dropdown-toggle" [class.active]="isActive('pages', 'list') || isActive('pages', 'add')" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="true">
           <i class="material-icons">insert_drive_file</i>
           <span>{{ 'Pages' | translate }}</span>
         </a>
-        <div class="dropdown-menu dropdown-menu-small">
-          <a class="dropdown-item " [routerLink]="navigation.getRouterLink('pages', 'list')">{{ 'List' | translate }}</a>
-          <a class="dropdown-item " [routerLink]="navigation.getRouterLink('pages', 'add')">{{ 'Add' | translate }}</a>
+        <div class="dropdown-menu dropdown-menu-small" [class.show]="isActive('pages', 'list') || isActive('pages', 'add')">
+          <a class="dropdown-item " [routerLink]="navigation.getRouterLink('pages', 'list')" routerLinkActive="active">{{ 'List' | translate }}</a>
+          <a class="dropdown-item " [routerLink]="navigation.getRouterLink('pages', 'add')" routerLinkActive="active">{{ 'Add' | translate }}</a>
         </div>
       </li>
       <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle " data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="true">
+        <a class="nav-link dropdown-toggle" [class.active]="isActive('posts', 'list') || isActive('posts', 'add')" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="true">
           <i class="material-icons">description</i>
           <span>{{ 'Posts' | translate }}</span>
         </a>
-        <div class="dropdown-menu dropdown-menu-small">
-          <a class="dropdown-item " [routerLink]="navigation.getRouterLink('posts', 'list')">{{ 'List' | translate }}</a>
-          <a class="dropdown-item " [routerLink]="navigation.getRouterLink('posts', 'add')">{{ 'Add' | translate }}</a>
+        <div class="dropdown-menu dropdown-menu-small" [class.show]="isActive('posts', 'list') || isActive('posts', 'add')">
+          <a class="dropdown-item " [routerLink]="navigation.getRouterLink('posts', 'list')" routerLinkActive="active">{{ 'List' | translate }}</a>
+          <a class="dropdown-item " [routerLink]="navigation.getRouterLink('posts', 'add')" routerLinkActive="active">{{ 'Add' | translate }}</a>
         </div>
       </li>
       <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle " data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="true">
+        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="true">
           <i class="material-icons">label</i>
           <span>{{ 'Categories' | translate }}</span>
         </a>
@@ -58,7 +58,7 @@
         </div>
       </li>
       <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle " data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="true">
+        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="true">
           <i class="material-icons">language</i>
           <span>{{ 'Translations' | translate }}</span>
         </a>
@@ -68,7 +68,7 @@
         </div>
       </li>
       <!-- <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle " data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="true">
+        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="true">
           <i class="material-icons">comment</i>
           <span>{{ 'Comments' | translate }}</span>
         </a>
@@ -78,7 +78,7 @@
         </div>
       </li> -->
       <!-- <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle " data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="true">
+        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="true">
           <i class="material-icons">menu</i>
           <span>{{ 'Menus' | translate }}</span>
         </a>
@@ -88,7 +88,7 @@
         </div>
       </li> -->
       <!-- <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle " data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="true">
+        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="true">
           <i class="material-icons">&#xE251;</i>
           <span>{{ 'Media' | translate }}</span>
         </a>
