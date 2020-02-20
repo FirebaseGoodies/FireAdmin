@@ -12,7 +12,7 @@
             alt="User Avatar"> <span class="d-none d-md-inline-block">{{ getUserName() }}</span>
         </a>
         <div class="dropdown-menu dropdown-menu-small">
-          <a class="dropdown-item" routerLink="./posts/add"><i class="material-icons">note_add</i> {{ 'AddPost' | translate }}</a>
+          <a class="dropdown-item" [routerLink]="navigation.getRoute('posts', 'add')"><i class="material-icons">note_add</i> {{ 'AddPost' | translate }}</a>
           <div class="dropdown-divider"></div>
           <a class="dropdown-item text-danger" href="#" (click)="signOut($event)">
             <i class="material-icons text-danger">&#xE879;</i> {{ 'Logout' | translate }}</a>

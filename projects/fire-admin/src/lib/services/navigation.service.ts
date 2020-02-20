@@ -4,11 +4,20 @@ import { Router } from '@angular/router';
 @Injectable()
 export class NavigationService {
 
-  constructor(private router: Router) { }
+  rootPath: string = null;
+
+  constructor(private router: Router) {
+    this.rootPath = this.router.routerState.snapshot.url.split('/')[1];
+  }
 
   redirectTo(path: string) {
     //console.log(path);
-    this.router.navigate([[], path]);
+    this.router.navigate(this.getRoute(path));
+  }
+
+  getRoute(...path: string[]) {
+    const root = this.rootPath ? '/' + this.rootPath : [];
+    return [root, ...path];
   }
 
 }

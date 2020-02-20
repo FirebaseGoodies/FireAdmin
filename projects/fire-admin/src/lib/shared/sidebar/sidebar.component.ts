@@ -1,5 +1,6 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { initDropdown } from '../../helpers/pages.helper';
+import { NavigationService } from '../../services/navigation.service';
 
 @Component({
   selector: 'fa-sidebar',
@@ -8,7 +9,7 @@ import { initDropdown } from '../../helpers/pages.helper';
 })
 export class SidebarComponent implements OnInit, AfterViewInit {
 
-  constructor() { }
+  constructor(public navigation: NavigationService) { }
 
   ngOnInit() {
   }

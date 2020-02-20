@@ -3,7 +3,7 @@
 <aside class="main-sidebar col-12 col-md-3 col-lg-2 px-0">
   <div class="main-navbar">
     <nav class="navbar align-items-stretch navbar-light bg-white flex-md-nowrap border-bottom p-0">
-      <a class="navbar-brand w-100 mr-0" href="#" style="line-height: 25px;">
+      <a class="navbar-brand w-100 mr-0" [routerLink]="navigation.getRoute('dashboard')" style="line-height: 25px;">
         <div class="d-table m-auto">
           <img id="main-logo" class="d-inline-block align-top mr-1" style="max-width: 25px;" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHdpZHRoPSI0MHB0IiBoZWlnaHQ9IjQwcHQiIHZpZXdCb3g9IjAgMCA0MCA0MCIgdmVyc2lvbj0iMS4xIj48ZyBpZD0ic3VyZmFjZTc1NjY3NjYiPjxwYXRoIHN0eWxlPSIgc3Ryb2tlOm5vbmU7ZmlsbC1ydWxlOm5vbnplcm87ZmlsbDpyZ2IoMCUsNDguMjM1Mjk0JSwxMDAlKTtmaWxsLW9wYWNpdHk6MTsiIGQ9Ik0gMjAgNDAgQyA4Ljk1MzEyNSA0MCAwIDMxLjA0Njg3NSAwIDIwIEMgMCA4Ljk1MzEyNSA4Ljk1MzEyNSAwIDIwIDAgQyAzMS4wNDY4NzUgMCA0MCA4Ljk1MzEyNSA0MCAyMCBDIDQwIDMxLjA0Njg3NSAzMS4wNDY4NzUgNDAgMjAgNDAgWiBNIDIwIDQwICIvPjxwYXRoIHN0eWxlPSIgc3Ryb2tlOm5vbmU7ZmlsbC1ydWxlOm5vbnplcm87ZmlsbDpyZ2IoODQuMzEzNzI1JSw4NC4zMTM3MjUlLDg0LjMxMzcyNSUpO2ZpbGwtb3BhY2l0eToxOyIgZD0iTSAxMS4zMzIwMzEgMjcuMDQyOTY5IEwgMTkuNTg1OTM4IDExLjU3MDMxMiBDIDE5Ljc1NzgxMiAxMS4yNDIxODggMjAuMjMwNDY5IDExLjI1IDIwLjM5NDUzMSAxMS41ODIwMzEgTCAyMy4yNSAxNy4yOTI5NjkgWiBNIDExLjMzMjAzMSAyNy4wNDI5NjkgIi8+PHBhdGggc3R5bGU9IiBzdHJva2U6bm9uZTtmaWxsLXJ1bGU6bm9uemVybztmaWxsOnJnYig5Ni4wNzg0MzElLDk2LjA3ODQzMSUsOTYuMDc4NDMxJSk7ZmlsbC1vcGFjaXR5OjE7IiBkPSJNIDExLjMzMjAzMSAyNy4wMzkwNjIgTCAxNC4zMzU5MzggOC41MTE3MTkgQyAxNC40MTQwNjIgOC4wMjczNDQgMTUuMDY2NDA2IDcuOTIxODc1IDE1LjI5Mjk2OSA4LjM1OTM3NSBMIDIxLjA4MjAzMSAxOS40NTMxMjUgWiBNIDExLjMzMjAzMSAyNy4wMzkwNjIgIi8+PHBhdGggc3R5bGU9IiBzdHJva2U6bm9uZTtmaWxsLXJ1bGU6bm9uemVybztmaWxsOnJnYig4NC4zMTM3MjUlLDg0LjMxMzcyNSUsODQuMzEzNzI1JSk7ZmlsbC1vcGFjaXR5OjE7IiBkPSJNIDExLjMzNTkzOCAyNy4wMzUxNTYgTCAxMS40NDUzMTIgMjYuOTQ5MjE5IEwgMjAuOTQxNDA2IDE5LjE3OTY4OCBMIDE4LjI2MTcxOSAxNC4wNDY4NzUgWiBNIDExLjMzNTkzOCAyNy4wMzUxNTYgIi8+PHBhdGggc3R5bGU9IiBzdHJva2U6bm9uZTtmaWxsLXJ1bGU6bm9uemVybztmaWxsOnJnYig5Ni4wNzg0MzElLDk2LjA3ODQzMSUsOTYuMDc4NDMxJSk7ZmlsbC1vcGFjaXR5OjE7IiBkPSJNIDExLjMzMjAzMSAyNy4wNDI5NjkgTCAyNS43NzczNDQgMTMuMTEzMjgxIEMgMjYuMDgyMDMxIDEyLjgyMDMxMiAyNi41ODU5MzggMTIuOTkyMTg4IDI2LjY0ODQzOCAxMy40MTAxNTYgTCAyOC42Njc5NjkgMjcuMDQyOTY5IEwgMjAuNTQyOTY5IDMxLjc3NzM0NCBDIDIwLjIxMDkzOCAzMS45NjA5MzggMTkuODA4NTk0IDMxLjk2MDkzOCAxOS40ODA0NjkgMzEuNzc3MzQ0IFogTSAxMS4zMzIwMzEgMjcuMDQyOTY5ICIvPjwvZz48L3N2Zz4=" alt="FireAdmin">
           <span class="d-none d-md-inline ml-1">FireAdmin</span>
@@ -17,7 +17,7 @@
   <div class="nav-wrapper">
     <ul class="nav flex-column">
       <li class="nav-item">
-        <a class="nav-link active" routerLink="./dashboard">
+        <a class="nav-link active" [routerLink]="navigation.getRoute('dashboard')">
           <i class="material-icons">&#xE917;</i>
           <span>{{ 'Dashboard' | translate }}</span>
         </a>
@@ -28,8 +28,8 @@
           <span>{{ 'Pages' | translate }}</span>
         </a>
         <div class="dropdown-menu dropdown-menu-small">
-          <a class="dropdown-item " href="#">{{ 'List' | translate }}</a>
-          <a class="dropdown-item " href="#">{{ 'Add' | translate }}</a>
+          <a class="dropdown-item " [routerLink]="navigation.getRoute('pages', 'list')">{{ 'List' | translate }}</a>
+          <a class="dropdown-item " [routerLink]="navigation.getRoute('pages', 'add')">{{ 'Add' | translate }}</a>
         </div>
       </li>
       <li class="nav-item dropdown">
@@ -38,8 +38,8 @@
           <span>{{ 'Posts' | translate }}</span>
         </a>
         <div class="dropdown-menu dropdown-menu-small">
-          <a class="dropdown-item " href="#">{{ 'List' | translate }}</a>
-          <a class="dropdown-item " href="#">{{ 'Add' | translate }}</a>
+          <a class="dropdown-item " [routerLink]="navigation.getRoute('posts', 'list')">{{ 'List' | translate }}</a>
+          <a class="dropdown-item " [routerLink]="navigation.getRoute('posts', 'add')">{{ 'Add' | translate }}</a>
         </div>
       </li>
       <li class="nav-item dropdown">
