@@ -18,6 +18,10 @@ import { AuthGuardService } from './services/guards/auth-guard.service';
 import { NavigationService } from './services/navigation.service';
 import { LoginGuardService } from './services/guards/login-guard.service';
 import { FooterComponent } from './shared/footer/footer.component';
+import { PagesListComponent } from './pages/pages-list/pages-list.component';
+import { PagesAddComponent } from './pages/pages-add/pages-add.component';
+import { PostsListComponent } from './pages/posts-list/posts-list.component';
+import { PostsAddComponent } from './pages/posts-add/posts-add.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +31,11 @@ import { FooterComponent } from './shared/footer/footer.component';
     SidebarComponent,
     NavbarComponent,
     TranslatePipe,
-    FooterComponent
+    FooterComponent,
+    PagesListComponent,
+    PagesAddComponent,
+    PostsListComponent,
+    PostsAddComponent
   ],
   imports: [
     CommonModule,
