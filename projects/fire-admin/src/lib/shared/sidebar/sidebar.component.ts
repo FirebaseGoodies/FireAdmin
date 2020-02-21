@@ -1,5 +1,5 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
-import { initDropdown } from '../../helpers/pages.helper';
+import { initDropdown } from '../../helpers/sidebar.helper';
 import { NavigationService } from '../../services/navigation.service';
 
 @Component({
