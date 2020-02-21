@@ -10,6 +10,8 @@ import { PostsAddComponent } from './pages/posts-add/posts-add.component';
 import { PagesListComponent } from './pages/pages-list/pages-list.component';
 import { PagesAddComponent } from './pages/pages-add/pages-add.component';
 import { SettingsComponent } from './pages/settings/settings.component';
+import { CategoriesListComponent } from './pages/categories-list/categories-list.component';
+import { CategoriesAddComponent } from './pages/categories-add/categories-add.component';
 
 const routes: Routes = [
   {
@@ -65,6 +67,25 @@ const routes: Routes = [
           {
             path: 'add',
             component: PostsAddComponent
+          },
+          {
+            path: '**',
+            redirectTo: 'list'
+          }
+        ]
+      },
+      // Categories
+      {
+        path: 'categories',
+        canActivate: [AuthGuardService],
+        children: [
+          {
+            path: 'list',
+            component: CategoriesListComponent
+          },
+          {
+            path: 'add',
+            component: CategoriesAddComponent
           },
           {
             path: '**',

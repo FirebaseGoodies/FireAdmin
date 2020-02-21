@@ -23,6 +23,8 @@ import { PagesAddComponent } from './pages/pages-add/pages-add.component';
 import { PostsListComponent } from './pages/posts-list/posts-list.component';
 import { PostsAddComponent } from './pages/posts-add/posts-add.component';
 import { SettingsComponent } from './pages/settings/settings.component';
+import { CategoriesListComponent } from './pages/categories-list/categories-list.component';
+import { CategoriesAddComponent } from './pages/categories-add/categories-add.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +39,9 @@ import { SettingsComponent } from './pages/settings/settings.component';
     PagesAddComponent,
     PostsListComponent,
     PostsAddComponent,
-    SettingsComponent
+    SettingsComponent,
+    CategoriesListComponent,
+    CategoriesAddComponent
   ],
   imports: [
     CommonModule,
