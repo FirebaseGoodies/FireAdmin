@@ -4,9 +4,10 @@ import { Router } from '@angular/router';
 @Injectable()
 export class NavigationService {
 
-  rootPath: string = null;
+  private rootPath: string = null;
 
   constructor(public router: Router) {
+    //console.log(this.router.routerState.snapshot.url);
     this.rootPath = this.router.routerState.snapshot.url.split('/')[1];
   }
 
@@ -18,6 +19,10 @@ export class NavigationService {
   getRouterLink(...path: string[]) {
     const root = this.rootPath ? '/' + this.rootPath : [];
     return [root, ...path];
+  }
+
+  setRootPath(path: string) {
+    this.rootPath = path;
   }
 
 }
