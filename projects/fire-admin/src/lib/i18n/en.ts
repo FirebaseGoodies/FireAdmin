@@ -30,6 +30,8 @@ export const en = {
   "Actions": "Actions",
   "PostStatus": "Status",
   "PostDate": "Date",
+  "PostImage": "Image",
+  "UploadImage": "Upload",
   "PostSlug": "Slug",
   "Draft": "Draft",
   "Published": "Published",

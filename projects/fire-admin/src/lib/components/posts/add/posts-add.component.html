@@ -36,7 +36,7 @@
                   <li class="list-group-item p-3">
                     <span class="d-flex mb-2">
                       <i class="material-icons mr-1 mt-1">flag</i><strong class="mr-1 mt-1">{{ 'PostStatus' | translate }}:</strong>
-                      <select class="form-control col-md-7 ml-auto">
+                      <select class="custom-select col-md-7 ml-auto">
                         <option value="draft" selected>{{ 'Draft' | translate }}</option>
                         <option value="published">{{ 'Published' | translate }}</option>
                       </select>
@@ -48,6 +48,14 @@
                     <span class="d-flex mb-2">
                       <i class="material-icons mr-1 mt-1">calendar_today</i><strong class="mr-1 mt-1">{{ 'PostDate' | translate }}:</strong>
                       <input type="date" class="form-control col-md-7 ml-auto" [value]="now()">
+                    </span>
+                    <span class="d-flex mb-2">
+                      <i class="material-icons mr-1 mt-1">add_a_photo</i><strong class="mr-1 mt-1">{{ 'PostImage' | translate }}:</strong>
+                      <button class="btn btn-sm btn-white d-table col-md-7 ml-auto" (click)="postImage.click()">
+                        <i class="material-icons">cloud_upload</i>
+                        <span class="ml-1" #postImageButton>{{ 'UploadImage' | translate }}</span>
+                      </button>
+                      <input type="file" accept="image/*" class="d-none" (change)="postImageButton.innerHTML = postImage.files[0].name" #postImage>
                     </span>
                   </li>
                   <li class="list-group-item d-flex px-3">
