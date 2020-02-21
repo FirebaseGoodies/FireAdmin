@@ -9,6 +9,7 @@ import { PostsListComponent } from './pages/posts-list/posts-list.component';
 import { PostsAddComponent } from './pages/posts-add/posts-add.component';
 import { PagesListComponent } from './pages/pages-list/pages-list.component';
 import { PagesAddComponent } from './pages/pages-add/pages-add.component';
+import { SettingsComponent } from './pages/settings/settings.component';
 
 const routes: Routes = [
   {
@@ -25,6 +26,12 @@ const routes: Routes = [
       {
         path: 'dashboard',
         component: DashboardComponent,
+        canActivate: [AuthGuardService]
+      },
+      // Settings
+      {
+        path: 'settings',
+        component: SettingsComponent,
         canActivate: [AuthGuardService]
       },
       // Pages

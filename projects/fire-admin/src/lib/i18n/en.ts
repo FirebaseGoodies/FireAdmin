@@ -21,6 +21,7 @@ export const en = {
   "Media": "Media",
   // Navbar
   "AddPost": "Add post",
+  "Settings": "Settings",
   "Logout": "Logout",
   // Posts: Add
   "AddNewPost": "Add New Post",
@@ -35,4 +36,10 @@ export const en = {
   "SaveDraft": "Save Draft",
   "Publish": "Publish",
   "NewCategory": "New category",
+  // Settings
+  "General": "General",
+  "Language": "Language",
+  "English": "English",
+  "SaveChanges": "Save Changes",
+  "ChangesSaved" : "Changes successfully saved!",
 };

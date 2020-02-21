@@ -1,0 +1,54 @@
+<div class="container-fluid">
+  <div class="row">
+    <fa-sidebar></fa-sidebar>
+    <main class="main-content col-lg-10 col-md-9 col-sm-12 p-0 offset-lg-2 offset-md-3">
+      <fa-navbar></fa-navbar>
+      <div class="container-fluid px-0">
+        <div class="alert alert-success alert-dismissible fade show m-0" role="alert" *ngIf="alert?.length">
+          {{ alert }}
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="dismissAlert($event)">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      </div>
+      <div class="main-content-container container-fluid px-4">
+        <div class="row">
+          <div class="col-lg-8 mx-auto mt-4">
+            <!-- Settings Card -->
+            <div class="card card-small edit-user-details mb-4">
+              <div class="card-header p-0"></div>
+              <div class="card-body p-0">
+                <div class="border-bottom clearfix d-flex">
+                  <ul class="nav nav-tabs border-0 mt-auto mx-4 pt-2">
+                    <li class="nav-item">
+                      <a class="nav-link active" href="#" (click)="$event.preventDefault()">{{ 'General' | translate }}</a>
+                    </li>
+                  </ul>
+                </div>
+                <form action="#" class="py-4">
+                  <div class="form-row mx-4">
+                    <div class="col-lg-8">
+                      <div class="form-row">
+                        <div class="form-group col-md-6">
+                          <label for="firstName">{{ 'Language' | translate }}</label>
+                          <select class="form-control" [(ngModel)]="language" name="language">
+                            <option value="en">{{ 'English' | translate }}</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+              <div class="card-footer border-top">
+                <a href="#" class="btn btn-sm btn-accent ml-auto d-table mr-3" (click)="saveChanges($event)">{{ 'SaveChanges' | translate }}</a>
+              </div>
+            </div>
+            <!-- End Settings Card -->
+          </div>
+        </div>
+      </div>
+      <fa-footer></fa-footer>
+    </main>
+  </div>
+</div>

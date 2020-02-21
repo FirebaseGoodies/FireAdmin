@@ -15,6 +15,10 @@ export class I18nService {
     this.lang = lang;
   }
 
+  getLanguage(): string {
+    return this.lang;
+  }
+
   get(key: string): string {
     return this.translations[this.lang][key] || key;
   }

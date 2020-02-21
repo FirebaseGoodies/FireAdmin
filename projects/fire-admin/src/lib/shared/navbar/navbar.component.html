@@ -13,6 +13,7 @@
         </a>
         <div class="dropdown-menu dropdown-menu-small">
           <a class="dropdown-item" [routerLink]="navigation.getRouterLink('posts', 'add')"><i class="material-icons">note_add</i> {{ 'AddPost' | translate }}</a>
+          <a class="dropdown-item" [routerLink]="navigation.getRouterLink('settings')"><i class="material-icons">&#xE8B8;</i> {{ 'Settings' | translate }}</a>
           <div class="dropdown-divider"></div>
           <a class="dropdown-item text-danger" href="#" (click)="signOut($event)">
             <i class="material-icons text-danger">&#xE879;</i> {{ 'Logout' | translate }}</a>
