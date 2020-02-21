@@ -2,10 +2,10 @@ import { CommonModule } from '@angular/common';
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { FireAdminComponent } from './fire-admin.component';
 import { FireAdminRoutingModule } from './fire-admin-routing.module';
-import { LoginComponent } from './pages/login/login.component';
-import { DashboardComponent } from './pages/dashboard/dashboard.component';
-import { SidebarComponent } from './shared/sidebar/sidebar.component';
-import { NavbarComponent } from './shared/navbar/navbar.component';
+import { LoginComponent } from './components/login/login.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { SidebarComponent } from './components/shared/sidebar/sidebar.component';
+import { NavbarComponent } from './components/shared/navbar/navbar.component';
 import { I18nService } from './services/i18n.service';
 import { TranslatePipe } from './pipes/translate.pipe';
 import { FormsModule } from '@angular/forms';
@@ -17,14 +17,14 @@ import { AuthService } from './services/auth.service';
 import { AuthGuardService } from './services/guards/auth-guard.service';
 import { NavigationService } from './services/navigation.service';
 import { LoginGuardService } from './services/guards/login-guard.service';
-import { FooterComponent } from './shared/footer/footer.component';
-import { PagesListComponent } from './pages/pages-list/pages-list.component';
-import { PagesAddComponent } from './pages/pages-add/pages-add.component';
-import { PostsListComponent } from './pages/posts-list/posts-list.component';
-import { PostsAddComponent } from './pages/posts-add/posts-add.component';
-import { SettingsComponent } from './pages/settings/settings.component';
-import { CategoriesListComponent } from './pages/categories-list/categories-list.component';
-import { CategoriesAddComponent } from './pages/categories-add/categories-add.component';
+import { FooterComponent } from './components/shared/footer/footer.component';
+import { PagesListComponent } from './components/pages/list/pages-list.component';
+import { PagesAddComponent } from './components/pages/add/pages-add.component';
+import { PostsListComponent } from './components/posts/list/posts-list.component';
+import { PostsAddComponent } from './components/posts/add/posts-add.component';
+import { SettingsComponent } from './components/settings/settings.component';
+import { CategoriesListComponent } from './components/categories/list/categories-list.component';
+import { CategoriesAddComponent } from './components/categories/add/categories-add.component';
 
 @NgModule({
   declarations: [

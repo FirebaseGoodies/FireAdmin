@@ -1,6 +1,6 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
-import { initTextEditor } from '../../helpers/posts.helper';
-import { I18nService } from '../../services/i18n.service';
+import { initTextEditor } from '../../../helpers/posts.helper';
+import { I18nService } from '../../../services/i18n.service';
 
 @Component({
   selector: 'fa-posts-add',

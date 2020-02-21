@@ -1,6 +1,6 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
-import { initDropdown } from '../../helpers/sidebar.helper';
-import { NavigationService } from '../../services/navigation.service';
+import { initDropdown } from '../../../helpers/sidebar.helper';
+import { NavigationService } from '../../../services/navigation.service';
 
 @Component({
   selector: 'fa-sidebar',
