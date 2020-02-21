@@ -7,8 +7,8 @@ export class NavigationService {
   private rootPath: string = null;
 
   constructor(public router: Router) {
-    //console.log(this.router.routerState.snapshot.url);
-    this.rootPath = this.router.routerState.snapshot.url.split('/')[1];
+    //console.log(this.router.config[0].path);
+    this.rootPath = this.router.config[0].path;
   }
 
   redirectTo(path: string) {

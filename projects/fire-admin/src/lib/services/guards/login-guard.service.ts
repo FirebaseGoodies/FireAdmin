@@ -12,8 +12,8 @@ export class LoginGuardService implements CanActivate {
     return new Promise(async (resolve, reject) => {
       const isSignedIn = await this.auth.isSignedIn();
       if (isSignedIn) {
-        const rootPath = state.url.slice(0, state.url.indexOf(route.url[route.url.length - 1].path));
-        this.navigation.setRootPath(rootPath);
+        // const rootPath = state.url.slice(0, state.url.indexOf(route.url[route.url.length - 1].path));
+        // this.navigation.setRootPath(rootPath);
         this.navigation.redirectTo('dashboard');
         resolve(false);
       } else {
