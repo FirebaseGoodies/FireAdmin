@@ -8,6 +8,7 @@ export class I18nService {
   private translations: any = [];
 
   constructor() {
+    // Register languages translations
     this.translations['en'] = en;
   }
 
@@ -15,7 +16,7 @@ export class I18nService {
     this.lang = lang;
   }
 
-  getLanguage(): string {
+  getCurrentLanguage(): string {
     return this.lang;
   }
 

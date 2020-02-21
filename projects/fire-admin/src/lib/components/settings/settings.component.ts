@@ -12,7 +12,7 @@ export class SettingsComponent implements OnInit {
   language: string;
 
   constructor(private i18n: I18nService) {
-    this.language = this.i18n.getLanguage();
+    this.language = this.i18n.getCurrentLanguage();
   }
 
   ngOnInit() {
