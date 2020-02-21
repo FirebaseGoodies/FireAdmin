@@ -27,6 +27,7 @@
     "jquery": "^3.4.1",
     "material-icons-font": "^2.0.0",
     "popper.js": "^1.14.3",
+    "quill": "^1.3.7",
     "rxjs": "~6.4.0",
     "shards-ui": "^3.0.0",
     "tslib": "^1.10.0",

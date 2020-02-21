@@ -30,6 +30,19 @@ export class I18nService {
       // Navbar
       "AddPost": "Add post",
       "Logout": "Logout",
+      // Posts: Add
+      "AddNewPost": "Add New Post",
+      "PostTitle": "Post Title",
+      "PostContent": "Post Content",
+      "Actions": "Actions",
+      "PostStatus": "Status",
+      "PostDate": "Date",
+      "PostSlug": "Slug",
+      "Draft": "Draft",
+      "Published": "Published",
+      "SaveDraft": "Save Draft",
+      "Publish": "Publish",
+      "NewCategory": "New category",
     };
   }
 

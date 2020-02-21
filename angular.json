@@ -62,14 +62,16 @@
               "projects/demo/src/styles.css",
               "node_modules/@fortawesome/fontawesome-free/css/all.min.css",
               "node_modules/material-icons-font/material-icons-font.css",
-              "node_modules/bootstrap/dist/css/bootstrap.min.css"
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "node_modules/quill/dist/quill.snow.css"
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",
               "node_modules/popper.js/dist/umd/popper.min.js",
               "node_modules/bootstrap/dist/js/bootstrap.min.js",
               "node_modules/chart.js/dist/Chart.min.js",
-              "node_modules/shards-ui/dist/js/shards.min.js"
+              "node_modules/shards-ui/dist/js/shards.min.js",
+              "node_modules/quill/dist/quill.min.js"
             ]
           },
           "configurations": {
