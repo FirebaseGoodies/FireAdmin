@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
 import { AlertType } from '../models/alert-type.model';
+import { StorageService } from './storage.service';
 
 @Injectable()
 export class AlertService {
@@ -7,7 +8,13 @@ export class AlertService {
   private message: string = null;
   private type: AlertType = 'primary';
 
-  constructor() {
+  constructor(private storage: StorageService) {
+    const alert = this.storage.get('alert');
+    if (alert) {
+      this.message = alert.message;
+      this.type = alert.type;
+    }
+    this.storage.set('alert', null);
   }
 
   getMessage() {
@@ -21,6 +28,10 @@ export class AlertService {
   setMessage(message: string, type: AlertType) {
     this.message = message;
     this.type = type;
+    this.storage.set('alert', {
+      message: this.message,
+      type: this.type
+    });
   }
 
   info(message: string) {
