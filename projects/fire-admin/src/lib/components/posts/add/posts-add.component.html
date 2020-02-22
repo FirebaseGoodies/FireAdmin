@@ -1,116 +1,107 @@
-<div class="container-fluid">
+<fa-layout>
+  <!-- Page Header -->
+  <div class="page-header row no-gutters py-4">
+    <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
+      <span class="text-uppercase page-subtitle">{{ 'Posts' | translate }}</span>
+      <h3 class="page-title">{{ 'AddNewPost' | translate }}</h3>
+    </div>
+  </div>
+  <!-- End Page Header -->
   <div class="row">
-    <fa-sidebar></fa-sidebar>
-    <main class="main-content col-lg-10 col-md-9 col-sm-12 p-0 offset-lg-2 offset-md-3">
-      <fa-navbar></fa-navbar>
-      <div class="main-content-container container-fluid px-4">
-        <!-- Page Header -->
-        <div class="page-header row no-gutters py-4">
-          <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
-            <span class="text-uppercase page-subtitle">{{ 'Posts' | translate }}</span>
-            <h3 class="page-title">{{ 'AddNewPost' | translate }}</h3>
-          </div>
-        </div>
-        <!-- End Page Header -->
-        <div class="row">
-          <div class="col-lg-9 col-md-12">
-            <!-- Add New Post Form -->
-            <div class="card card-small mb-3">
-              <div class="card-body">
-                <form class="add-new-post">
-                  <input class="form-control form-control-lg mb-3" type="text" placeholder="{{ 'PostTitle' | translate }}">
-                  <div id="editor-container" class="add-new-post__editor mb-1"></div>
-                </form>
-              </div>
-            </div>
-            <!-- / Add New Post Form -->
-          </div>
-          <div class="col-lg-3 col-md-12">
-            <!-- Post Overview -->
-            <div class='card card-small mb-3'>
-              <div class="card-header border-bottom">
-                <h6 class="m-0">{{ 'Actions' | translate }}</h6>
-              </div>
-              <div class='card-body p-0'>
-                <ul class="list-group list-group-flush">
-                  <li class="list-group-item p-3">
-                    <span class="d-flex mb-2">
-                      <i class="material-icons mr-1 mt-1">flag</i><strong class="mr-1 mt-1">{{ 'PostStatus' | translate }}:</strong>
-                      <select class="custom-select col-md-7 ml-auto">
-                        <option value="draft" selected>{{ 'Draft' | translate }}</option>
-                        <option value="published">{{ 'Published' | translate }}</option>
-                      </select>
-                    </span>
-                    <span class="d-flex mb-2">
-                      <i class="material-icons mr-1 mt-1">link</i><strong class="mr-1 mt-1">{{ 'PostSlug' | translate }}:</strong>
-                      <input type="text" class="form-control col-md-7 ml-auto" value="">
-                    </span>
-                    <span class="d-flex mb-2">
-                      <i class="material-icons mr-1 mt-1">calendar_today</i><strong class="mr-1 mt-1">{{ 'PostDate' | translate }}:</strong>
-                      <input type="date" class="form-control col-md-7 ml-auto" [value]="now()">
-                    </span>
-                    <span class="d-flex mb-2">
-                      <i class="material-icons mr-1 mt-1">add_a_photo</i><strong class="mr-1 mt-1">{{ 'PostImage' | translate }}:</strong>
-                      <button class="btn btn-sm btn-white d-table col-md-7 ml-auto" (click)="postImage.click()">
-                        <i class="material-icons">cloud_upload</i>
-                        <span class="ml-1" #postImageButton>{{ 'UploadImage' | translate }}</span>
-                      </button>
-                      <input type="file" accept="image/*" class="d-none" (change)="postImageButton.innerHTML = postImage.files[0].name" #postImage>
-                    </span>
-                  </li>
-                  <li class="list-group-item d-flex px-3">
-                    <button class="btn btn-sm btn-outline-accent"><i class="material-icons">save</i> {{ 'SaveDraft' | translate }}</button>
-                    <button class="btn btn-sm btn-accent ml-auto"><i class="material-icons">file_copy</i> {{ 'Publish' | translate }}</button>
-                  </li>
-                </ul>
-              </div>
-            </div>
-            <!-- / Post Overview -->
-            <!-- Post Overview -->
-            <div class='card card-small mb-3'>
-              <div class="card-header border-bottom">
-                <h6 class="m-0">{{ 'Categories' | translate }}</h6>
-              </div>
-              <div class='card-body p-0'>
-                <ul class="list-group list-group-flush">
-                  <li class="list-group-item px-3 pb-2">
-                    <div class="custom-control custom-checkbox mb-1">
-                      <input type="checkbox" class="custom-control-input" id="category1" checked>
-                      <label class="custom-control-label" for="category1">Uncategorized</label>
-                    </div>
-                    <div class="custom-control custom-checkbox mb-1">
-                      <input type="checkbox" class="custom-control-input" id="category2" checked>
-                      <label class="custom-control-label" for="category2">Design</label>
-                    </div>
-                    <div class="custom-control custom-checkbox mb-1">
-                      <input type="checkbox" class="custom-control-input" id="category3">
-                      <label class="custom-control-label" for="category3">Development</label>
-                    </div>
-                    <div class="custom-control custom-checkbox mb-1">
-                      <input type="checkbox" class="custom-control-input" id="category4">
-                      <label class="custom-control-label" for="category4">Writing</label>
-                    </div>
-                    <div class="custom-control custom-checkbox mb-1">
-                      <input type="checkbox" class="custom-control-input" id="category5">
-                      <label class="custom-control-label" for="category5">Books</label>
-                    </div>
-                  </li>
-                  <li class="list-group-item d-flex px-3">
-                    <div class="input-group">
-                      <input type="text" class="form-control" placeholder="{{ 'NewCategory' | translate }}" attr.aria-label="{{ 'NewCategory' | translate }}" aria-describedby="basic-addon2">
-                      <div class="input-group-append">
-                        <button class="btn btn-white px-2" type="button"><i class="material-icons">add</i></button>
-                      </div>
-                    </div>
-                  </li>
-                </ul>
-              </div>
-            </div>
-            <!-- / Post Overview -->
-          </div>
+    <div class="col-lg-9 col-md-12">
+      <!-- Add New Post Form -->
+      <div class="card card-small mb-3">
+        <div class="card-body">
+          <form class="add-new-post">
+            <input class="form-control form-control-lg mb-3" type="text" placeholder="{{ 'PostTitle' | translate }}">
+            <div id="editor-container" class="add-new-post__editor mb-1"></div>
+          </form>
         </div>
       </div>
-      <fa-footer></fa-footer>
-    </main>
+      <!-- / Add New Post Form -->
+    </div>
+    <div class="col-lg-3 col-md-12">
+      <!-- Post Overview -->
+      <div class='card card-small mb-3'>
+        <div class="card-header border-bottom">
+          <h6 class="m-0">{{ 'Actions' | translate }}</h6>
+        </div>
+        <div class='card-body p-0'>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item p-3">
+              <span class="d-flex mb-2">
+                <i class="material-icons mr-1 mt-1">flag</i><strong class="mr-1 mt-1">{{ 'PostStatus' | translate }}:</strong>
+                <select class="custom-select col-md-7 ml-auto">
+                  <option value="draft" selected>{{ 'Draft' | translate }}</option>
+                  <option value="published">{{ 'Published' | translate }}</option>
+                </select>
+              </span>
+              <span class="d-flex mb-2">
+                <i class="material-icons mr-1 mt-1">link</i><strong class="mr-1 mt-1">{{ 'PostSlug' | translate }}:</strong>
+                <input type="text" class="form-control col-md-7 ml-auto" value="">
+              </span>
+              <span class="d-flex mb-2">
+                <i class="material-icons mr-1 mt-1">calendar_today</i><strong class="mr-1 mt-1">{{ 'PostDate' | translate }}:</strong>
+                <input type="date" class="form-control col-md-7 ml-auto" [value]="now()">
+              </span>
+              <span class="d-flex mb-2">
+                <i class="material-icons mr-1 mt-1">add_a_photo</i><strong class="mr-1 mt-1">{{ 'PostImage' | translate }}:</strong>
+                <button class="btn btn-sm btn-white d-table col-md-7 ml-auto" (click)="postImage.click()">
+                  <i class="material-icons">cloud_upload</i>
+                  <span class="ml-1" #postImageButton>{{ 'UploadImage' | translate }}</span>
+                </button>
+                <input type="file" accept="image/*" class="d-none" (change)="postImageButton.innerHTML = postImage.files[0].name" #postImage>
+              </span>
+            </li>
+            <li class="list-group-item d-flex px-3">
+              <button class="btn btn-sm btn-outline-accent"><i class="material-icons">save</i> {{ 'SaveDraft' | translate }}</button>
+              <button class="btn btn-sm btn-accent ml-auto"><i class="material-icons">file_copy</i> {{ 'Publish' | translate }}</button>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <!-- / Post Overview -->
+      <!-- Post Overview -->
+      <div class='card card-small mb-3'>
+        <div class="card-header border-bottom">
+          <h6 class="m-0">{{ 'Categories' | translate }}</h6>
+        </div>
+        <div class='card-body p-0'>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item px-3 pb-2">
+              <div class="custom-control custom-checkbox mb-1">
+                <input type="checkbox" class="custom-control-input" id="category1" checked>
+                <label class="custom-control-label" for="category1">Uncategorized</label>
+              </div>
+              <div class="custom-control custom-checkbox mb-1">
+                <input type="checkbox" class="custom-control-input" id="category2" checked>
+                <label class="custom-control-label" for="category2">Design</label>
+              </div>
+              <div class="custom-control custom-checkbox mb-1">
+                <input type="checkbox" class="custom-control-input" id="category3">
+                <label class="custom-control-label" for="category3">Development</label>
+              </div>
+              <div class="custom-control custom-checkbox mb-1">
+                <input type="checkbox" class="custom-control-input" id="category4">
+                <label class="custom-control-label" for="category4">Writing</label>
+              </div>
+              <div class="custom-control custom-checkbox mb-1">
+                <input type="checkbox" class="custom-control-input" id="category5">
+                <label class="custom-control-label" for="category5">Books</label>
+              </div>
+            </li>
+            <li class="list-group-item d-flex px-3">
+              <div class="input-group">
+                <input type="text" class="form-control" placeholder="{{ 'NewCategory' | translate }}" attr.aria-label="{{ 'NewCategory' | translate }}" aria-describedby="basic-addon2">
+                <div class="input-group-append">
+                  <button class="btn btn-white px-2" type="button"><i class="material-icons">add</i></button>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <!-- / Post Overview -->
+    </div>
   </div>
-</div>
+</fa-layout>

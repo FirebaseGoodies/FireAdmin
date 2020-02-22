@@ -1,0 +1,20 @@
+<div class="container-fluid">
+  <div class="row">
+    <fa-sidebar></fa-sidebar>
+    <main class="main-content col-lg-10 col-md-9 col-sm-12 p-0 offset-lg-2 offset-md-3">
+      <fa-navbar></fa-navbar>
+      <div class="container-fluid px-0">
+        <div class="alert alert-success alert-dismissible fade show m-0" role="alert" *ngIf="alert?.length">
+          {{ alert }}
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="dismissAlert($event)">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      </div>
+      <div class="main-content-container container-fluid px-4">
+        <ng-content></ng-content>
+      </div>
+      <fa-footer></fa-footer>
+    </main>
+  </div>
+</div>

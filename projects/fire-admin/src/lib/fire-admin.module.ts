@@ -25,6 +25,7 @@ import { PostsAddComponent } from './components/posts/add/posts-add.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import { CategoriesListComponent } from './components/categories/list/categories-list.component';
 import { CategoriesAddComponent } from './components/categories/add/categories-add.component';
+import { LayoutComponent } from './components/shared/layout/layout.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import { CategoriesAddComponent } from './components/categories/add/categories-a
     PostsAddComponent,
     SettingsComponent,
     CategoriesListComponent,
-    CategoriesAddComponent
+    CategoriesAddComponent,
+    LayoutComponent
   ],
   imports: [
     CommonModule,
