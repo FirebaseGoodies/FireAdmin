@@ -1,15 +1,21 @@
 import { Injectable } from '@angular/core';
 import { en } from '../i18n/en';
+import { SettingsService } from './settings.service';
 
 @Injectable()
 export class I18nService {
 
-  private lang: string = 'en';
+  static defaultLanguage = 'en';
+  private lang: string = I18nService.defaultLanguage;
   private translations: any = [];
 
-  constructor() {
+  constructor(private settings: SettingsService) {
     // Register languages translations
     this.translations['en'] = en;
+    // Set language
+    if (this.settings.language) {
+      this.setLanguage(this.settings.language);
+    }
   }
 
   setLanguage(lang: string): void {

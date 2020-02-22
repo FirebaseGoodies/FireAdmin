@@ -28,6 +28,7 @@ import { CategoriesAddComponent } from './components/categories/add/categories-a
 import { LayoutComponent } from './components/shared/layout/layout.component';
 import { AlertService } from './services/alert.service';
 import { StorageService } from './services/storage.service';
+import { SettingsService } from './services/settings.service';
 
 @NgModule({
   declarations: [
@@ -67,6 +68,7 @@ import { StorageService } from './services/storage.service';
     NavigationService,
     AlertService,
     StorageService,
+    SettingsService,
     // Set database config (for AngularFireModule)
     {
       provide: FirebaseOptionsToken,
