@@ -1,16 +1,29 @@
 import { Injectable } from "@angular/core";
 import { StorageService } from './storage.service';
+import { Settings, SidebarStyle } from '../models/settings.model';
 
 @Injectable()
-export class SettingsService {
+export class SettingsService implements Settings {
 
   language: string;
-  sidebarStyle: string;
+  sidebarStyle: SidebarStyle;
 
   constructor(private storage: StorageService) {
     const settings = this.storage.get('settings');
-    this.language = settings && settings.language ? settings.language : 'en';
-    this.sidebarStyle = settings && settings.sidebarStyle ? settings.sidebarStyle : 'expanded';
+    const defaults = this.getDefaults();
+    this.set({...defaults, ...settings}); // any existing settings value will override defaults
+  }
+
+  private getDefaults(): Settings {
+    return {
+      language: 'en',
+      sidebarStyle: 'expanded'
+    };
+  }
+
+  private set(settings: Settings) {
+    this.language = settings.language;
+    this.sidebarStyle = settings.sidebarStyle;
   }
 
   save() {
@@ -18,6 +31,11 @@ export class SettingsService {
       language: this.language,
       sidebarStyle: this.sidebarStyle
     });
+  }
+
+  reset() {
+    const defaults = this.getDefaults();
+    this.set(defaults);
   }
 
 }
