@@ -1,6 +1,5 @@
 import { Injectable } from "@angular/core";
 import { StorageService } from './storage.service';
-import { I18nService } from './i18n.service';
 
 @Injectable()
 export class SettingsService {
@@ -10,7 +9,7 @@ export class SettingsService {
 
   constructor(private storage: StorageService) {
     const settings = this.storage.get('settings');
-    this.language = settings && settings.language ? settings.language : I18nService.defaultLanguage;
+    this.language = settings && settings.language ? settings.language : 'en';
     this.sidebarStyle = settings && settings.sidebarStyle ? settings.sidebarStyle : 'expanded';
   }
 

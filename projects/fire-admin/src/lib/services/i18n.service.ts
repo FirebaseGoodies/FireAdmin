@@ -5,8 +5,7 @@ import { SettingsService } from './settings.service';
 @Injectable()
 export class I18nService {
 
-  static defaultLanguage = 'en';
-  private lang: string = I18nService.defaultLanguage;
+  private lang: string = 'en';
   private translations: any = [];
 
   constructor(private settings: SettingsService) {
