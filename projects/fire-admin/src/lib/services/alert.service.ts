@@ -5,27 +5,19 @@ import { StorageService } from './storage.service';
 @Injectable()
 export class AlertService {
 
-  private message: string = null;
-  private type: AlertType = 'primary';
+  message: string = null;
+  type: AlertType = 'primary';
 
   constructor(private storage: StorageService) {
     const alert = this.storage.get('alert');
     if (alert) {
       this.message = alert.message;
       this.type = alert.type;
+      this.storage.set('alert', null);
     }
-    this.storage.set('alert', null);
   }
 
-  getMessage() {
-    return this.message;
-  }
-
-  getType() {
-    return this.type;
-  }
-
-  setMessage(message: string, type: AlertType) {
+  private set(message: string, type: AlertType) {
     this.message = message;
     this.type = type;
     this.storage.set('alert', {
@@ -34,20 +26,25 @@ export class AlertService {
     });
   }
 
+  clear() {
+    this.message = null;
+    this.storage.set('alert', null);
+  }
+
   info(message: string) {
-    this.setMessage(message, 'primary');
+    this.set(message, 'primary');
   }
 
   success(message: string) {
-    this.setMessage(message, 'success');
+    this.set(message, 'success');
   }
 
   error(message: string) {
-    this.setMessage(message, 'danger');
+    this.set(message, 'danger');
   }
 
   warning(message: string) {
-    this.setMessage(message, 'warning');
+    this.set(message, 'warning');
   }
 
 }
