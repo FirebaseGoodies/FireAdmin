@@ -1,4 +1,6 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { AlertService } from '../../../services/alert.service';
+import { SettingsService } from '../../../services/settings.service';
 
 @Component({
   selector: 'fa-layout',
@@ -7,9 +9,7 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class LayoutComponent implements OnInit {
 
-  @Input() alert: string = null;
-
-  constructor() { }
+  constructor(public alert: AlertService, public settings: SettingsService) { }
 
   ngOnInit() {
   }
@@ -17,7 +17,7 @@ export class LayoutComponent implements OnInit {
   dismissAlert(event: Event) {
     event.preventDefault();
     event.stopPropagation();
-    this.alert = null;
+    this.alert.clear();
   }
 
 }

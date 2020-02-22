@@ -1,4 +1,4 @@
-<fa-layout [alert]="alert">
+<fa-layout>
   <div class="row">
     <div class="col-lg-8 mx-auto mt-4">
       <!-- Settings Card -->
@@ -18,13 +18,13 @@
                 <div class="form-row">
                   <div class="form-group col-md-6">
                     <label for="language">{{ 'Language' | translate }}</label>
-                    <select class="custom-select" [(ngModel)]="language" name="language" id="language">
+                    <select class="custom-select" [(ngModel)]="settings.language" name="language" id="language">
                       <option value="en">{{ 'English' | translate }}</option>
                     </select>
                   </div>
                   <div class="form-group col-md-6">
                     <label for="sidebarStyle">{{ 'SidebarStyle' | translate }}</label>
-                    <select class="custom-select" [(ngModel)]="sidebarStyle" name="sidebarStyle" id="sidebarStyle">
+                    <select class="custom-select" [(ngModel)]="settings.sidebarStyle" name="sidebarStyle" id="sidebarStyle">
                       <option value="expanded">{{ 'Expanded' | translate }}</option>
                       <option value="collapsed">{{ 'Collapsed' | translate }}</option>
                     </select>

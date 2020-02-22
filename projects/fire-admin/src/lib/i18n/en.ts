@@ -41,7 +41,10 @@ export const en = {
   // Settings
   "General": "General",
   "Language": "Language",
+  "SidebarStyle": "Sidebar style",
+  "Expanded": "Expanded",
+  "Collapsed": "Collapsed",
   "English": "English",
   "SaveChanges": "Save Changes",
-  "ChangesSaved" : "Changes successfully saved!",
+  "SettingsSaved" : "Settings successfully saved!",
 };

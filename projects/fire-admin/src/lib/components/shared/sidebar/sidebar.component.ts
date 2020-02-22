@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, Input } from '@angular/core';
 import { initDropdown } from '../../../helpers/sidebar.helper';
 import { NavigationService } from '../../../services/navigation.service';
 
@@ -8,6 +8,8 @@ import { NavigationService } from '../../../services/navigation.service';
   styleUrls: ['./sidebar.component.css']
 })
 export class SidebarComponent implements OnInit, AfterViewInit {
+
+  @Input() style: string = 'expanded';
 
   constructor(public navigation: NavigationService) { }
 

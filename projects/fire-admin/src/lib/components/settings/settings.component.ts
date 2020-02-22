@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { I18nService } from '../../services/i18n.service';
+import { AlertService } from '../../services/alert.service';
+import { SettingsService } from '../../services/settings.service';
 
 @Component({
   selector: 'fa-settings',
@@ -8,27 +10,16 @@ import { I18nService } from '../../services/i18n.service';
 })
 export class SettingsComponent implements OnInit {
 
-  alert: string = null;
-  language: string;
-
-  constructor(private i18n: I18nService) {
-    this.language = this.i18n.getCurrentLanguage();
-  }
+  constructor(public settings: SettingsService, private i18n: I18nService, private alert: AlertService) { }
 
   ngOnInit() {
   }
 
   saveChanges(event: Event) {
     event.preventDefault();
-    //console.log(this.language);
-    this.i18n.setLanguage(this.language);
-    this.alert = this.i18n.get('ChangesSaved');
-  }
-
-  dismissAlert(event: Event) {
-    event.preventDefault();
-    event.stopPropagation();
-    this.alert = null;
+    this.settings.save();
+    this.alert.success(this.i18n.get('SettingsSaved'), true);
+    window.location.reload();
   }
 
 }

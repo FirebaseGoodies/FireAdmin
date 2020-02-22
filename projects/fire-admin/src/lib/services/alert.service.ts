@@ -9,42 +9,47 @@ export class AlertService {
   type: AlertType = 'primary';
 
   constructor(private storage: StorageService) {
-    const alert = this.storage.get('alert');
+    const alert = this.storage.get('flash_alert');
     if (alert) {
-      this.message = alert.message;
-      this.type = alert.type;
-      this.storage.set('alert', null);
+      this.set(alert.message, alert.type);
+      this.storage.set('flash_alert', null);
+      // setTimeout(() => {
+      //   this.clear();
+      // }, 5000);
     }
   }
 
-  private set(message: string, type: AlertType) {
-    this.message = message;
-    this.type = type;
-    this.storage.set('alert', {
-      message: this.message,
-      type: this.type
-    });
+  private set(message: string, type: AlertType, isFlashAlert: boolean = false) {
+    if (isFlashAlert) {
+      this.storage.set('flash_alert', {
+        message: message,
+        type: type
+      });
+    } else {
+      this.message = message;
+      this.type = type;
+    }
   }
 
   clear() {
     this.message = null;
-    this.storage.set('alert', null);
+    this.storage.set('flash_alert', null);
   }
 
-  info(message: string) {
-    this.set(message, 'primary');
+  info(message: string, isFlashAlert: boolean = false) {
+    this.set(message, 'primary', isFlashAlert);
   }
 
-  success(message: string) {
-    this.set(message, 'success');
+  success(message: string, isFlashAlert: boolean = false) {
+    this.set(message, 'success', isFlashAlert);
   }
 
-  error(message: string) {
-    this.set(message, 'danger');
+  error(message: string, isFlashAlert: boolean = false) {
+    this.set(message, 'danger', isFlashAlert);
   }
 
-  warning(message: string) {
-    this.set(message, 'warning');
+  warning(message: string, isFlashAlert: boolean = false) {
+    this.set(message, 'warning', isFlashAlert);
   }
 
 }
