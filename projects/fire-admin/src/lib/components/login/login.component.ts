@@ -38,7 +38,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    this.auth.signIn(this.email, this.password).then(() => {
+    this.auth.signIn(this.email, this.password, this.rememberMe).then(() => {
       this.navigation.redirectTo('dashboard');
     }).catch((error: Error) => {
       this.error = error.message;
