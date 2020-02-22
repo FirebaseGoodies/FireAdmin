@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { AuthService } from '../../../services/auth.service';
 import { NavigationService } from '../../../services/navigation.service';
 import { AlertService } from '../../../services/alert.service';
@@ -9,6 +9,10 @@ import { AlertService } from '../../../services/alert.service';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
+
+  @Input() isSticky: boolean = true;
+  @Input() isCentered: boolean = false;
+  @Input() showBrand: boolean = false;
 
   constructor(private auth: AuthService, public navigation: NavigationService, private alert: AlertService) { }
 

@@ -29,6 +29,7 @@ import { LayoutComponent } from './components/shared/layout/layout.component';
 import { AlertService } from './services/alert.service';
 import { StorageService } from './services/storage.service';
 import { SettingsService } from './services/settings.service';
+import { AlertComponent } from './components/shared/alert/alert.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import { SettingsService } from './services/settings.service';
     SettingsComponent,
     CategoriesListComponent,
     CategoriesAddComponent,
-    LayoutComponent
+    LayoutComponent,
+    AlertComponent
   ],
   imports: [
     CommonModule,

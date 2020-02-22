@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { AlertService } from '../../../services/alert.service';
 import { SettingsService } from '../../../services/settings.service';
 
 @Component({
@@ -9,15 +8,11 @@ import { SettingsService } from '../../../services/settings.service';
 })
 export class LayoutComponent implements OnInit {
 
-  constructor(public alert: AlertService, public settings: SettingsService) { }
+  constructor(public settings: SettingsService) { }
 
   ngOnInit() {
   }
 
-  dismissAlert(event: Event) {
-    event.preventDefault();
-    event.stopPropagation();
-    this.alert.clear();
-  }
+  
 
 }

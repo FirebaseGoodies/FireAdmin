@@ -6283,6 +6283,9 @@ html .ql-toolbar .ql-picker .ql-picker-options {
 .main-content > .main-content-container.container-fluid {
   min-height: calc(100vh - 7.5rem);
 }
+.main-content > .main-content-container.container {
+  min-height: calc(100vh - 11rem);
+}
 .main-footer {
   height: 3.75rem;
 }
