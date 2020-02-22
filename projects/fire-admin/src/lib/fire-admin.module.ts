@@ -26,6 +26,7 @@ import { SettingsComponent } from './components/settings/settings.component';
 import { CategoriesListComponent } from './components/categories/list/categories-list.component';
 import { CategoriesAddComponent } from './components/categories/add/categories-add.component';
 import { LayoutComponent } from './components/shared/layout/layout.component';
+import { AlertService } from './services/alert.service';
 
 @NgModule({
   declarations: [
@@ -61,8 +62,9 @@ import { LayoutComponent } from './components/shared/layout/layout.component';
     TranslatePipe,
     AuthService,
     AuthGuardService,
-    NavigationService,
     LoginGuardService,
+    NavigationService,
+    AlertService,
     // Set database config (for AngularFireModule)
     {
       provide: FirebaseOptionsToken,
