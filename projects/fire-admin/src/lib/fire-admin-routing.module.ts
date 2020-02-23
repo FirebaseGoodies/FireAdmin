@@ -11,6 +11,7 @@ import { PagesListComponent } from './components/pages/list/pages-list.component
 import { PagesAddComponent } from './components/pages/add/pages-add.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import { PostsCategoriesComponent } from './components/posts/categories/posts-categories.component';
+import { PostsEditComponent } from './components/posts/edit/posts-edit.component';
 
 const routes: Routes = [
   {
@@ -66,6 +67,10 @@ const routes: Routes = [
           {
             path: 'add',
             component: PostsAddComponent
+          },
+          {
+            path: 'edit/:id',
+            component: PostsEditComponent
           },
           {
             path: 'categories',

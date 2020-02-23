@@ -29,6 +29,7 @@ import { StorageService } from './services/storage.service';
 import { SettingsService } from './services/settings.service';
 import { AlertComponent } from './components/shared/alert/alert.component';
 import { PostsCategoriesComponent } from './components/posts/categories/posts-categories.component';
+import { PostsEditComponent } from './components/posts/edit/posts-edit.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { PostsCategoriesComponent } from './components/posts/categories/posts-ca
     PagesAddComponent,
     PostsListComponent,
     PostsAddComponent,
+    PostsEditComponent,
     PostsCategoriesComponent,
     SettingsComponent,
     LayoutComponent,
