@@ -13,43 +13,49 @@ export class AlertService {
     if (alert) {
       this.set(alert.message, alert.type);
       this.storage.set('flash_alert', null);
-      // setTimeout(() => {
-      //   this.clear();
-      // }, 5000);
+      if (alert.timeout) {
+        setTimeout(() => this.clear(), alert.timeout);
+      }
     }
   }
 
-  private set(message: string, type: AlertType, isFlashAlert: boolean = false) {
+  private set(message: string, type: AlertType, isFlashAlert: boolean = false, timeout: number = null) {
     if (isFlashAlert) {
       this.storage.set('flash_alert', {
         message: message,
-        type: type
+        type: type,
+        timeout: timeout
       });
     } else {
       this.message = message;
       this.type = type;
+      if (timeout) {
+        setTimeout(() => this.clear(), timeout);
+      }
     }
   }
 
-  clear() {
+  clear(clearFlashAlert: boolean = false) {
     this.message = null;
-    this.storage.set('flash_alert', null);
+    if (clearFlashAlert) {
+      this.storage.set('flash_alert', null);
+    }
   }
 
-  info(message: string, isFlashAlert: boolean = false) {
-    this.set(message, 'primary', isFlashAlert);
+  info(message: string, isFlashAlert: boolean = false, timeout: number = null) {
+    this.set(message, 'primary', isFlashAlert, timeout);
   }
 
-  success(message: string, isFlashAlert: boolean = false) {
-    this.set(message, 'success', isFlashAlert);
+  success(message: string, isFlashAlert: boolean = false, timeout: number = null) {
+    this.set(message, 'success', isFlashAlert, timeout);
   }
 
-  error(message: string, isFlashAlert: boolean = false) {
-    this.set(message, 'danger', isFlashAlert);
+  error(message: string, isFlashAlert: boolean = false, timeout: number = null) {
+    this.set(message, 'danger', isFlashAlert, timeout);
   }
 
-  warning(message: string, isFlashAlert: boolean = false) {
-    this.set(message, 'warning', isFlashAlert);
+  warning(message: string, isFlashAlert: boolean = false, timeout: number = null) {
+    this.set(message, 'warning', isFlashAlert, timeout);
   }
 
 }
