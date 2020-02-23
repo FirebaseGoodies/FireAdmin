@@ -7,6 +7,7 @@ export class AlertService {
 
   message: string = null;
   type: AlertType = 'primary';
+  icon: string = null;
 
   constructor(private storage: StorageService) {
     const alert = this.storage.get('flash_alert');
@@ -29,6 +30,16 @@ export class AlertService {
     } else {
       this.message = message;
       this.type = type;
+      switch(this.type) {
+        case 'primary':
+          this.icon = 'info';
+          break;
+        case 'warning':
+          this.icon = 'exclamation';
+          break;
+        default:
+          this.icon = null;
+      }
       if (timeout) {
         setTimeout(() => this.clear(), timeout);
       }
