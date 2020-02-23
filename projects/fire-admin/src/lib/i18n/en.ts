@@ -28,6 +28,7 @@ export const en = {
   "PostTitle": "Post Title",
   "PostContent": "Post Content",
   "Actions": "Actions",
+  "PostLanguage": "Language",
   "PostStatus": "Status",
   "PostDate": "Date",
   "PostImage": "Image",
@@ -38,10 +39,14 @@ export const en = {
   "SaveDraft": "Save Draft",
   "Publish": "Publish",
   "NewCategory": "New category",
+  // Languages
+  "English": "English",
+  "French": "French",
+  "Arabic": "Arabic",
   // Settings
   "General": "General",
+  "Internationalization": "Internationalization",
   "Language": "Language",
-  "English": "English",
   "SidebarStyle": "Sidebar style",
   "Expanded": "Expanded",
   "Collapsed": "Collapsed",

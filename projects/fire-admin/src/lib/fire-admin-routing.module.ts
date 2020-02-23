@@ -10,8 +10,7 @@ import { PostsAddComponent } from './components/posts/add/posts-add.component';
 import { PagesListComponent } from './components/pages/list/pages-list.component';
 import { PagesAddComponent } from './components/pages/add/pages-add.component';
 import { SettingsComponent } from './components/settings/settings.component';
-import { CategoriesListComponent } from './components/categories/list/categories-list.component';
-import { CategoriesAddComponent } from './components/categories/add/categories-add.component';
+import { PostsCategoriesComponent } from './components/posts/categories/posts-categories.component';
 
 const routes: Routes = [
   {
@@ -69,23 +68,8 @@ const routes: Routes = [
             component: PostsAddComponent
           },
           {
-            path: '**',
-            redirectTo: 'list'
-          }
-        ]
-      },
-      // Categories
-      {
-        path: 'categories',
-        canActivate: [AuthGuardService],
-        children: [
-          {
-            path: 'list',
-            component: CategoriesListComponent
-          },
-          {
-            path: 'add',
-            component: CategoriesAddComponent
+            path: 'categories',
+            component: PostsCategoriesComponent
           },
           {
             path: '**',

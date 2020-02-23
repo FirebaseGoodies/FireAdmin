@@ -23,13 +23,12 @@ import { PagesAddComponent } from './components/pages/add/pages-add.component';
 import { PostsListComponent } from './components/posts/list/posts-list.component';
 import { PostsAddComponent } from './components/posts/add/posts-add.component';
 import { SettingsComponent } from './components/settings/settings.component';
-import { CategoriesListComponent } from './components/categories/list/categories-list.component';
-import { CategoriesAddComponent } from './components/categories/add/categories-add.component';
 import { LayoutComponent } from './components/shared/layout/layout.component';
 import { AlertService } from './services/alert.service';
 import { StorageService } from './services/storage.service';
 import { SettingsService } from './services/settings.service';
 import { AlertComponent } from './components/shared/alert/alert.component';
+import { PostsCategoriesComponent } from './components/posts/categories/posts-categories.component';
 
 @NgModule({
   declarations: [
@@ -44,9 +43,8 @@ import { AlertComponent } from './components/shared/alert/alert.component';
     PagesAddComponent,
     PostsListComponent,
     PostsAddComponent,
+    PostsCategoriesComponent,
     SettingsComponent,
-    CategoriesListComponent,
-    CategoriesAddComponent,
     LayoutComponent,
     AlertComponent
   ],
