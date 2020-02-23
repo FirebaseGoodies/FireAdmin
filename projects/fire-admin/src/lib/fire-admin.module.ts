@@ -30,6 +30,7 @@ import { SettingsService } from './services/settings.service';
 import { AlertComponent } from './components/shared/alert/alert.component';
 import { PostsCategoriesComponent } from './components/posts/categories/posts-categories.component';
 import { PostsEditComponent } from './components/posts/edit/posts-edit.component';
+import { PagesEditComponent } from './components/pages/edit/pages-edit.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import { PostsEditComponent } from './components/posts/edit/posts-edit.component
     FooterComponent,
     PagesListComponent,
     PagesAddComponent,
+    PagesEditComponent,
     PostsListComponent,
     PostsAddComponent,
     PostsEditComponent,

@@ -7,11 +7,12 @@ import { AuthGuardService } from './services/guards/auth-guard.service';
 import { LoginGuardService } from './services/guards/login-guard.service';
 import { PostsListComponent } from './components/posts/list/posts-list.component';
 import { PostsAddComponent } from './components/posts/add/posts-add.component';
+import { PostsEditComponent } from './components/posts/edit/posts-edit.component';
+import { PostsCategoriesComponent } from './components/posts/categories/posts-categories.component';
 import { PagesListComponent } from './components/pages/list/pages-list.component';
 import { PagesAddComponent } from './components/pages/add/pages-add.component';
+import { PagesEditComponent } from './components/pages/edit/pages-edit.component';
 import { SettingsComponent } from './components/settings/settings.component';
-import { PostsCategoriesComponent } from './components/posts/categories/posts-categories.component';
-import { PostsEditComponent } from './components/posts/edit/posts-edit.component';
 
 const routes: Routes = [
   {
@@ -48,6 +49,10 @@ const routes: Routes = [
           {
             path: 'add',
             component: PagesAddComponent
+          },
+          {
+            path: 'edit/:id',
+            component: PagesEditComponent
           },
           {
             path: '**',
