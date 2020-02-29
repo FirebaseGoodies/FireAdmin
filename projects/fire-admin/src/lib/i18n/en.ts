@@ -56,4 +56,5 @@ export const en = {
   "SupportedLanguages" : "Supported languages",
   "Key": "Key",
   "Remove": "Remove",
+  "Cancel": "Cancel",
 };
