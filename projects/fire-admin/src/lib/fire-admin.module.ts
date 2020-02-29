@@ -31,6 +31,7 @@ import { AlertComponent } from './components/shared/alert/alert.component';
 import { PostsCategoriesComponent } from './components/posts/categories/posts-categories.component';
 import { PostsEditComponent } from './components/posts/edit/posts-edit.component';
 import { PagesEditComponent } from './components/pages/edit/pages-edit.component';
+import { ButtonGroupComponent } from './components/shared/button-group/button-group.component';
 
 @NgModule({
   declarations: [
@@ -50,7 +51,8 @@ import { PagesEditComponent } from './components/pages/edit/pages-edit.component
     PostsCategoriesComponent,
     SettingsComponent,
     LayoutComponent,
-    AlertComponent
+    AlertComponent,
+    ButtonGroupComponent
   ],
   imports: [
     CommonModule,

@@ -17,7 +17,7 @@
           </div>
           <div class="tab-content py-4">
             <div class="form-row mx-4 tab-pane fade show active" id="general">
-              <div class="col-lg-8">
+              <div class="col-lg-10">
                 <div class="form-row">
                   <div class="form-group col-md-6">
                     <label for="language">{{ 'Language' | translate }}</label>
@@ -27,11 +27,16 @@
                   </div>
                   <div class="form-group col-md-6">
                     <label for="sidebarStyle">{{ 'SidebarStyle' | translate }}</label>
-                    <select class="custom-select" [(ngModel)]="settings.sidebarStyle" name="sidebarStyle" id="sidebarStyle">
+                    <fa-button-group
+                      [(value)]="settings.sidebarStyle"
+                      [options]="['Expanded', 'Collapsed', 'HeaderBar']"
+                      [values]="['expanded', 'collapsed', 'headerbar']"
+                    ></fa-button-group>
+                    <!-- <select class="custom-select" [(ngModel)]="settings.sidebarStyle" name="sidebarStyle" id="sidebarStyle">
                       <option value="expanded">{{ 'Expanded' | translate }}</option>
                       <option value="collapsed">{{ 'Collapsed' | translate }}</option>
                       <option value="headerbar">{{ 'HeaderBar' | translate }}</option>
-                    </select>
+                    </select> -->
                   </div>
                 </div>
               </div>
