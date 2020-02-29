@@ -39,9 +39,7 @@
               <span class="d-flex mb-2">
                 <i class="material-icons mr-1 mt-1">translate</i><strong class="mr-1 mt-1">{{ 'PostLanguage' | translate }}:</strong>
                 <select class="custom-select col-md-7 ml-auto">
-                  <option value="en" selected>{{ 'English' | translate }}</option>
-                  <option value="fr">{{ 'French' | translate }}</option>
-                  <option value="ar">{{ 'Arabic' | translate }}</option>
+                  <option *ngFor="let lang of settings.getActiveSupportedLanguages(); let i = index" [value]="lang.key" [selected]="i === 0">{{ lang.label | translate }}</option>
                 </select>
               </span>
               <span class="d-flex mb-2">

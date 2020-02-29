@@ -53,4 +53,7 @@ export const en = {
   "HeaderBar": "Header bar",
   "SaveChanges": "Save Changes",
   "SettingsSaved" : "Settings successfully saved!",
+  "SupportedLanguages" : "Supported languages",
+  "Key": "Key",
+  "Remove": "Remove",
 };

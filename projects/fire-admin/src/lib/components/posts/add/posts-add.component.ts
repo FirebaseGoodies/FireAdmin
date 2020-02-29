@@ -1,6 +1,7 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { initTextEditor } from '../../../helpers/posts.helper';
 import { I18nService } from '../../../services/i18n.service';
+import { SettingsService } from '../../../services/settings.service';
 
 @Component({
   selector: 'fa-posts-add',
@@ -9,7 +10,7 @@ import { I18nService } from '../../../services/i18n.service';
 })
 export class PostsAddComponent implements OnInit, AfterViewInit {
 
-  constructor(private i18n: I18nService) { }
+  constructor(private i18n: I18nService, public settings: SettingsService) { }
 
   ngOnInit() {
   }
