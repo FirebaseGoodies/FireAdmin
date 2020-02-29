@@ -49,18 +49,23 @@
                     <ul class="list-group list-group-flush">
                       <li class="list-group-item px-0 pb-2">
                         <div *ngFor="let lang of settings.supportedLanguages; let i = index" class="custom-control custom-checkbox mb-1">
-                          <input type="checkbox" class="custom-control-input" [id]="'lang' + i" [checked]="lang.isActive" (change)="lang.isActive = $event.target.checked">
+                          <input type="checkbox" class="custom-control-input" [id]="'lang' + i" [checked]="lang.isActive"
+                            (click)="settings.getActiveSupportedLanguages()?.length < 2 && lang.isActive ? $event.preventDefault() : return"
+                            (change)="lang.isActive = $event.target.checked"
+                          >
                           <label class="custom-control-label" [for]="'lang' + i">{{ lang.label | translate }}</label>
-                          <span *ngIf="lang.isRemovable" class="ml-2" title="{{ 'Remove' | translate }}" (click)="settings.supportedLanguages.splice(i, 1)">
+                          <span *ngIf="lang.isRemovable" class="cursor-pointer ml-2" title="{{ 'Remove' | translate }}"
+                            (click)="settings.getActiveSupportedLanguages()?.length > 1 || !lang.isActive ? settings.supportedLanguages.splice(i, 1) : return"
+                          >
                             <i class="material-icons">remove_circle_outline</i>
                           </span>
                         </div>
                       </li>
                       <li class="list-group-item d-flex px-0">
                         <div class="input-group">
-                          <input type="text" class="form-control" placeholder="{{ 'Language' | translate }}" attr.aria-label="{{ 'Language' | translate }}" aria-describedby="basic-addon2"
+                          <input type="text" class="form-control" placeholder="{{ 'Language' | translate }}"
                             (input)="keyInput.value?.length < 2 && keyInput.value = langInput.value.substr(0, 2).toLowerCase()" #langInput>
-                          <input type="text" class="form-control" placeholder="{{ 'Key' | translate }}" attr.aria-label="{{ 'Key' | translate }}" aria-describedby="basic-addon2"
+                          <input type="text" class="form-control" placeholder="{{ 'Key' | translate }}"
                             (input)="!keyInput.value?.length && addLangButton.disabled = true" #keyInput>
                           <div class="input-group-append">
                             <button class="btn btn-white px-2" type="button"

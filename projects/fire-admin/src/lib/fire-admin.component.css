@@ -747,7 +747,8 @@ select.form-control-lg:not([size]):not([multiple]) {
   transition: all 250ms cubic-bezier(0.27, 0.01, 0.38, 1.06);
 }
 .btn.hover,
-.btn:hover {
+.btn:hover,
+.cursor-pointer:hover {
   cursor: pointer;
 }
 .btn.focus,
@@ -1761,9 +1762,9 @@ i.material-icons {
   min-height: 1.5rem;
   padding-left: 1.688rem;
 }
-.custom-control:hover {
+/* .custom-control:hover {
   cursor: pointer;
-}
+} */
 .custom-control .custom-control-label:before {
   pointer-events: all;
 }
