@@ -1,3 +1,19 @@
 .ql-container {
   min-height: 470px;
 }
+
+::ng-deep .ql-html:after {
+  content: "#";
+}
+
+::ng-deep #editor-container .ql-html-editor {
+  position: absolute;
+  background: #fffff0;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  border: 0;
+  padding: 12px;
+  box-sizing: border-box;
+}
