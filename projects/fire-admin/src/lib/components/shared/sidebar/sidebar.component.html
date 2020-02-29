@@ -15,7 +15,7 @@
             <span class="d-none" [ngClass]="{ 'd-md-inline ml-1': style !== 'collapsed' }">FireAdmin</span>
           </div>
         </a>
-        <a class="toggle-sidebar d-sm-inline d-md-none d-lg-none">
+        <a class="toggle-sidebar d-sm-inline d-md-none d-lg-none" (click)="toggle()">
           <i class="material-icons">&#xE5C4;</i>
         </a>
       </nav>

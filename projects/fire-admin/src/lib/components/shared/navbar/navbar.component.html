@@ -26,15 +26,24 @@
           <a class="dropdown-item" [routerLink]="navigation.getRouterLink('settings')"><i class="material-icons">&#xE8B8;</i> {{ 'Settings' | translate }}</a>
           <div class="dropdown-divider"></div>
           <a class="dropdown-item text-danger" href="#" (click)="signOut($event)">
-            <i class="material-icons text-danger">&#xE879;</i> {{ 'Logout' | translate }}</a>
+            <i class="material-icons text-danger">&#xE879;</i> {{ 'Logout' | translate }}
+          </a>
         </div>
       </li>
+      <li class="nav-item nav d-sm-inline d-md-none">
+        <a
+          href="#"
+          class="nav-link nav-link-icon toggle-sidebar text-center border-left"
+          data-toggle="collapse"
+          data-target=".header-navbar"
+          aria-expanded="false"
+          aria-controls="header-navbar"
+          (click)="toggleSidebar($event)"
+        >
+          <i class="material-icons">&#xE5D2;</i>
+        </a>
+      </li>
     </ul>
-    <nav class="nav">
-      <a href="#" class="nav-link nav-link-icon toggle-sidebar d-sm-inline d-md-none text-center border-left" data-toggle="collapse" data-target=".header-navbar" aria-expanded="false" aria-controls="header-navbar">
-        <i class="material-icons">&#xE5D2;</i>
-      </a>
-    </nav>
   </nav>
 </div>
 <!-- / .main-navbar -->

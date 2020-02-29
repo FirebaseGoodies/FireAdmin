@@ -1,6 +1,6 @@
 import { Component, OnInit, AfterViewInit, Input } from '@angular/core';
-import { initDropdown } from '../../../helpers/sidebar.helper';
 import { NavigationService } from '../../../services/navigation.service';
+import { initDropdown, toggleSidebar } from '../../../helpers/layout.helper';
 
 @Component({
   selector: 'fa-sidebar',
@@ -15,7 +15,7 @@ export class SidebarComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
   }
-  
+
   ngAfterViewInit() {
     initDropdown();
   }
@@ -24,6 +24,10 @@ export class SidebarComponent implements OnInit, AfterViewInit {
     const link = this.navigation.getRouterLink(...path).join('/');
     //console.log(link);
     return this.navigation.router.isActive(link, true);
+  }
+
+  toggle() {
+    toggleSidebar();
   }
 
 }

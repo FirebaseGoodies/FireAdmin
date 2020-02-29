@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { AuthService } from '../../../services/auth.service';
 import { NavigationService } from '../../../services/navigation.service';
 import { AlertService } from '../../../services/alert.service';
+import { toggleSidebar } from '../../../helpers/layout.helper';
 
 @Component({
   selector: 'fa-navbar',
@@ -30,6 +31,12 @@ export class NavbarComponent implements OnInit {
     }).catch((error: Error) => {
       this.alert.error(error.message);
     });
+  }
+
+  toggleSidebar(event: Event) {
+    event.preventDefault();
+    event.stopPropagation();
+    toggleSidebar();
   }
 
 }
