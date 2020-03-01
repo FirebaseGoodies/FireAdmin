@@ -30,28 +30,28 @@
           <ul class="list-group list-group-flush">
             <li class="list-group-item p-3">
               <!-- <span class="d-flex mb-2">
-                <i class="material-icons mr-1 mt-1">flag</i><strong class="mr-1 mt-1">{{ 'PostStatus' | translate }}:</strong>
+                <i class="material-icons mr-1 mt-1">flag</i><span class="mr-1 mt-1">{{ 'PostStatus' | translate }}:</span>
                 <select class="custom-select col-md-7 ml-auto">
                   <option value="draft" selected>{{ 'Draft' | translate }}</option>
                   <option value="published">{{ 'Published' | translate }}</option>
                 </select>
               </span> -->
               <span class="d-flex mb-2">
-                <i class="material-icons mr-1 mt-1">translate</i><strong class="mr-1 mt-1">{{ 'PostLanguage' | translate }}:</strong>
+                <i class="material-icons mr-1 mt-1">translate</i><span class="mr-1 mt-1">{{ 'PostLanguage' | translate }}:</span>
                 <select class="custom-select col-md-7 ml-auto">
                   <option *ngFor="let lang of settings.getActiveSupportedLanguages(); let i = index" [value]="lang.key" [selected]="i === 0">{{ lang.label | translate }}</option>
                 </select>
               </span>
               <span class="d-flex mb-2">
-                <i class="material-icons mr-1 mt-1">link</i><strong class="mr-1 mt-1">{{ 'PostSlug' | translate }}:</strong>
+                <i class="material-icons mr-1 mt-1">link</i><span class="mr-1 mt-1">{{ 'PostSlug' | translate }}:</span>
                 <input type="text" class="form-control col-md-7 ml-auto" value="">
               </span>
               <span class="d-flex mb-2">
-                <i class="material-icons mr-1 mt-1">calendar_today</i><strong class="mr-1 mt-1">{{ 'PostDate' | translate }}:</strong>
+                <i class="material-icons mr-1 mt-1">calendar_today</i><span class="mr-1 mt-1">{{ 'PostDate' | translate }}:</span>
                 <input type="date" class="form-control col-md-7 ml-auto" [value]="now()">
               </span>
               <span class="d-flex mb-2">
-                <i class="material-icons mr-1 mt-1">add_a_photo</i><strong class="mr-1 mt-1">{{ 'PostImage' | translate }}:</strong>
+                <i class="material-icons mr-1 mt-1">add_a_photo</i><span class="mr-1 mt-1">{{ 'PostImage' | translate }}:</span>
                 <button class="btn btn-sm btn-white d-table col-md-7 ml-auto" (click)="postImage.click()">
                   <i class="material-icons">cloud_upload</i>
                   <span class="ml-1" #postImageButton>{{ 'UploadImage' | translate }}</span>

@@ -32,6 +32,9 @@ import { PostsCategoriesComponent } from './components/posts/categories/posts-ca
 import { PostsEditComponent } from './components/posts/edit/posts-edit.component';
 import { PagesEditComponent } from './components/pages/edit/pages-edit.component';
 import { ButtonGroupComponent } from './components/shared/button-group/button-group.component';
+import { DatabaseService } from './services/database.service';
+import { CategoriesService } from './services/collections/categories.service';
+import { DataTablesModule } from 'angular-datatables';
 
 @NgModule({
   declarations: [
@@ -60,7 +63,8 @@ import { ButtonGroupComponent } from './components/shared/button-group/button-gr
     FormsModule,
     AngularFireModule,
     AngularFirestoreModule,
-    AngularFireAuthModule
+    AngularFireAuthModule,
+    DataTablesModule
   ],
   exports: [
     FireAdminComponent
@@ -75,6 +79,8 @@ import { ButtonGroupComponent } from './components/shared/button-group/button-gr
     AlertService,
     StorageService,
     SettingsService,
+    DatabaseService,
+    CategoriesService,
     // Set database config (for AngularFireModule)
     {
       provide: FirebaseOptionsToken,

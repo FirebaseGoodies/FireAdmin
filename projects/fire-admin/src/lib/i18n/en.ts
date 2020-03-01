@@ -38,7 +38,6 @@ export const en = {
   "Published": "Published",
   "SaveDraft": "Save Draft",
   "Publish": "Publish",
-  "NewCategory": "New category",
   // Languages
   "English": "English",
   "French": "French",
@@ -57,4 +56,20 @@ export const en = {
   "Key": "Key",
   "Remove": "Remove",
   "Cancel": "Cancel",
+  // Categories
+  "NewCategory": "New Category",
+  "CategoryLabel": "Label",
+  "CategorySlug": "Slug",
+  "CategoryLanguage": "Language",
+  "AddCategory": "Add Category",
+  "CategoryAdded": "Category successfully added!",
+  "DeleteCategory": "Delete Category",
+  "ConfirmDeleteCategory": "Please confirm deleting category <b>${label}</b> ?",
+  "CategoryDeleted": "Category <b>${label}</b> has been deleted!",
+  "EditCategory": "Edit Category",
+  "CategorySaved": "Category <b>${label}</b> has been saved!",
+  // Lists
+  "Edit": "Edit",
+  "Delete": "Delete",
+  "Save": "Save",
 };

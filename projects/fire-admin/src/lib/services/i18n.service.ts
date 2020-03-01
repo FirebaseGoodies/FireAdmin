@@ -25,8 +25,19 @@ export class I18nService {
     return this.lang;
   }
 
-  get(key: string): string {
-    return this.translations[this.lang][key] || key;
+  get(key: string, substitutions?: { [key: string]: string }): string {
+    return this.translations[this.lang][key] ? this.replace(this.translations[this.lang][key], substitutions) : key;
+  }
+
+  private replace(translation: string, substitutions?: { [key: string]: string }): string {
+    let result = translation;
+    if (substitutions) {
+      Object.keys(substitutions).forEach((key: string) => {
+        result = result.replace(new RegExp(`\\$\\{${key}\\}`, 'gi'), substitutions[key]);
+      });
+    }
+    // console.log('translation:', result);
+    return result;
   }
 
 }

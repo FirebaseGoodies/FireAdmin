@@ -1,3 +1,133 @@
 <fa-layout>
-  <p>posts-categories works!</p>
+  <!-- Page Header -->
+  <div class="page-header row no-gutters py-4">
+    <div class="col-12 text-center text-sm-left mb-0">
+      <span class="text-uppercase page-subtitle">{{ 'Posts' | translate }}</span>
+      <h3 class="page-title">{{ 'Categories' | translate }}</h3>
+    </div>
+  </div>
+  <!-- End Page Header -->
+  <div class="row">
+    <div class="col-lg-4 col-md-12">
+      <!-- Add New Category Form -->
+      <div class="card card-small mb-3">
+        <div class="card-header border-bottom">
+          <h6 class="m-0">{{ 'NewCategory' | translate }}</h6>
+        </div>
+        <div class="card-body">
+          <form>
+            <div class="form-group">
+              <input type="text" class="form-control" placeholder="{{ 'CategoryLabel' | translate }}" [(ngModel)]="label" name="label" (input)="onAddCategoryLabelInput()">
+            </div>
+            <div class="form-group">
+              <input type="text" class="form-control" placeholder="{{ 'CategorySlug' | translate }}" [(ngModel)]="slug" name="slug">
+            </div>
+            <div class="form-group">
+              <select class="custom-select" [(ngModel)]="language" name="language">
+                <option value="" disabled>{{ 'CategoryLanguage' | translate }}</option>
+                <option *ngFor="let lang of languages" [value]="lang.key">{{ lang.label | translate }}</option>
+              </select>
+            </div>
+            <div class="form-group mb-0">
+              <button type="submit" class="btn btn-accent" [disabled]="!label?.length || !slug?.length || !language?.length" (click)="addCategory($event)">
+                <i class="material-icons">add</i> {{ 'AddCategory' | translate }}
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+      <!-- / Add New Category Form -->
+    </div>
+    <div class="col-lg-8 col-md-12">
+      <!-- Categories List -->
+      <div class="card card-small mb-3">
+        <div class="card-header border-bottom">
+          <h6 class="m-0">{{ 'Categories' | translate }}</h6>
+        </div>
+        <div class="card-body p-0">
+          <table datatable [dtOptions]="dataTableOptions" [dtTrigger]="dataTableTrigger" class="file-manager file-manager-list d-none table-responsive">
+            <thead>
+              <tr>
+                <th class="text-left">{{ 'CategoryLabel' | translate }}</th>
+                <th>{{ 'CategorySlug' | translate }}</th>
+                <th>{{ 'CategoryLanguage' | translate }}</th>
+                <th class="text-right hide-sort-icons">{{ 'Actions' | translate }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let category of allCategories | async">
+                <td class="text-left">{{ category.label }}</td>
+                <td>{{ category.slug }}</td>
+                <td>{{ category.lang }}</td>
+                <td class="text-right">
+                  <div class="btn-group btn-group-sm" role="group" aria-label="Table row actions">
+                    <button type="button" class="btn btn-white active-light" title="{{ 'Edit' | translate }}" data-toggle="modal" data-target="#editModal" (click)="selectedCategory = category">
+                      <i class="material-icons">edit</i>
+                    </button>
+                    <button type="button" class="btn btn-danger" title="{{ 'Delete' | translate }}" data-toggle="modal" data-target="#deleteModal" (click)="selectedCategory = category">
+                      <i class="material-icons">delete</i>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <!-- / Categories List -->
+    </div>
+  </div>
 </fa-layout>
+
+<!-- Edit Modal -->
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">{{ 'EditCategory' | translate }}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <input type="text" class="form-control" placeholder="{{ 'CategoryLabel' | translate }}" [(ngModel)]="selectedCategory && selectedCategory.label" name="label" (input)="onEditCategoryLabelInput()">
+          </div>
+          <div class="form-group">
+            <input type="text" class="form-control" placeholder="{{ 'CategorySlug' | translate }}" [(ngModel)]="selectedCategory && selectedCategory.slug" name="slug">
+          </div>
+          <div class="form-group mb-0">
+            <select class="custom-select" [(ngModel)]="selectedCategory && selectedCategory.lang" name="language">
+              <option value="" disabled>{{ 'CategoryLanguage' | translate }}</option>
+              <option *ngFor="let lang of languages" [value]="lang.key">{{ lang.label | translate }}</option>
+            </select>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-white" data-dismiss="modal">{{ 'Cancel' | translate }}</button>
+        <button type="button" class="btn btn-accent" data-dismiss="modal" [disabled]="!selectedCategory?.label?.length || !selectedCategory?.slug?.length || !selectedCategory?.lang?.length" (click)="editCategory(selectedCategory)">{{ 'Save' | translate }}</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Delete Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">{{ 'DeleteCategory' | translate }}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body" innerHTML="{{ 'ConfirmDeleteCategory' | translate: {label: selectedCategory?.label} }}"></div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-white" data-dismiss="modal">{{ 'Cancel' | translate }}</button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="deleteCategory(selectedCategory)">{{ 'Delete' | translate }}</button>
+      </div>
+    </div>
+  </div>
+</div>

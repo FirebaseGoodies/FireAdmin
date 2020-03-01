@@ -1,6 +1,6 @@
 <div class="container-fluid px-0">
   <div *ngIf="alert.message?.length" class="alert alert-{{ alert.type }} alert-dismissible fade show m-0" role="alert">
-    <i *ngIf="alert.icon" class="fa fa-{{ alert.icon }} mx-2"></i> {{ alert.message }}
+    <i *ngIf="alert.icon" class="fa fa-{{ alert.icon }} mx-2"></i> <span [innerHTML]="alert.message"></span>
     <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="dismissAlert($event)">
       <span aria-hidden="true">&times;</span>
     </button>
