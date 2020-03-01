@@ -16,7 +16,7 @@ export class PostsAddComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    initTextEditor(this.i18n.get('PostContent'));
+    initTextEditor('#editor-container', this.i18n.get('PostContent'));
   }
 
   now() {

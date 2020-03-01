@@ -1,7 +1,7 @@
 declare var Quill: any;
 
-export function initTextEditor(placeholder: string = '') {
-  const quill = new Quill("#editor-container", {
+export function initTextEditor(selector: string, placeholder: string = '') {
+  const quill = new Quill(selector, {
     modules: {
       toolbar: [
         [{ header: [1, 2, 3, 4, 5, !1] }],
