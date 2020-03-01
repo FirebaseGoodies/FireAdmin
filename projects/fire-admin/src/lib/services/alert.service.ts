@@ -8,6 +8,7 @@ export class AlertService {
   message: string = null;
   type: AlertType = 'primary';
   icon: string = null;
+  private timeoutHandle: any = null;
 
   constructor(private storage: StorageService) {
     const alert = this.storage.get('flash_alert');
@@ -15,7 +16,7 @@ export class AlertService {
       this.set(alert.message, alert.type);
       this.storage.set('flash_alert', null);
       if (alert.timeout) {
-        setTimeout(() => this.clear(), alert.timeout);
+        this.clearAfterTimeout(alert.timeout);
       }
     }
   }
@@ -41,9 +42,16 @@ export class AlertService {
           this.icon = null;
       }
       if (timeout) {
-        setTimeout(() => this.clear(), timeout);
+        this.clearAfterTimeout(timeout);
       }
     }
+  }
+
+  private clearAfterTimeout(timeout: number) {
+    if (this.timeoutHandle) {
+      clearTimeout(this.timeoutHandle);
+    }
+    this.timeoutHandle = setTimeout(() => this.clear(), timeout);
   }
 
   clear(clearFlashAlert: boolean = false) {
