@@ -24,7 +24,7 @@ export class PostsCategoriesComponent implements OnInit, OnDestroy {
   allCategories: Observable<Category[]>;
   selectedCategory: Category = null;
   @ViewChild(DataTableDirective, {static : false}) private dataTableElement: DataTableDirective;
-  dataTableOptions: any = {
+  dataTableOptions: DataTables.Settings|any = {
     responsive: true,
     aaSorting: []
   };
@@ -44,7 +44,7 @@ export class PostsCategoriesComponent implements OnInit, OnDestroy {
         // console.log(categories);
         // Refresh datatable on data change
         if (this.dataTableElement.dtInstance) {
-          this.dataTableElement.dtInstance.then((dtInstance) => {
+          this.dataTableElement.dtInstance.then((dtInstance: DataTables.Api) => {
             dtInstance.destroy();
             this.dataTableTrigger.next();
           });

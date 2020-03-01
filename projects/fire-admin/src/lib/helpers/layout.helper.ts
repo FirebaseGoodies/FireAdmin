@@ -1,4 +1,4 @@
-import $ from 'jquery';
+import * as $ from 'jquery';
 import 'bootstrap';
 
 $.extend($.easing, {
@@ -17,7 +17,7 @@ export function initLayout() {
 }
 
 export function initDropdown() {
-  $(".dropdown-toggle").dropdown();
+  ($(".dropdown-toggle") as any).dropdown();
   var e = { duration: 270, easing: "easeOutSine" };
   $(":not(.main-sidebar--icons-only) .dropdown").on(
     "show.bs.dropdown",
@@ -43,7 +43,7 @@ export function initDropdown() {
 
 export function toggleSidebar() {
   if ($(".header-navbar").length) {
-    $(".header-navbar").collapse("toggle");
+    ($(".header-navbar") as any).collapse("toggle");
   } else {
     $(".main-sidebar").toggleClass("open");
   }
