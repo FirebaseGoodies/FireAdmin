@@ -31,7 +31,12 @@ export class PostsCategoriesComponent implements OnInit, OnDestroy {
   dataTableTrigger: Subject<void> = new Subject();
   private subscription: Subscription = new Subscription();
 
-  constructor(private settings: SettingsService, private categories: CategoriesService, private alert: AlertService, private i18n: I18nService) { }
+  constructor(
+    private settings: SettingsService,
+    private categories: CategoriesService,
+    private alert: AlertService,
+    private i18n: I18nService
+  ) { }
 
   ngOnInit() {
     this.languages = this.settings.getActiveSupportedLanguages();

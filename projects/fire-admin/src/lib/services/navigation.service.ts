@@ -11,9 +11,9 @@ export class NavigationService {
     this.rootPath = this.router.config[0].path;
   }
 
-  redirectTo(path: string) {
+  redirectTo(...path: string[]) {
     //console.log(path);
-    this.router.navigate(this.getRouterLink(path));
+    this.router.navigate(this.getRouterLink(...path));
   }
 
   getRouterLink(...path: string[]) {

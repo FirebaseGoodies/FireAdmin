@@ -38,6 +38,8 @@ export const en = {
   "Published": "Published",
   "SaveDraft": "Save Draft",
   "Publish": "Publish",
+  "PostAdded": "Post successfully added!",
+  "PostSlugAlreadyExists": "Post slug already exists! Choose another one.",
   // Languages
   "English": "English",
   "French": "French",

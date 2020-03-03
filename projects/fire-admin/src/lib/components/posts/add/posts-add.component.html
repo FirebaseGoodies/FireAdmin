@@ -13,7 +13,7 @@
       <div class="card card-small mb-3">
         <div class="card-body">
           <form class="add-new-post">
-            <input class="form-control form-control-lg mb-3" type="text" placeholder="{{ 'PostTitle' | translate }}">
+            <input class="form-control form-control-lg mb-3" type="text" placeholder="{{ 'PostTitle' | translate }}" [(ngModel)]="title" name="title" (input)="onTitleInput()">
             <div id="editor-container" class="add-new-post__editor mb-1"></div>
           </form>
         </div>
@@ -38,17 +38,17 @@
               </span> -->
               <span class="d-flex mb-2">
                 <i class="material-icons mr-1 mt-1">translate</i><span class="mr-1 mt-1">{{ 'PostLanguage' | translate }}:</span>
-                <select class="custom-select col-md-7 ml-auto">
-                  <option *ngFor="let lang of settings.getActiveSupportedLanguages(); let i = index" [value]="lang.key" [selected]="i === 0">{{ lang.label | translate }}</option>
+                <select class="custom-select col-md-7 ml-auto" [(ngModel)]="language" name="language" (change)="onLanguageChange()">
+                  <option *ngFor="let lang of languages" [value]="lang.key">{{ lang.label | translate }}</option>
                 </select>
               </span>
               <span class="d-flex mb-2">
                 <i class="material-icons mr-1 mt-1">link</i><span class="mr-1 mt-1">{{ 'PostSlug' | translate }}:</span>
-                <input type="text" class="form-control col-md-7 ml-auto" value="">
+                <input type="text" class="form-control col-md-7 ml-auto" [(ngModel)]="slug" name="slug">
               </span>
               <span class="d-flex mb-2">
                 <i class="material-icons mr-1 mt-1">calendar_today</i><span class="mr-1 mt-1">{{ 'PostDate' | translate }}:</span>
-                <input type="date" class="form-control col-md-7 ml-auto" [value]="now()">
+                <input type="date" class="form-control col-md-7 ml-auto" [(ngModel)]="date" name="date">
               </span>
               <span class="d-flex mb-2">
                 <i class="material-icons mr-1 mt-1">add_a_photo</i><span class="mr-1 mt-1">{{ 'PostImage' | translate }}:</span>
@@ -56,12 +56,16 @@
                   <i class="material-icons">cloud_upload</i>
                   <span class="ml-1" #postImageButton>{{ 'UploadImage' | translate }}</span>
                 </button>
-                <input type="file" accept="image/*" class="d-none" (change)="postImageButton.innerHTML = postImage.files[0].name" #postImage>
+                <input type="file" accept="image/*" class="d-none" [(ngModel)]="image" name="image" (change)="postImageButton.innerHTML = postImage.files[0].name" #postImage>
               </span>
             </li>
             <li class="list-group-item d-flex px-3">
-              <button class="btn btn-sm btn-outline-accent"><i class="material-icons">save</i> {{ 'SaveDraft' | translate }}</button>
-              <button class="btn btn-sm btn-accent ml-auto"><i class="material-icons">file_copy</i> {{ 'Publish' | translate }}</button>
+              <button class="btn btn-sm btn-outline-accent" [disabled]="isSubmitButtonsDisabled || !title?.length || !slug?.length || !date?.length" (click)="addPost('draft')">
+                <i class="material-icons">save</i> {{ 'SaveDraft' | translate }}
+              </button>
+              <button class="btn btn-sm btn-accent ml-auto" [disabled]="isSubmitButtonsDisabled || !title?.length || !slug?.length || !date?.length" (click)="addPost('published')">
+                <i class="material-icons">file_copy</i> {{ 'Publish' | translate }}
+              </button>
             </li>
           </ul>
         </div>
@@ -73,34 +77,18 @@
           <h6 class="m-0">{{ 'Categories' | translate }}</h6>
         </div>
         <div class='card-body p-0'>
-          <ul class="list-group list-group-flush">
+          <ul class="categories-list list-group list-group-flush">
             <li class="list-group-item px-3 pb-2">
-              <div class="custom-control custom-checkbox mb-1">
-                <input type="checkbox" class="custom-control-input" id="category1" checked>
-                <label class="custom-control-label" for="category1">Uncategorized</label>
-              </div>
-              <div class="custom-control custom-checkbox mb-1">
-                <input type="checkbox" class="custom-control-input" id="category2" checked>
-                <label class="custom-control-label" for="category2">Design</label>
-              </div>
-              <div class="custom-control custom-checkbox mb-1">
-                <input type="checkbox" class="custom-control-input" id="category3">
-                <label class="custom-control-label" for="category3">Development</label>
-              </div>
-              <div class="custom-control custom-checkbox mb-1">
-                <input type="checkbox" class="custom-control-input" id="category4">
-                <label class="custom-control-label" for="category4">Writing</label>
-              </div>
-              <div class="custom-control custom-checkbox mb-1">
-                <input type="checkbox" class="custom-control-input" id="category5">
-                <label class="custom-control-label" for="category5">Books</label>
+              <div class="custom-control custom-checkbox mb-1" *ngFor="let category of categoriesObservable | async; let i = index">
+                <input type="checkbox" class="custom-control-input" id="{{ 'category' + i }}" (change)="onCategoryCheck(category, $event)">
+                <label class="custom-control-label" for="{{ 'category' + i }}">{{ category.label }}</label>
               </div>
             </li>
             <li class="list-group-item d-flex px-3">
               <div class="input-group">
-                <input type="text" class="form-control" placeholder="{{ 'NewCategory' | translate }}" attr.aria-label="{{ 'NewCategory' | translate }}" aria-describedby="basic-addon2">
+                <input type="text" class="form-control" placeholder="{{ 'NewCategory' | translate }}" [(ngModel)]="newCategory">
                 <div class="input-group-append">
-                  <button class="btn btn-white px-2" type="button"><i class="material-icons">add</i></button>
+                  <button class="btn btn-white px-2" type="button" [disabled]="!newCategory?.length" (click)="addCategory($event)"><i class="material-icons">add</i></button>
                 </div>
               </div>
             </li>

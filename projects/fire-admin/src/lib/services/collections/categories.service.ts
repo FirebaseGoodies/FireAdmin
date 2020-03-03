@@ -27,6 +27,10 @@ export class CategoriesService {
     return this.db.getCollection('categories');
   }
 
+  getWhere(field: string, operator: firebase.firestore.WhereFilterOp, value: string) {
+    return this.db.getCollection('categories', ref => ref.where(field, operator, value));
+  }
+
   edit(id: string, data: Category) {
     const category: Category = {
       label: data.label,

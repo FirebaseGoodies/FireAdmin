@@ -39,4 +39,6 @@ export function initTextEditor(selector: string, placeholder: string = '') {
       quill.container.appendChild(htmlEditor);
     }
   });
+
+  return quill;
 }

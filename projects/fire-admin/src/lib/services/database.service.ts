@@ -1,4 +1,4 @@
-import { AngularFirestore, DocumentReference } from '@angular/fire/firestore';
+import { AngularFirestore, DocumentReference, QueryFn } from '@angular/fire/firestore';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -23,8 +23,8 @@ export class DatabaseService {
    * 
    * @param path 
    */
-  getCollection(path: string): Observable<any> {
-    return this.db.collection(path).snapshotChanges().pipe(map((changes) => {
+  getCollection(path: string, queryFn?: QueryFn): Observable<any> {
+    return this.db.collection(path, queryFn).snapshotChanges().pipe(map((changes) => {
         // console.log(changes);
         let docs = [];
         changes.forEach(({ payload: { doc } }) => {

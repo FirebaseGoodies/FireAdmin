@@ -15,7 +15,9 @@ export class FireAdminComponent implements OnInit {
   }
 
   clearAlert() {
-    this.alert.clear();
+    if (! this.alert.isPersistent) {
+      this.alert.clear();
+    }
   }
 
 }

@@ -17,3 +17,8 @@
   padding: 12px;
   box-sizing: border-box;
 }
+
+.categories-list .list-group-item {
+  max-height: 162px;
+  overflow-y: auto;
+}

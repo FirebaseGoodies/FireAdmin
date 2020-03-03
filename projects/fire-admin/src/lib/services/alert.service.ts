@@ -8,6 +8,7 @@ export class AlertService {
   message: string = null;
   type: AlertType = 'primary';
   icon: string = null;
+  isPersistent: boolean = false;
   private timeoutHandle: any = null;
 
   constructor(private storage: StorageService) {
@@ -21,7 +22,7 @@ export class AlertService {
     }
   }
 
-  private set(message: string, type: AlertType, isFlashAlert: boolean = false, timeout: number = null) {
+  private set(message: string, type: AlertType, isFlashAlert: boolean = false, timeout: number = null, isPersistent: boolean = false) {
     if (isFlashAlert) {
       this.storage.set('flash_alert', {
         message: message,
@@ -44,6 +45,7 @@ export class AlertService {
       if (timeout) {
         this.clearAfterTimeout(timeout);
       }
+      this.isPersistent = isPersistent;
     }
   }
 
@@ -61,20 +63,20 @@ export class AlertService {
     }
   }
 
-  info(message: string, isFlashAlert: boolean = false, timeout: number = null) {
-    this.set(message, 'primary', isFlashAlert, timeout);
+  info(message: string, isFlashAlert: boolean = false, timeout: number = null, isPersistent: boolean = false) {
+    this.set(message, 'primary', isFlashAlert, timeout, isPersistent);
   }
 
-  success(message: string, isFlashAlert: boolean = false, timeout: number = null) {
-    this.set(message, 'success', isFlashAlert, timeout);
+  success(message: string, isFlashAlert: boolean = false, timeout: number = null, isPersistent: boolean = false) {
+    this.set(message, 'success', isFlashAlert, timeout, isPersistent);
   }
 
-  error(message: string, isFlashAlert: boolean = false, timeout: number = null) {
-    this.set(message, 'danger', isFlashAlert, timeout);
+  error(message: string, isFlashAlert: boolean = false, timeout: number = null, isPersistent: boolean = false) {
+    this.set(message, 'danger', isFlashAlert, timeout, isPersistent);
   }
 
-  warning(message: string, isFlashAlert: boolean = false, timeout: number = null) {
-    this.set(message, 'warning', isFlashAlert, timeout);
+  warning(message: string, isFlashAlert: boolean = false, timeout: number = null, isPersistent: boolean = false) {
+    this.set(message, 'warning', isFlashAlert, timeout, isPersistent);
   }
 
 }

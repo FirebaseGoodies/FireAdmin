@@ -35,6 +35,8 @@ import { ButtonGroupComponent } from './components/shared/button-group/button-gr
 import { DatabaseService } from './services/database.service';
 import { CategoriesService } from './services/collections/categories.service';
 import { DataTablesModule } from 'angular-datatables';
+import { PostsService } from './services/collections/posts.service';
+import { EscapeUrlPipe } from './pipes/escape-url.pipe';
 
 @NgModule({
   declarations: [
@@ -55,7 +57,8 @@ import { DataTablesModule } from 'angular-datatables';
     SettingsComponent,
     LayoutComponent,
     AlertComponent,
-    ButtonGroupComponent
+    ButtonGroupComponent,
+    EscapeUrlPipe
   ],
   imports: [
     CommonModule,
@@ -81,6 +84,8 @@ import { DataTablesModule } from 'angular-datatables';
     SettingsService,
     DatabaseService,
     CategoriesService,
+    PostsService,
+    EscapeUrlPipe,
     // Set database config (for AngularFireModule)
     {
       provide: FirebaseOptionsToken,
