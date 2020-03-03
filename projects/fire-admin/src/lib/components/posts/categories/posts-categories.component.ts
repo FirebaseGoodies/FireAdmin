@@ -45,7 +45,7 @@ export class PostsCategoriesComponent implements OnInit, OnDestroy {
       return categories.sort((a: Category, b: Category) => b.createdAt - a.createdAt);
     }));
     this.subscription.add(
-      this.allCategories.subscribe((categories) => {
+      this.allCategories.subscribe((categories: Category[]) => {
         // console.log(categories);
         // Refresh datatable on data change
         if (this.dataTableElement.dtInstance) {
