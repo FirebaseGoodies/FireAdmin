@@ -27,12 +27,12 @@ export class PostsAddComponent implements OnInit, AfterViewInit {
   languages: Language[];
   slug: string;
   date: string;
-  image: string;
+  private image: File;
   checkedCategories: string[] = [];
   categoriesObservable: Observable<Category[]>;
   newCategory: string;
   isSubmitButtonsDisabled: boolean = false;
-  private languageChange = new Subject<void>();
+  private languageChange: Subject<void> = new Subject<void>();
 
   constructor(
     private i18n: I18nService,
@@ -100,14 +100,23 @@ export class PostsAddComponent implements OnInit, AfterViewInit {
     }
   }
 
+  onImageChange(event: Event, postImageButton: HTMLButtonElement) {
+    const imageFile = (event.target as HTMLInputElement).files[0];
+    postImageButton.innerHTML = imageFile.name;
+    this.image = imageFile;
+  }
+
   addPost(status?: string) {
     this.isSubmitButtonsDisabled = true;
+    // Check if post slug is duplicated
     this.posts.getWhere(this.language + '.slug', '==', this.slug).pipe(take(1)).toPromise().then((posts: Post[]) => {
       //console.log(posts);
       if (posts && posts.length) {
+        // Warn user about post slug
         this.alert.warning(this.i18n.get('PostSlugAlreadyExists'), false, 5000);
         this.isSubmitButtonsDisabled = false;
       } else {
+        // Add post
         if (status) {
           this.status = status;
         }

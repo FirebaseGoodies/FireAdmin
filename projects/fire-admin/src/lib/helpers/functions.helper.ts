@@ -20,3 +20,15 @@ export function slugify(str: string): string {
 export function now(): number {
   return new Date().getTime();
 }
+
+/**
+ * Stolen from: https://stackoverflow.com/a/13403498
+ */
+export function guid(): string {
+  return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+}
+
+/**
+ * Stolen from: https://stackoverflow.com/a/60461693
+ */
+export const isFile = (input: File|any) => 'File' in window && input instanceof File;

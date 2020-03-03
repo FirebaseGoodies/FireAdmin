@@ -37,6 +37,8 @@ import { CategoriesService } from './services/collections/categories.service';
 import { DataTablesModule } from 'angular-datatables';
 import { PostsService } from './services/collections/posts.service';
 import { EscapeUrlPipe } from './pipes/escape-url.pipe';
+import { AngularFireStorageModule } from '@angular/fire/storage';
+import { StorageService } from './services/storage.service';
 
 @NgModule({
   declarations: [
@@ -67,6 +69,7 @@ import { EscapeUrlPipe } from './pipes/escape-url.pipe';
     AngularFireModule,
     AngularFirestoreModule,
     AngularFireAuthModule,
+    AngularFireStorageModule,
     DataTablesModule
   ],
   exports: [
@@ -86,6 +89,7 @@ import { EscapeUrlPipe } from './pipes/escape-url.pipe';
     CategoriesService,
     PostsService,
     EscapeUrlPipe,
+    StorageService,
     // Set database config (for AngularFireModule)
     {
       provide: FirebaseOptionsToken,

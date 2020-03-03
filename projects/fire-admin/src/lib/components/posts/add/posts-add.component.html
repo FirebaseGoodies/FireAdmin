@@ -34,6 +34,7 @@
                 <select class="custom-select col-md-7 ml-auto">
                   <option value="draft" selected>{{ 'Draft' | translate }}</option>
                   <option value="published">{{ 'Published' | translate }}</option>
+                  <option value="trash">{{ 'Trash' | translate }}</option>
                 </select>
               </span> -->
               <span class="d-flex mb-2">
@@ -56,7 +57,7 @@
                   <i class="material-icons">cloud_upload</i>
                   <span class="ml-1" #postImageButton>{{ 'UploadImage' | translate }}</span>
                 </button>
-                <input type="file" accept="image/*" class="d-none" [(ngModel)]="image" name="image" (change)="postImageButton.innerHTML = postImage.files[0].name" #postImage>
+                <input type="file" accept="image/*" class="d-none" (change)="onImageChange($event, postImageButton)" #postImage>
               </span>
             </li>
             <li class="list-group-item d-flex px-3">

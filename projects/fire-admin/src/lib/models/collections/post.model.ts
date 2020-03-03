@@ -5,7 +5,7 @@ export interface PostData {
   title: string,
   slug: string,
   date: number,
-  image: string,
+  image?: File|string,
   content: string,
   status: string,
   categories: string[],

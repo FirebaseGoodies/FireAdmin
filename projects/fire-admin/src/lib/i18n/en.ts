@@ -36,6 +36,7 @@ export const en = {
   "PostSlug": "Slug",
   "Draft": "Draft",
   "Published": "Published",
+  "Trash": "Trash",
   "SaveDraft": "Save Draft",
   "Publish": "Publish",
   "PostAdded": "Post successfully added!",

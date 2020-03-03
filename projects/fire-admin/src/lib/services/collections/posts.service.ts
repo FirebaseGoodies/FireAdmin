@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { DatabaseService } from '../database.service';
 import { Post, PostData } from '../../models/collections/post.model';
-import { now } from '../../helpers/functions.helper';
+import { now, guid, isFile } from '../../helpers/functions.helper';
+import { StorageService } from '../storage.service';
 
 @Injectable()
 export class PostsService {
 
-  constructor(private db: DatabaseService) { }
+  constructor(private db: DatabaseService, private storage: StorageService) { }
 
   add(data: PostData, id?: string) {
     if (id) {
@@ -17,15 +18,31 @@ export class PostsService {
         title: data.title,
         slug: data.slug,
         date: data.date,
-        image: data.image,
+        image: null,
         content: data.content,
         status: data.status,
         categories: data.categories,
         createdAt: now(), // timestamp
         updatedAt: null
       };
-      return this.db.addDocument('posts', post);
+      return this.uploadImageAfter(this.db.addDocument('posts', post), post, data);
     }
+  }
+
+  private uploadImageAfter(promise: Promise<any>, post: Post, data: PostData) {
+    return promise.then((doc: any) => {
+      if (data.image && isFile(data.image)) {
+        const imageFile = (data.image as File);
+        const imageName = guid() + '.' + imageFile.name.split('.').pop();
+        const imagePath = `posts/${doc.id}/${imageName}`;
+        this.storage.upload(imagePath, imageFile).then(() => {
+          post[data.lang].image = imagePath;
+          doc.set(post);
+        }).catch((error: Error) => {
+          console.error(error);
+        });
+      }
+    });
   }
 
   get(id: string) {
@@ -46,13 +63,15 @@ export class PostsService {
       title: data.title,
       slug: data.slug,
       date: data.date,
-      image: data.image,
       content: data.content,
       status: data.status,
       categories: data.categories,
       updatedAt: now()
     };
-    return this.db.setDocument('posts', id, post);
+    if (! data.image) {
+      post[data.lang].image = null;
+    }
+    return this.uploadImageAfter(this.db.setDocument('posts', id, post), post, data);
   }
 
   delete(id: string) {
