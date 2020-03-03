@@ -14,7 +14,7 @@
             </div>
             <div class="card">
               <div class="card-body">
-                <img class="auth-form__logo d-table mx-auto mb-3" [src]="logo" alt="FireAdmin">
+                <img class="auth-form__logo d-table mx-auto mb-3" [src]="logo | escapeUrl" alt="FireAdmin">
                 <h5 class="auth-form__title text-center mb-4">{{ 'SignInToYourAccount' | translate }}</h5>
                 <form (ngSubmit)="onSubmit()">
                   <div class="form-group">

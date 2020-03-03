@@ -6,7 +6,7 @@
       <nav class="navbar align-items-stretch navbar-light bg-white flex-md-nowrap border-bottom p-0">
         <a class="navbar-brand w-100 mr-0" [routerLink]="navigation.getRouterLink('dashboard')" style="line-height: 25px;">
           <div class="d-table m-auto">
-            <img id="main-logo" class="d-inline-block align-top mr-1" style="max-width: 25px;" [src]="logo" alt="FireAdmin">
+            <img id="main-logo" class="d-inline-block align-top mr-1" style="max-width: 25px;" [src]="logo | escapeUrl" alt="FireAdmin">
             <span class="d-none" [ngClass]="{ 'd-md-inline ml-1': style !== 'collapsed' }">FireAdmin</span>
           </div>
         </a>

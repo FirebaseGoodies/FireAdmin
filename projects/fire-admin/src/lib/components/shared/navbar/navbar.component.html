@@ -4,14 +4,14 @@
   <nav class="navbar align-items-stretch navbar-light flex-md-nowrap p-0" [class.container]="isCentered">
     <a *ngIf="showBrand" class="navbar-brand" href="#" style="line-height: 25px;">
       <div class="d-table m-auto">
-        <img id="main-logo" class="d-inline-block align-top mr-1 ml-3" style="max-width: 25px;" [src]="logo" alt="FireAdmin">
+        <img id="main-logo" class="d-inline-block align-top mr-1 ml-3" style="max-width: 25px;" [src]="logo | escapeUrl" alt="FireAdmin">
         <span class="d-none d-md-inline ml-1">FireAdmin</span>
       </div>
     </a>
     <ul class="navbar-nav border-left flex-row ml-auto" [class.border-right]="isCentered">
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle text-nowrap px-3" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-          <img class="user-avatar rounded-circle mr-2" [src]="avatar" alt="User Avatar"> <span class="d-none d-md-inline-block">{{ getUserName() }}</span>
+          <img class="user-avatar rounded-circle mr-2" [src]="avatar | escapeUrl" alt="User Avatar"> <span class="d-none d-md-inline-block">{{ getUserName() }}</span>
         </a>
         <div class="dropdown-menu dropdown-menu-small">
           <a class="dropdown-item" [routerLink]="navigation.getRouterLink('posts', 'add')"><i class="material-icons">note_add</i> {{ 'AddPost' | translate }}</a>
