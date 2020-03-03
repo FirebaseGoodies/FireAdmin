@@ -49,6 +49,10 @@ export class PostsService {
     return this.db.getDocument('posts', id);
   }
 
+  getImageUrl(imagePath: string) {
+    return this.storage.get(imagePath).getDownloadURL();
+  }
+
   getAll() {
     return this.db.getCollection('posts');
   }

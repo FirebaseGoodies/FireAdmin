@@ -6,12 +6,16 @@ export class StorageService {
 
   constructor(private storage: AngularFireStorage) { }
 
+  get(path: string) {
+    return this.storage.ref(path);
+  }
+
   upload(path: string, file: File): AngularFireUploadTask {
-    return this.storage.ref(path).put(file);
+    return this.get(path).put(file);
   }
 
   delete(path: string) {
-    return this.storage.ref(path).delete();
+    return this.get(path).delete();
   }
 
 }
