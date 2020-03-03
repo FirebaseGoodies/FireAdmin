@@ -25,7 +25,7 @@ import { PostsAddComponent } from './components/posts/add/posts-add.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import { LayoutComponent } from './components/shared/layout/layout.component';
 import { AlertService } from './services/alert.service';
-import { StorageService } from './services/storage.service';
+import { LocalStorageService } from './services/local-storage.service';
 import { SettingsService } from './services/settings.service';
 import { AlertComponent } from './components/shared/alert/alert.component';
 import { PostsCategoriesComponent } from './components/posts/categories/posts-categories.component';
@@ -80,7 +80,7 @@ import { EscapeUrlPipe } from './pipes/escape-url.pipe';
     LoginGuardService,
     NavigationService,
     AlertService,
-    StorageService,
+    LocalStorageService,
     SettingsService,
     DatabaseService,
     CategoriesService,
