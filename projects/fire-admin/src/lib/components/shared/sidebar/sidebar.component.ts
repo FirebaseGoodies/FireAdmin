@@ -1,6 +1,7 @@
 import { Component, OnInit, AfterViewInit, Input } from '@angular/core';
 import { NavigationService } from '../../../services/navigation.service';
 import { initDropdown, toggleSidebar } from '../../../helpers/layout.helper';
+import { getLogo } from '../../../helpers/assets.helper';
 
 @Component({
   selector: 'fa-sidebar',
@@ -10,6 +11,7 @@ import { initDropdown, toggleSidebar } from '../../../helpers/layout.helper';
 export class SidebarComponent implements OnInit, AfterViewInit {
 
   @Input() style: string = 'expanded';
+  logo: string = getLogo();
 
   constructor(public navigation: NavigationService) { }
 

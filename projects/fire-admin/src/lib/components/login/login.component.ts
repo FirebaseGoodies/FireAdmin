@@ -3,6 +3,7 @@ import { Subscription } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
 import { NavigationService } from '../../services/navigation.service';
 import { ActivatedRoute } from '@angular/router';
+import { getLogo } from '../../helpers/assets.helper';
 
 @Component({
   selector: 'fa-login',
@@ -11,6 +12,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class LoginComponent implements OnInit, OnDestroy {
 
+  logo: string = getLogo();
   email: string = '';
   password: string = '';
   rememberMe: boolean = false;
