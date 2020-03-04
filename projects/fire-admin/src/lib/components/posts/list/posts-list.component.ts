@@ -4,6 +4,7 @@ import { Subject, Subscription, Observable } from 'rxjs';
 import { Post, PostData } from '../../../models/collections/post.model';
 import { PostsService } from '../../../services/collections/posts.service';
 import { map } from 'rxjs/operators';
+import { refreshDataTable } from '../../../helpers/datatables.helper';
 
 @Component({
   selector: 'fa-posts-list',
@@ -32,14 +33,7 @@ export class PostsListComponent implements OnInit, OnDestroy {
       this.allPosts.subscribe((posts: PostData[]) => {
         console.log(posts);
         // Refresh datatable on data change
-        if (this.dataTableElement.dtInstance) {
-          this.dataTableElement.dtInstance.then((dtInstance: DataTables.Api) => {
-            dtInstance.destroy();
-            this.dataTableTrigger.next();
-          });
-        } else {
-          this.dataTableTrigger.next();
-        }
+        refreshDataTable(this.dataTableElement, this.dataTableTrigger);
       })
     );
   }
