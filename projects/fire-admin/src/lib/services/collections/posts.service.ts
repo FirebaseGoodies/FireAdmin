@@ -3,8 +3,9 @@ import { DatabaseService } from '../database.service';
 import { Post, PostData } from '../../models/collections/post.model';
 import { now, guid, isFile } from '../../helpers/functions.helper';
 import { StorageService } from '../storage.service';
-import { take, mergeMap } from 'rxjs/operators';
-import { getEmptyImage } from '../../helpers/assets.helper';
+import { map } from 'rxjs/operators';
+import { of, merge } from 'rxjs';
+import { getEmptyImage, getLoadingImage } from '../../helpers/assets.helper';
 
 @Injectable()
 export class PostsService {
@@ -60,24 +61,24 @@ export class PostsService {
   }
 
   getImageUrl(imagePath: string) {
-    return this.storage.get(imagePath).getDownloadURL().pipe(take(1)).toPromise();
+    return this.storage.get(imagePath).getDownloadURL();
   }
 
   getAll() {
-    return this.db.getCollection('posts').pipe(mergeMap(async (posts: Post[]) => {
+    return this.db.getCollection('posts').pipe(map((posts: Post[]) => {
       const allPostsData: PostData[] = [];
-      for (let post of posts) { // don't use forEach() since it doesn't work well with async/await
+      posts.forEach((post: Post) => {
         // console.log(post);
-        for (let key of Object.keys(post)) {
+        Object.keys(post).forEach((key: string) => {
           if (key !== 'id') {
             const data = post[key];
             data.id = post['id'] as string|any;
             data.lang = key;
-            data.image = data.image ? await this.getImageUrl(data.image as string) : getEmptyImage();
+            data.image = data.image ? merge(of(getLoadingImage()), this.getImageUrl(data.image as string)) : of(getEmptyImage());
             allPostsData.push(data);
           }
-        }
-      }
+        });
+      });
       return allPostsData;
     }));
   }

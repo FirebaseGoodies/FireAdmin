@@ -31,7 +31,7 @@ export class PostsListComponent implements OnInit, OnDestroy {
     }));
     this.subscription.add(
       this.allPosts.subscribe((posts: PostData[]) => {
-        console.log(posts);
+        // console.log(posts);
         // Refresh datatable on data change
         refreshDataTable(this.dataTableElement, this.dataTableTrigger);
       })

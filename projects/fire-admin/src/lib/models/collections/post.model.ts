@@ -1,3 +1,4 @@
+import { Observable } from 'rxjs';
 
 export interface PostData {
   id?: string,
@@ -5,7 +6,7 @@ export interface PostData {
   title: string,
   slug: string,
   date: number,
-  image?: File|string,
+  image?: File|string|Observable<string>,
   content: string,
   status: string,
   categories: string[],

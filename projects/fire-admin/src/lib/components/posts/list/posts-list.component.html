@@ -25,7 +25,7 @@
         <tbody>
           <tr *ngFor="let post of allPosts | async">
             <td class="text-left lo-stats__image">
-              <img class="border rounded" [src]="post.image | escapeUrl">
+              <img class="border rounded" [src]="post.image | async | escapeUrl">
             </td>
             <td class="text-left lo-stats__order-details">
               <span>{{ post.title }}</span>
