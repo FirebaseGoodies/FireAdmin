@@ -3,11 +3,21 @@ import { DatabaseService } from '../database.service';
 import { Post, PostData } from '../../models/collections/post.model';
 import { now, guid, isFile } from '../../helpers/functions.helper';
 import { StorageService } from '../storage.service';
+import { take, mergeMap } from 'rxjs/operators';
+import { getEmptyImage } from '../../helpers/assets.helper';
 
 @Injectable()
 export class PostsService {
 
   constructor(private db: DatabaseService, private storage: StorageService) { }
+
+  getAllStatus() {
+    return {
+      draft: 'Draft',
+      published: 'Published',
+      trash: 'Trash',
+    };
+  }
 
   add(data: PostData, id?: string) {
     if (id) {
@@ -50,11 +60,26 @@ export class PostsService {
   }
 
   getImageUrl(imagePath: string) {
-    return this.storage.get(imagePath).getDownloadURL();
+    return this.storage.get(imagePath).getDownloadURL().pipe(take(1)).toPromise();
   }
 
   getAll() {
-    return this.db.getCollection('posts');
+    return this.db.getCollection('posts').pipe(mergeMap(async (posts: Post[]) => {
+      const allPostsData: PostData[] = [];
+      for (let post of posts) { // don't use forEach() since it doesn't work well with async/await
+        // console.log(post);
+        for (let key of Object.keys(post)) {
+          if (key !== 'id') {
+            const data = post[key];
+            data.id = post['id'] as string|any;
+            data.lang = key;
+            data.image = data.image ? await this.getImageUrl(data.image as string) : getEmptyImage();
+            allPostsData.push(data);
+          }
+        }
+      }
+      return allPostsData;
+    }));
   }
 
   getWhere(field: string, operator: firebase.firestore.WhereFilterOp, value: string) {
