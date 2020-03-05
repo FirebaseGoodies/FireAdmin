@@ -12,6 +12,7 @@ import { AlertService } from '../../../services/alert.service';
 import { PostsService } from '../../../services/collections/posts.service';
 import { NavigationService } from '../../../services/navigation.service';
 import { Post, PostStatus } from '../../../models/collections/post.model';
+import { getEmptyImage } from '../../../helpers/assets.helper';
 
 @Component({
   selector: 'fa-posts-add',
@@ -28,6 +29,7 @@ export class PostsAddComponent implements OnInit, AfterViewInit {
   slug: string;
   date: string;
   private image: File;
+  imageSrc: string|ArrayBuffer = getEmptyImage();
   checkedCategories: string[] = [];
   categoriesObservable: Observable<Category[]>;
   newCategory: string;
@@ -100,10 +102,13 @@ export class PostsAddComponent implements OnInit, AfterViewInit {
     }
   }
 
-  onImageChange(event: Event, postImageButton: HTMLButtonElement) {
-    const imageFile = (event.target as HTMLInputElement).files[0];
-    postImageButton.innerHTML = imageFile.name;
-    this.image = imageFile;
+  onImageChange(event: Event) {
+    this.image = (event.target as HTMLInputElement).files[0];
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.imageSrc = reader.result;
+    };
+    reader.readAsDataURL(this.image);
   }
 
   addPost(status?: PostStatus) {

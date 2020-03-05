@@ -32,7 +32,6 @@ export const en = {
   "PostStatus": "Status",
   "PostDate": "Date",
   "PostImage": "Image",
-  "UploadImage": "Upload",
   "PostSlug": "Slug",
   "Draft": "Draft",
   "Published": "Published",

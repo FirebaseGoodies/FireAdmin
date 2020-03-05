@@ -1,5 +1,5 @@
 .ql-container {
-  min-height: 470px;
+  min-height: 480px;
 }
 
 ::ng-deep .ql-html:after {
@@ -19,6 +19,23 @@
 }
 
 .categories-list .list-group-item {
-  max-height: 162px;
+  max-height: 150px;
   overflow-y: auto;
+}
+
+.edit-user-details__avatar {
+  width: 100%;
+  text-align: center;
+  max-width: 100%;
+  box-shadow: none;
+}
+
+.edit-user-details__avatar img {
+  width: auto;
+  /*max-width: 7.5rem;*/
+  max-height: 9.5rem;
+}
+
+.edit-user-details__avatar__change i {
+  line-height: 8.5rem;
 }

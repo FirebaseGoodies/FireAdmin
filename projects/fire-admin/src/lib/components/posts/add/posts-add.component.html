@@ -22,11 +22,11 @@
     </div>
     <div class="col-lg-3 col-md-12">
       <!-- Post Overview -->
-      <div class='card card-small mb-3'>
+      <div class="card card-small mb-3">
         <div class="card-header border-bottom">
           <h6 class="m-0">{{ 'Actions' | translate }}</h6>
         </div>
-        <div class='card-body p-0'>
+        <div class="card-body p-0">
           <ul class="list-group list-group-flush">
             <li class="list-group-item p-3">
               <!-- <span class="d-flex mb-2">
@@ -51,16 +51,8 @@
                 <i class="material-icons mr-1 mt-1">calendar_today</i><span class="mr-1 mt-1">{{ 'PostDate' | translate }}:</span>
                 <input type="date" class="form-control col-md-7 ml-auto" [(ngModel)]="date" name="date">
               </span>
-              <span class="d-flex mb-2">
-                <i class="material-icons mr-1 mt-1">add_a_photo</i><span class="mr-1 mt-1">{{ 'PostImage' | translate }}:</span>
-                <button class="btn btn-sm btn-white d-table col-md-7 ml-auto" (click)="postImage.click()">
-                  <i class="material-icons">cloud_upload</i>
-                  <span class="ml-1" #postImageButton>{{ 'UploadImage' | translate }}</span>
-                </button>
-                <input type="file" accept="image/*" class="d-none" (change)="onImageChange($event, postImageButton)" #postImage>
-              </span>
             </li>
-            <li class="list-group-item d-flex px-3">
+            <li class="list-group-item d-flex px-3 pt-0">
               <button class="btn btn-sm btn-outline-accent" [disabled]="isSubmitButtonsDisabled || !title?.length || !slug?.length || !date?.length" (click)="addPost()">
                 <i class="material-icons">save</i> {{ 'SaveDraft' | translate }}
               </button>
@@ -73,11 +65,31 @@
       </div>
       <!-- / Post Overview -->
       <!-- Post Overview -->
-      <div class='card card-small mb-3'>
-        <div class="card-header border-bottom">
-          <h6 class="m-0">{{ 'Categories' | translate }}</h6>
+      <div class="card card-small mb-3">
+        <div class="card-header border-bottom cursor-pointer" (click)="imageCardHeader.isToggled = !imageCardHeader.isToggled" #imageCardHeader>
+          <h6 class="m-0">{{ 'PostImage' | translate }}</h6>
+          <div class="block-handle"></div>
         </div>
-        <div class='card-body p-0'>
+        <div class="card-body p-0" [class.d-none]="!imageCardHeader.isToggled">
+          <span class="d-flex">
+            <div class="edit-user-details__avatar rounded-0" (click)="postImage.click()">
+              <img [src]="imageSrc | escapeUrl" alt="Post image">
+              <label class="edit-user-details__avatar__change rounded-0">
+                <i class="material-icons mr-1">add_a_photo</i>
+                <input type="file" accept="image/*" class="d-none" (change)="onImageChange($event)" #postImage>
+              </label>
+            </div>
+          </span>
+        </div>
+      </div>
+      <!-- / Post Overview -->
+      <!-- Post Overview -->
+      <div class="card card-small mb-3">
+        <div class="card-header border-bottom cursor-pointer" (click)="categoriesCardHeader.isToggled = !categoriesCardHeader.isToggled" #categoriesCardHeader>
+          <h6 class="m-0">{{ 'Categories' | translate }}</h6>
+          <div class="block-handle"></div>
+        </div>
+        <div class="card-body p-0" [class.d-none]="categoriesCardHeader.isToggled">
           <ul class="categories-list list-group list-group-flush">
             <li class="list-group-item px-3 pb-2">
               <div class="custom-control custom-checkbox mb-1" *ngFor="let category of categoriesObservable | async; let i = index">
