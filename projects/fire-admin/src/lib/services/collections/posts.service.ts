@@ -6,11 +6,13 @@ import { StorageService } from '../storage.service';
 import { map } from 'rxjs/operators';
 import { of, merge } from 'rxjs';
 import { getEmptyImage, getLoadingImage } from '../../helpers/assets.helper';
+import { SettingsService } from '../settings.service';
+import { Language } from '../../models/language.model';
 
 @Injectable()
 export class PostsService {
 
-  constructor(private db: DatabaseService, private storage: StorageService) { }
+  constructor(private db: DatabaseService, private storage: StorageService, private settings: SettingsService) { }
 
   add(data: PostData, id?: string) {
     if (id) {
@@ -59,16 +61,17 @@ export class PostsService {
   getAll() {
     return this.db.getCollection('posts').pipe(map((posts: Post[]) => {
       const allPostsData: PostData[] = [];
+      const supportedLanguages = this.settings.supportedLanguages.map((lang: Language) => lang.key);
       posts.forEach((post: Post) => {
         // console.log(post);
-        Object.keys(post).forEach((key: string) => {
-          if (key !== 'id') {
-            const data = post[key];
-            data.id = post['id'] as string|any;
-            data.lang = key;
-            data.image = data.image ? merge(of(getLoadingImage()), this.getImageUrl(data.image as string)) : of(getEmptyImage());
-            allPostsData.push(data);
-          }
+        const languages = Object.keys(post).filter((key: string) => key !== 'id');
+        languages.forEach((lang: string) => {
+          const data = post[lang];
+          data.id = post['id'] as string|any;
+          data.lang = lang;
+          data.image = data.image ? merge(of(getLoadingImage()), this.getImageUrl(data.image as string)) : of(getEmptyImage());
+          data.isTranslatable = languages.length !== supportedLanguages.length || languages.sort().join(',') !== supportedLanguages.sort().join(',');
+          allPostsData.push(data);
         });
       });
       return allPostsData;
