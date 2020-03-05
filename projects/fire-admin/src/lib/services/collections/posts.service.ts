@@ -35,18 +35,25 @@ export class PostsService {
   }
 
   private uploadImageAfter(promise: Promise<any>, post: Post, data: PostData) {
-    return promise.then((doc: any) => {
-      if (data.image && isFile(data.image)) {
-        const imageFile = (data.image as File);
-        const imageName = guid() + '.' + imageFile.name.split('.').pop();
-        const imagePath = `posts/${doc.id}/${imageName}`;
-        this.storage.upload(imagePath, imageFile).then(() => {
-          post[data.lang].image = imagePath;
-          doc.set(post);
-        }).catch((error: Error) => {
-          console.error(error);
-        });
-      }
+    return new Promise((resolve, reject) => {
+      promise.then((doc: any) => {
+        if (data.image && isFile(data.image)) {
+          const imageFile = (data.image as File);
+          const imageName = guid() + '.' + imageFile.name.split('.').pop();
+          const imagePath = `posts/${doc.id}/${imageName}`;
+          this.storage.upload(imagePath, imageFile).then(() => {
+            post[data.lang].image = imagePath;
+            doc.set(post).finally(() => {
+              resolve();
+            });
+          }).catch((error: Error) => {
+            // console.error(error);
+            reject(error);
+          });
+        } else {
+          resolve();
+        }
+      });
     });
   }
 
