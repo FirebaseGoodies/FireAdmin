@@ -53,10 +53,8 @@
                             (click)="settings.getActiveSupportedLanguages()?.length < 2 && lang.isActive ? $event.preventDefault() : return"
                             (change)="lang.isActive = $event.target.checked"
                           >
-                          <label class="custom-control-label" [for]="'lang' + i">{{ lang.label | translate }}</label>
-                          <span *ngIf="lang.isRemovable" class="cursor-pointer ml-2" title="{{ 'Remove' | translate }}"
-                            (click)="removeSupportedLanguage(lang, i)"
-                          >
+                          <label class="custom-control-label" [for]="'lang' + i" [title]="lang.key">{{ lang.label | translate }}</label>
+                          <span *ngIf="lang.isRemovable" class="cursor-pointer ml-2" title="{{ 'Remove' | translate }}" (click)="removeSupportedLanguage(lang, i)">
                             <i class="material-icons">remove_circle_outline</i>
                           </span>
                         </div>
@@ -66,8 +64,7 @@
                           <input type="text" class="form-control" placeholder="{{ 'Language' | translate }}" [(ngModel)]="i18nLanguage" name="i18nLanguage" (input)="onI18nLanguageInput()">
                           <input type="text" class="form-control" placeholder="{{ 'Key' | translate }}" [(ngModel)]="i18nKey" name="i18nKey">
                           <div class="input-group-append">
-                            <button class="btn btn-white px-2" type="button"
-                              title="{{ 'Add' | translate }}"
+                            <button class="btn btn-white px-2" type="button" title="{{ 'Add' | translate }}"
                               [disabled]="!i18nLanguage?.length || !i18nKey?.length || i18nKey.length < 2 || i18nKey === 'id' || settings.supportedLanguageExists(i18nLanguage, i18nKey)"
                               (click)="addSupportedLanguage()"
                             >
