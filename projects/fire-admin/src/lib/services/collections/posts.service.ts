@@ -61,7 +61,7 @@ export class PostsService {
   getAll() {
     return this.db.getCollection('posts').pipe(map((posts: Post[]) => {
       const allPostsData: PostData[] = [];
-      const supportedLanguages = this.settings.supportedLanguages.map((lang: Language) => lang.key);
+      const activeSupportedLanguages = this.settings.getActiveSupportedLanguages().map((lang: Language) => lang.key);
       posts.forEach((post: Post) => {
         // console.log(post);
         const languages = Object.keys(post).filter((key: string) => key !== 'id');
@@ -70,7 +70,7 @@ export class PostsService {
           data.id = post['id'] as string|any;
           data.lang = lang;
           data.image = data.image ? merge(of(getLoadingImage()), this.getImageUrl(data.image as string)) : of(getEmptyImage());
-          data.isTranslatable = languages.length !== supportedLanguages.length || languages.sort().join(',') !== supportedLanguages.sort().join(',');
+          data.isTranslatable = !activeSupportedLanguages.every((lang: string) => languages.includes(lang));
           allPostsData.push(data);
         });
       });
