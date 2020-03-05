@@ -35,7 +35,7 @@
                 </td>
                 <td>{{ post.date | date:'dd MMMM yyyy' }}</td>
                 <td>
-                  <span class="badge badge-pill badge-{{ allStatus.colors[post.status] }}">{{ allStatus.labels[post.status] | translate }}</span>
+                  <span class="badge badge-pill badge-{{ allStatus.colors[post.status] || 'primary' }}">{{ allStatus.labels[post.status] | translate }}</span>
                 </td>
                 <td>{{ post.lang }}</td>
                 <td>{{ post.createdAt | date:'dd MMMM yyyy HH:mm' }}</td>
