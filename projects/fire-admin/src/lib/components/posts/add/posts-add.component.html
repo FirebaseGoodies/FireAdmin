@@ -61,10 +61,10 @@
               </span>
             </li>
             <li class="list-group-item d-flex px-3">
-              <button class="btn btn-sm btn-outline-accent" [disabled]="isSubmitButtonsDisabled || !title?.length || !slug?.length || !date?.length" (click)="addPost('draft')">
+              <button class="btn btn-sm btn-outline-accent" [disabled]="isSubmitButtonsDisabled || !title?.length || !slug?.length || !date?.length" (click)="addPost()">
                 <i class="material-icons">save</i> {{ 'SaveDraft' | translate }}
               </button>
-              <button class="btn btn-sm btn-accent ml-auto" [disabled]="isSubmitButtonsDisabled || !title?.length || !slug?.length || !date?.length" (click)="addPost('published')">
+              <button class="btn btn-sm btn-accent ml-auto" [disabled]="isSubmitButtonsDisabled || !title?.length || !slug?.length || !date?.length" (click)="publishPost()">
                 <i class="material-icons">file_copy</i> {{ 'Publish' | translate }}
               </button>
             </li>

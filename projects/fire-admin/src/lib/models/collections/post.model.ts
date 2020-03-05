@@ -8,10 +8,17 @@ export interface PostData {
   date: number,
   image?: File|string|Observable<string>,
   content: string,
-  status: string,
+  status: PostStatus,
   categories: string[],
   createdAt?: number,
-  updatedAt?: number
+  updatedAt?: number,
+  isTranslatable?: boolean
+}
+
+export enum PostStatus {
+  Draft = 'draft',
+  Published = 'published',
+  Trash = 'trash'
 }
 
 export interface Post {

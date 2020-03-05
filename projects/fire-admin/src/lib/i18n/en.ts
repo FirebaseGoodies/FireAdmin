@@ -41,8 +41,10 @@ export const en = {
   "Publish": "Publish",
   "PostAdded": "Post successfully added!",
   "PostSlugAlreadyExists": "Post slug already exists! Choose another one.",
+  // Posts: List
   "PostCreatedAt": "Creation date",
   "PostUpdatedAt": "Modification date",
+  "Translate": "Translate",
   // Languages
   "English": "English",
   "French": "French",

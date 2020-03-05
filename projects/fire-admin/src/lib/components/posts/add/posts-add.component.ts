@@ -11,7 +11,7 @@ import { map, take, takeUntil } from 'rxjs/operators';
 import { AlertService } from '../../../services/alert.service';
 import { PostsService } from '../../../services/collections/posts.service';
 import { NavigationService } from '../../../services/navigation.service';
-import { Post } from '../../../models/collections/post.model';
+import { Post, PostStatus } from '../../../models/collections/post.model';
 
 @Component({
   selector: 'fa-posts-add',
@@ -22,7 +22,7 @@ export class PostsAddComponent implements OnInit, AfterViewInit {
 
   title: string;
   editor: any;
-  status: string;
+  status: PostStatus;
   language: string;
   languages: Language[];
   slug: string;
@@ -44,7 +44,7 @@ export class PostsAddComponent implements OnInit, AfterViewInit {
   ) { }
 
   ngOnInit() {
-    this.status = 'published';
+    this.status = PostStatus.Draft;
     this.languages = this.settings.getActiveSupportedLanguages();
     this.language = this.languages[0].key;
     this.date = new Date().toISOString().slice(0, 10);
@@ -106,7 +106,7 @@ export class PostsAddComponent implements OnInit, AfterViewInit {
     this.image = imageFile;
   }
 
-  addPost(status?: string) {
+  addPost(status?: PostStatus) {
     this.isSubmitButtonsDisabled = true;
     // Check if post slug is duplicated
     this.posts.getWhere(this.language + '.slug', '==', this.slug).pipe(take(1)).toPromise().then((posts: Post[]) => {
@@ -142,6 +142,10 @@ export class PostsAddComponent implements OnInit, AfterViewInit {
       this.alert.error(error.message);
       this.isSubmitButtonsDisabled = false;
     });
+  }
+
+  publishPost() {
+    this.addPost(PostStatus.Published);
   }
 
 }

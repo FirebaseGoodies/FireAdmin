@@ -8,52 +8,59 @@
   </div>
   <!-- End Page Header -->
   <div class="row">
-    <div class="col">
-      <table datatable [dtOptions]="dataTableOptions" [dtTrigger]="dataTableTrigger" class="file-manager file-manager-list d-none table-responsive">
-        <thead>
-          <tr>
-            <th class="text-left hide-sort-icons">{{ 'PostTitle' | translate }}</th>
-            <th></th>
-            <th>{{ 'PostDate' | translate }}</th>
-            <th>{{ 'PostStatus' | translate }}</th>
-            <th>{{ 'PostLanguage' | translate }}</th>
-            <th>{{ 'PostCreatedAt' | translate }}</th>
-            <th>{{ 'PostUpdatedAt' | translate }}</th>
-            <th class="text-right hide-sort-icons">{{ 'Actions' | translate }}</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let post of allPosts | async">
-            <td class="text-left lo-stats__image">
-              <img class="border rounded" [src]="post.image | async | escapeUrl">
-            </td>
-            <td class="text-left lo-stats__order-details">
-              <span>{{ post.title }}</span>
-              <span>{{ post.slug }}</span>
-            </td>
-            <td>{{ post.date | date:'MM/dd/yyyy' }}</td>
-            <td>
-              <span class="badge badge-pill badge-success">{{ post.status }}</span>
-            </td>
-            <td>{{ post.lang }}</td>
-            <td>{{ post.createdAt | date:'MM/dd/yyyy HH:mm' }}</td>
-            <td>{{ post.updatedAt | date:'MM/dd/yyyy HH:mm' }}</td>
-            <td class="text-right">
-              <div class="btn-group btn-group-sm" role="group" aria-label="Table row actions">
-                <button *ngIf="post.status !== 'published'" type="button" class="btn btn-white" title="{{ 'Publish' | translate }}">
-                  <i class="material-icons">check</i>
-                </button>
-                <button type="button" class="btn btn-white" title="{{ 'Edit' | translate }}" data-toggle="modal" data-target="#editModal" (click)="selectedPost = post">
-                  <i class="material-icons">edit</i>
-                </button>
-                <button type="button" class="btn btn-danger" title="{{ 'Delete' | translate }}" data-toggle="modal" data-target="#deleteModal" (click)="selectedPost = post">
-                  <i class="material-icons">delete</i>
-                </button>
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+    <div class="col-12 mb-4">
+      <div class="card card-small lo-stats">
+        <div class="card-body p-0">
+          <table datatable [dtOptions]="dataTableOptions" [dtTrigger]="dataTableTrigger" class="file-manager file-manager-list d-none table-responsive">
+            <thead>
+              <tr>
+                <th class="hide-sort-icons"></th>
+                <th class="text-left">{{ 'PostTitle' | translate }}</th>
+                <th>{{ 'PostDate' | translate }}</th>
+                <th>{{ 'PostStatus' | translate }}</th>
+                <th>{{ 'PostLanguage' | translate }}</th>
+                <th>{{ 'PostCreatedAt' | translate }}</th>
+                <th>{{ 'PostUpdatedAt' | translate }}</th>
+                <th class="text-right hide-sort-icons">{{ 'Actions' | translate }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let post of allPosts | async">
+                <td class="text-left lo-stats__image pr-0">
+                  <img class="border rounded" [src]="post.image | async | escapeUrl">
+                </td>
+                <td class="text-left lo-stats__order-details">
+                  <span>{{ post.title }}</span>
+                  <span>{{ post.slug }}</span>
+                </td>
+                <td>{{ post.date | date:'dd MMMM yyyy' }}</td>
+                <td>
+                  <span class="badge badge-pill badge-{{ allStatus.colors[post.status] }}">{{ allStatus.labels[post.status] | translate }}</span>
+                </td>
+                <td>{{ post.lang }}</td>
+                <td>{{ post.createdAt | date:'dd MMMM yyyy HH:mm' }}</td>
+                <td>{{ post.updatedAt | date:'dd MMMM yyyy HH:mm' }}</td>
+                <td class="text-right">
+                  <div class="btn-group btn-group-sm" role="group" aria-label="Table row actions">
+                    <button *ngIf="post.status !== 'published'" type="button" class="btn btn-white active-light" title="{{ 'Publish' | translate }}">
+                      <i class="material-icons">check</i>
+                    </button>
+                    <button *ngIf="post.isTranslatable" type="button" class="btn btn-white active-light" title="{{ 'Translate' | translate }}">
+                      <i class="material-icons">translate</i>
+                    </button>
+                    <button type="button" class="btn btn-white active-light" title="{{ 'Edit' | translate }}" data-toggle="modal" data-target="#editModal" (click)="selectedPost = post">
+                      <i class="material-icons">edit</i>
+                    </button>
+                    <button type="button" class="btn btn-danger" title="{{ 'Delete' | translate }}" data-toggle="modal" data-target="#deleteModal" (click)="selectedPost = post">
+                      <i class="material-icons">delete</i>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   </div>
 </fa-layout>

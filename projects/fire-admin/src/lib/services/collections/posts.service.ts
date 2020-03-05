@@ -12,14 +12,6 @@ export class PostsService {
 
   constructor(private db: DatabaseService, private storage: StorageService) { }
 
-  getAllStatus() {
-    return {
-      draft: 'Draft',
-      published: 'Published',
-      trash: 'Trash',
-    };
-  }
-
   add(data: PostData, id?: string) {
     if (id) {
       return this.edit(id, data);

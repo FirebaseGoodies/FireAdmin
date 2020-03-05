@@ -6618,7 +6618,8 @@ html .ql-toolbar .ql-picker .ql-picker-options {
 .lo-stats .card-body {
   position: relative;
   overflow-x: auto;
-  min-height: 21rem;
+  min-height: auto;
+  /*min-height: 21rem;*/
 }
 .lo-stats .container-fluid {
   position: absolute;

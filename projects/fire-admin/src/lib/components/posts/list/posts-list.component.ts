@@ -22,6 +22,18 @@ export class PostsListComponent implements OnInit, OnDestroy {
   };
   dataTableTrigger: Subject<void> = new Subject();
   private subscription: Subscription = new Subscription();
+  allStatus: object = {
+    colors: {
+      draft: 'warning',
+      published: 'success',
+      trash: 'danger'
+    },
+    labels: {
+      draft: 'Draft',
+      published: 'Published',
+      trash: 'Trash'
+    }
+  };
 
   constructor(private posts: PostsService) { }
 
