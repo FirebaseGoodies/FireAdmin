@@ -28,14 +28,12 @@ export class PostsListComponent implements OnInit, OnDestroy {
       published: 'success',
       trash: 'danger'
     },
-    labels: {
-      draft: 'Draft',
-      published: 'Published',
-      trash: 'Trash'
-    }
+    labels: {}
   };
 
-  constructor(private posts: PostsService) { }
+  constructor(private posts: PostsService) {
+    this.allStatus['labels'] = this.posts.getAllStatus();
+  }
 
   ngOnInit() {
     this.allPosts = this.posts.getAll().pipe(map((posts: PostData[]) => {

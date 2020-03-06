@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { DatabaseService } from '../database.service';
-import { Post, PostData } from '../../models/collections/post.model';
+import { Post, PostData, PostStatus } from '../../models/collections/post.model';
 import { now, guid, isFile } from '../../helpers/functions.helper';
 import { StorageService } from '../storage.service';
 import { map } from 'rxjs/operators';
@@ -12,7 +12,21 @@ import { Language } from '../../models/language.model';
 @Injectable()
 export class PostsService {
 
-  constructor(private db: DatabaseService, private storage: StorageService, private settings: SettingsService) { }
+  private allStatus: { [key: string]: string } = {};
+
+  constructor(private db: DatabaseService, private storage: StorageService, private settings: SettingsService) {
+    Object.keys(PostStatus).forEach((key: string) => {
+      this.allStatus[PostStatus[key]] = key;
+    });
+  }
+
+  getAllStatus() {
+    return this.allStatus;
+  }
+
+  getStatus(statusKey: string) {
+    return this.allStatus[statusKey];
+  }
 
   add(data: PostData, id?: string) {
     if (id) {
