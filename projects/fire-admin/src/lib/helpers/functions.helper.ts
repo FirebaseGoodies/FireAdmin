@@ -18,7 +18,7 @@ export function slugify(str: string): string {
 }
 
 export function now(): number {
-  return new Date().getTime();
+  return !Date.now ? +new Date() : Date.now(); //new Date().getTime();
 }
 
 /**
