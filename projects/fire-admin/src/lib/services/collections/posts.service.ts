@@ -52,12 +52,14 @@ export class PostsService {
     return new Promise((resolve, reject) => {
       promise.then((doc: any) => {
         if (data.image && isFile(data.image)) {
+          const id = doc ? doc.id : data.id;
           const imageFile = (data.image as File);
           const imageName = guid() + '.' + imageFile.name.split('.').pop();
-          const imagePath = `posts/${doc.id}/${imageName}`;
+          const imagePath = `posts/${id}/${imageName}`;
           this.storage.upload(imagePath, imageFile).then(() => {
             post[data.lang].image = imagePath;
-            doc.set(post).finally(() => {
+            const savePromise: Promise<any> = doc ? doc.set(post) : this.db.setDocument('posts', id, post);
+            savePromise.finally(() => {
               resolve();
             });
           }).catch((error: Error) => {
@@ -114,14 +116,18 @@ export class PostsService {
       categories: data.categories,
       updatedAt: now()
     };
-    if (! data.image) {
+    if (/*data.image !== undefined && */data.image === null) {
       post[data.lang].image = null;
     }
-    return this.uploadImageAfter(this.db.setDocument('posts', id, post), post, data);
+    return this.uploadImageAfter(this.db.setDocument('posts', id, post), post, {...data, id: id});
   }
 
   delete(id: string) {
     return this.db.deleteDocument('posts', id);
+  }
+
+  setStatus(id: string, lang: string, status: PostStatus) {
+    return this.db.setDocument('posts', id, { [lang]: { status: status } });
   }
 
 }

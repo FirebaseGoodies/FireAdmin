@@ -29,14 +29,6 @@
         <div class="card-body p-0">
           <ul class="list-group list-group-flush">
             <li class="list-group-item p-3">
-              <!-- <span class="d-flex mb-2">
-                <i class="material-icons mr-1 mt-1">flag</i><span class="mr-1 mt-1">{{ 'PostStatus' | translate }}:</span>
-                <select class="custom-select col-md-7 ml-auto">
-                  <option value="draft" selected>{{ 'Draft' | translate }}</option>
-                  <option value="published">{{ 'Published' | translate }}</option>
-                  <option value="trash">{{ 'Trash' | translate }}</option>
-                </select>
-              </span> -->
               <span class="d-flex mb-2">
                 <i class="material-icons mr-1 mt-1">translate</i><span class="mr-1 mt-1">{{ 'PostLanguage' | translate }}:</span>
                 <select class="custom-select col-md-7 ml-auto" [(ngModel)]="language" name="language" (change)="onLanguageChange()">

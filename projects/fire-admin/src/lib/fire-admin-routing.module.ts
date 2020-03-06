@@ -51,7 +51,7 @@ const routes: Routes = [
             component: PagesAddComponent
           },
           {
-            path: 'edit/:id',
+            path: 'edit/:id/:lang',
             component: PagesEditComponent
           },
           {
@@ -74,7 +74,7 @@ const routes: Routes = [
             component: PostsAddComponent
           },
           {
-            path: 'edit/:id',
+            path: 'edit/:id/:lang',
             component: PostsEditComponent
           },
           {

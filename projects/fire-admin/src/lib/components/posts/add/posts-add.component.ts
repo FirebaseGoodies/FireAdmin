@@ -29,8 +29,8 @@ export class PostsAddComponent implements OnInit, AfterViewInit {
   slug: string;
   date: string;
   private image: File;
-  imageSrc: string|ArrayBuffer = getEmptyImage();
-  checkedCategories: string[] = [];
+  imageSrc: string|ArrayBuffer;
+  private checkedCategories: string[] = [];
   categoriesObservable: Observable<Category[]>;
   newCategory: string;
   isSubmitButtonsDisabled: boolean = false;
@@ -51,6 +51,7 @@ export class PostsAddComponent implements OnInit, AfterViewInit {
     this.language = this.languages[0].key;
     this.date = new Date().toISOString().slice(0, 10);
     this.image = null;
+    this.imageSrc = getEmptyImage();
     this.setCategoriesObservable();
   }
 

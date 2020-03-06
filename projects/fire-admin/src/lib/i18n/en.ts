@@ -38,12 +38,19 @@ export const en = {
   "Trash": "Trash",
   "SaveDraft": "Save Draft",
   "Publish": "Publish",
+  "MoveToTrash": "Move To Trash",
   "PostAdded": "Post successfully added!",
   "PostSlugAlreadyExists": "Post slug already exists! Choose another one.",
   // Posts: List
   "PostCreatedAt": "Creation date",
   "PostUpdatedAt": "Modification date",
   "Translate": "Translate",
+  "DeletePost": "Delete Post",
+  "ConfirmDeletePost": "Please confirm deleting post <b>${title}</b> ?",
+  "PostDeleted": "Post <b>${title}</b> has been deleted!",
+  // Posts: Edit
+  "EditPost": "Edit Post",
+  "PostSaved": "Post successfully saved!",
   // Languages
   "English": "English",
   "French": "French",
