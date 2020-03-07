@@ -51,6 +51,9 @@ export class PostsService {
       createdAt: now(), // timestamp
       updatedAt: null
     };
+    if (id && data.image && !isFile(data.image)) {
+      post[data.lang].image = data.image;
+    }
     const addPromise: Promise<any> = id ? this.db.setDocument('posts', id, post) : this.db.addDocument('posts', post);
     return this.uploadImageAfter(addPromise, post, data);
   }
@@ -82,6 +85,11 @@ export class PostsService {
 
   get(id: string) {
     return this.db.getDocument('posts', id);
+  }
+
+  getTranslationLanguages(post: Post) {
+    const postLanguages = Object.keys(post).filter((key: string) => key !== 'id');
+    return this.settings.getActiveSupportedLanguages().filter((lang: Language) => postLanguages.indexOf(lang.key) === -1);
   }
 
   getImageUrl(imagePath: string) {

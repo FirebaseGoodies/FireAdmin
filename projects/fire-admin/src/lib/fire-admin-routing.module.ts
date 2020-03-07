@@ -13,6 +13,7 @@ import { PagesListComponent } from './components/pages/list/pages-list.component
 import { PagesAddComponent } from './components/pages/add/pages-add.component';
 import { PagesEditComponent } from './components/pages/edit/pages-edit.component';
 import { SettingsComponent } from './components/settings/settings.component';
+import { PostsTranslateComponent } from './components/posts/translate/posts-translate.component';
 
 const routes: Routes = [
   {
@@ -84,6 +85,10 @@ const routes: Routes = [
           {
             path: 'edit/:id/:lang',
             component: PostsEditComponent
+          },
+          {
+            path: 'translate/:id/:lang',
+            component: PostsTranslateComponent
           },
           {
             path: 'categories',

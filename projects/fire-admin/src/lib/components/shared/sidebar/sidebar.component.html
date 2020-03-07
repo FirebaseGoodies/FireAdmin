@@ -52,11 +52,11 @@
       </div>
     </li>
     <li class="nav-item dropdown">
-      <a class="nav-link dropdown-toggle" [class.active]="isActive(['posts', 'list'], ['posts', 'add'], ['posts', 'edit'], ['posts', 'categories'])" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="true">
+      <a class="nav-link dropdown-toggle" [class.active]="isActive(['posts', 'list'], ['posts', 'add'], ['posts', 'edit'], ['posts', 'translate'], ['posts', 'categories'])" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="true">
         <i class="material-icons">description</i>
         <span>{{ 'Posts' | translate }}</span>
       </a>
-      <div class="dropdown-menu dropdown-menu-small" [class.show]="style === 'expanded' && isActive(['posts', 'list'], ['posts', 'add'], ['posts', 'edit'], ['posts', 'categories'])">
+      <div class="dropdown-menu dropdown-menu-small" [class.show]="style === 'expanded' && isActive(['posts', 'list'], ['posts', 'add'], ['posts', 'edit'], ['posts', 'translate'], ['posts', 'categories'])">
         <a class="dropdown-item " [routerLink]="navigation.getRouterLink('posts', 'list')" routerLinkActive="active">{{ 'List' | translate }}</a>
         <a class="dropdown-item " [routerLink]="navigation.getRouterLink('posts', 'add')" routerLinkActive="active">{{ 'Add' | translate }}</a>
         <a class="dropdown-item " [routerLink]="navigation.getRouterLink('posts', 'categories')" routerLinkActive="active">{{ 'Categories' | translate }}</a>

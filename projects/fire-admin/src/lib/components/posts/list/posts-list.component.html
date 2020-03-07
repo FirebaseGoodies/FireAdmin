@@ -54,7 +54,7 @@
                     <button *ngIf="post.status !== 'published'" type="button" class="btn btn-white active-light" title="{{ 'Publish' | translate }}" (click)="publishPost($event, post)">
                       <i class="material-icons">check</i>
                     </button>
-                    <button *ngIf="post.isTranslatable" type="button" class="btn btn-white active-light" title="{{ 'Translate' | translate }}">
+                    <button *ngIf="post.isTranslatable" type="button" class="btn btn-white active-light" title="{{ 'Translate' | translate }}" [routerLink]="navigation.getRouterLink('posts', 'translate', post.id, post.lang)">
                       <i class="material-icons">translate</i>
                     </button>
                     <button type="button" class="btn btn-white active-light" title="{{ 'Edit' | translate }}" [routerLink]="navigation.getRouterLink('posts', 'edit', post.id, post.lang)">

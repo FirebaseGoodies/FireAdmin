@@ -1,0 +1,106 @@
+<fa-layout>
+  <!-- Page Header -->
+  <div class="page-header row no-gutters py-4">
+    <div class="col-12 text-center text-sm-left mb-0">
+      <span class="text-uppercase page-subtitle">{{ 'Posts' | translate }}</span>
+      <h3 class="page-title">{{ 'TranslatePost' | translate }}</h3>
+    </div>
+  </div>
+  <!-- End Page Header -->
+  <div class="row">
+    <div class="col-lg-9 col-md-12">
+      <!-- Add New Post Form -->
+      <div class="card card-small mb-3">
+        <div class="card-body">
+          <form class="add-new-post">
+            <input class="form-control form-control-lg mb-3" type="text" placeholder="{{ 'PostTitle' | translate }}" [(ngModel)]="title" name="title" (input)="onTitleInput()">
+            <div id="editor-container" class="add-new-post__editor mb-1"></div>
+          </form>
+        </div>
+      </div>
+      <!-- / Add New Post Form -->
+    </div>
+    <div class="col-lg-3 col-md-12">
+      <!-- Post Overview -->
+      <div class="card card-small mb-3">
+        <div class="card-header border-bottom">
+          <h6 class="m-0">{{ 'Actions' | translate }}</h6>
+        </div>
+        <div class="card-body p-0">
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item p-3">
+              <span class="d-flex mb-2">
+                <i class="material-icons mr-1 mt-1">translate</i><span class="mr-1 mt-1">{{ 'PostLanguage' | translate }}:</span>
+                <select class="custom-select col-md-7 ml-auto" [(ngModel)]="language" name="language" (change)="onLanguageChange()">
+                  <option *ngFor="let lang of languages" [value]="lang.key">{{ lang.label | translate }}</option>
+                </select>
+              </span>
+              <span class="d-flex mb-2">
+                <i class="material-icons mr-1 mt-1">link</i><span class="mr-1 mt-1">{{ 'PostSlug' | translate }}:</span>
+                <input type="text" class="form-control col-md-7 ml-auto" [(ngModel)]="slug" name="slug">
+              </span>
+              <span class="d-flex mb-2">
+                <i class="material-icons mr-1 mt-1">calendar_today</i><span class="mr-1 mt-1">{{ 'PostDate' | translate }}:</span>
+                <input type="date" class="form-control col-md-7 ml-auto" [(ngModel)]="date" name="date">
+              </span>
+            </li>
+            <li class="list-group-item d-flex px-3 pt-0">
+              <button class="btn btn-sm btn-outline-accent" [disabled]="isSubmitButtonsDisabled || !title?.length || !slug?.length || !date?.length" (click)="addPost($event)" #addDraftButton>
+                <i class="material-icons">save</i> {{ 'SaveDraft' | translate }} <i *ngIf="addDraftButton.isLoading" class="fas fa-circle-notch fa-spin ml-1"></i>
+              </button>
+              <button class="btn btn-sm btn-accent ml-auto" [disabled]="isSubmitButtonsDisabled || !title?.length || !slug?.length || !date?.length" (click)="publishPost($event)" #publishButton>
+                <i class="material-icons">file_copy</i> {{ 'Publish' | translate }} <i *ngIf="publishButton.isLoading" class="fas fa-circle-notch fa-spin ml-1"></i>
+              </button>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <!-- / Post Overview -->
+      <!-- Post Overview -->
+      <div class="card card-small mb-3">
+        <div class="card-header border-bottom cursor-pointer" (click)="imageCardHeader.isToggled = !imageCardHeader.isToggled" #imageCardHeader>
+          <h6 class="m-0">{{ 'PostImage' | translate }}</h6>
+          <div class="block-handle"></div>
+        </div>
+        <div class="card-body p-0" [class.d-none]="!imageCardHeader.isToggled">
+          <span class="d-flex">
+            <div class="edit-user-details__avatar rounded-0" (click)="postImage.click()">
+              <img [src]="imageSrc | escapeUrl" alt="Post image">
+              <label class="edit-user-details__avatar__change rounded-0">
+                <i class="material-icons mr-1">add_a_photo</i>
+                <input type="file" accept="image/*" class="d-none" (change)="onImageChange($event)" #postImage>
+              </label>
+            </div>
+          </span>
+        </div>
+      </div>
+      <!-- / Post Overview -->
+      <!-- Post Overview -->
+      <div class="card card-small mb-3">
+        <div class="card-header border-bottom cursor-pointer" (click)="categoriesCardHeader.isToggled = !categoriesCardHeader.isToggled" #categoriesCardHeader>
+          <h6 class="m-0">{{ 'Categories' | translate }}</h6>
+          <div class="block-handle"></div>
+        </div>
+        <div class="card-body p-0" [class.d-none]="categoriesCardHeader.isToggled">
+          <ul class="categories-list list-group list-group-flush">
+            <li class="list-group-item px-3 pb-2">
+              <div class="custom-control custom-checkbox mb-1" *ngFor="let category of categoriesObservable | async; let i = index">
+                <input type="checkbox" class="custom-control-input" id="{{ 'category' + i }}" (change)="onCategoryCheck(category, $event)" [checked]="checkedCategories.indexOf(category.id) !== -1">
+                <label class="custom-control-label" for="{{ 'category' + i }}">{{ category.label }}</label>
+              </div>
+            </li>
+            <li class="list-group-item d-flex px-3">
+              <div class="input-group">
+                <input type="text" class="form-control" placeholder="{{ 'NewCategory' | translate }}" [(ngModel)]="newCategory">
+                <div class="input-group-append">
+                  <button class="btn btn-white px-2" type="button" [disabled]="!newCategory?.length || !categoriesObservable" (click)="addCategory($event)"><i class="material-icons">add</i></button>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <!-- / Post Overview -->
+    </div>
+  </div>
+</fa-layout>

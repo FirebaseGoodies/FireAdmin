@@ -51,6 +51,8 @@ export const en = {
   // Posts: Edit
   "EditPost": "Edit Post",
   "PostSaved": "Post successfully saved!",
+  // Posts: Translate
+  "TranslatePost": "Translate Post",
   // Languages
   "English": "English",
   "French": "French",

@@ -1,26 +1,27 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
 import { initTextEditor } from '../../../helpers/posts.helper';
 import { I18nService } from '../../../services/i18n.service';
-import { SettingsService } from '../../../services/settings.service';
 import { slugify } from '../../../helpers/functions.helper';
-import { Language } from '../../../models/language.model';
 import { CategoriesService } from '../../../services/collections/categories.service';
 import { Category } from '../../../models/collections/category.model';
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subscription, Subject } from 'rxjs';
 import { map, take, takeUntil } from 'rxjs/operators';
 import { AlertService } from '../../../services/alert.service';
 import { PostsService } from '../../../services/collections/posts.service';
 import { NavigationService } from '../../../services/navigation.service';
 import { Post, PostStatus } from '../../../models/collections/post.model';
 import { getEmptyImage } from '../../../helpers/assets.helper';
+import { ActivatedRoute } from '@angular/router';
+import { Language } from '../../../models/language.model';
 
 @Component({
-  selector: 'fa-posts-add',
-  templateUrl: './posts-add.component.html',
-  styleUrls: ['./posts-add.component.css']
+  selector: 'fa-posts-translate',
+  templateUrl: './posts-translate.component.html',
+  styleUrls: ['./posts-translate.component.css']
 })
-export class PostsAddComponent implements OnInit, AfterViewInit {
+export class PostsTranslateComponent implements OnInit, AfterViewInit, OnDestroy {
 
+  private id: string;
   title: string;
   editor: any;
   private status: PostStatus;
@@ -28,35 +29,69 @@ export class PostsAddComponent implements OnInit, AfterViewInit {
   languages: Language[];
   slug: string;
   date: string;
-  private image: File;
+  private image: File|string;
   imageSrc: string|ArrayBuffer;
-  private checkedCategories: string[] = [];
+  checkedCategories: string[] = [];
   categoriesObservable: Observable<Category[]>;
   newCategory: string;
   isSubmitButtonsDisabled: boolean = false;
-  private languageChange: Subject<void> = new Subject<void>();
+  private subscription: Subscription = new Subscription();
+  private languageOrRouteParamsChange: Subject<void> = new Subject<void>();
 
   constructor(
     private i18n: I18nService,
-    private settings: SettingsService,
     private categories: CategoriesService,
     private alert: AlertService,
     private posts: PostsService,
-    private navigation: NavigationService
+    private navigation: NavigationService,
+    private route: ActivatedRoute
   ) { }
 
   ngOnInit() {
-    this.status = PostStatus.Draft;
-    this.languages = this.settings.getActiveSupportedLanguages();
-    this.language = this.languages[0].key;
-    this.date = new Date().toISOString().slice(0, 10);
-    this.image = null;
-    this.imageSrc = getEmptyImage();
-    this.setCategoriesObservable();
+    this.isSubmitButtonsDisabled = true;
+    this.subscription.add(
+      this.route.params.subscribe((params: { id: string, lang: string }) => {
+        // console.log(params);
+        this.posts.get(params.id).pipe(take(1)).toPromise().then((post: Post) => {
+          // console.log(post);
+          if (post && post[params.lang]) {
+            this.languages = this.posts.getTranslationLanguages(post);
+            if (this.languages.length) {
+              this.language = this.languages[0].key;
+              this.title = post[params.lang].title;
+              this.editor.root.innerHTML = post[params.lang].content;
+              this.status = PostStatus.Draft;
+              this.slug = post[params.lang].slug;
+              this.date = new Date(post[params.lang].date).toISOString().slice(0, 10);
+              this.id = params.id;
+              this.image = post[params.lang].image as string;
+              this.imageSrc = getEmptyImage();
+              if (post[params.lang].image) {
+                this.posts.getImageUrl(post[params.lang].image as  string).pipe(take(1)).toPromise().then((imageUrl: string) => {
+                  this.imageSrc = imageUrl;
+                });
+              }
+              this.checkedCategories = post[params.lang].categories ? post[params.lang].categories : [];
+              this.languageOrRouteParamsChange.next();
+              this.setCategoriesObservable();
+              this.isSubmitButtonsDisabled = false;
+            } else {
+              this.navigation.redirectTo('posts', 'list');
+            }
+          } else {
+            this.navigation.redirectTo('posts', 'list');
+          }
+        });
+      })
+    );
   }
 
   ngAfterViewInit() {
     this.editor = initTextEditor('#editor-container', this.i18n.get('PostContent'));
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 
   private setCategoriesObservable() {
@@ -64,7 +99,7 @@ export class PostsAddComponent implements OnInit, AfterViewInit {
       map((categories: Category[]) => {
         return categories.sort((a: Category, b: Category) => b.createdAt - a.createdAt);
       }),
-      takeUntil(this.languageChange)
+      takeUntil(this.languageOrRouteParamsChange)
     );
   }
 
@@ -73,7 +108,7 @@ export class PostsAddComponent implements OnInit, AfterViewInit {
   }
 
   onLanguageChange() {
-    this.languageChange.next();
+    this.languageOrRouteParamsChange.next();
     this.checkedCategories = [];
     this.setCategoriesObservable();
   }
@@ -125,8 +160,8 @@ export class PostsAddComponent implements OnInit, AfterViewInit {
     startLoading();
     // Check if post slug is duplicated
     this.posts.getWhere(this.language + '.slug', '==', this.slug).pipe(take(1)).toPromise().then((posts: Post[]) => {
-      //console.log(posts);
-      if (posts && posts.length) {
+      //console.log(posts, posts[0]['id']);
+      if (posts && posts.length && (posts[0]['id'] as any) !== this.id) {
         // Warn user about post slug
         this.alert.warning(this.i18n.get('PostSlugAlreadyExists'), false, 5000);
         stopLoading();
@@ -144,7 +179,7 @@ export class PostsAddComponent implements OnInit, AfterViewInit {
           image: this.image,
           status: this.status,
           categories: this.checkedCategories
-        }).then(() => {
+        }, this.id).then(() => {
           this.alert.success(this.i18n.get('PostAdded'), false, 5000, true);
           this.navigation.redirectTo('posts', 'list');
         }).catch((error: Error) => {

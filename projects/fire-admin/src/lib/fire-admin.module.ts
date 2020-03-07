@@ -39,6 +39,7 @@ import { PostsService } from './services/collections/posts.service';
 import { EscapeUrlPipe } from './pipes/escape-url.pipe';
 import { AngularFireStorageModule } from '@angular/fire/storage';
 import { StorageService } from './services/storage.service';
+import { PostsTranslateComponent } from './components/posts/translate/posts-translate.component';
 
 @NgModule({
   declarations: [
@@ -60,7 +61,8 @@ import { StorageService } from './services/storage.service';
     LayoutComponent,
     AlertComponent,
     ButtonGroupComponent,
-    EscapeUrlPipe
+    EscapeUrlPipe,
+    PostsTranslateComponent
   ],
   imports: [
     CommonModule,
