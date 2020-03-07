@@ -19,6 +19,7 @@
                 <th>{{ 'PostDate' | translate }}</th>
                 <th>{{ 'PostStatus' | translate }}</th>
                 <th>{{ 'PostLanguage' | translate }}</th>
+                <th>{{ 'Categories' | translate }}</th>
                 <th>{{ 'PostCreatedAt' | translate }}</th>
                 <th>{{ 'PostUpdatedAt' | translate }}</th>
                 <th class="text-right hide-sort-icons">{{ 'Actions' | translate }}</th>
@@ -38,6 +39,12 @@
                   <span class="badge badge-pill badge-{{ allStatus.colors[post.status] || 'primary' }}">{{ allStatus.labels[post.status] | translate }}</span>
                 </td>
                 <td>{{ post.lang }}</td>
+                <td>
+                  <ng-container *ngFor="let categoryId of post.categories; let i = index">
+                    <i *ngIf="i > 0">, </i>
+                    <a [routerLink]="navigation.getRouterLink('posts', 'list', 'category', categoryId)">{{ allCategories[categoryId]?.label }}</a>
+                  </ng-container>
+                </td>
                 <td>{{ post.createdAt | date:'dd MMMM yyyy HH:mm' }}</td>
                 <td>{{ post.updatedAt | date:'dd MMMM yyyy HH:mm' }}</td>
                 <td class="text-right">

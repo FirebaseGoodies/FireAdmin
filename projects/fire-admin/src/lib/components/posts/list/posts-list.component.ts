@@ -3,11 +3,14 @@ import { DataTableDirective } from 'angular-datatables';
 import { Subject, Subscription, Observable } from 'rxjs';
 import { Post, PostData, PostStatus } from '../../../models/collections/post.model';
 import { PostsService } from '../../../services/collections/posts.service';
-import { map } from 'rxjs/operators';
+import { map, take, takeUntil } from 'rxjs/operators';
 import { refreshDataTable } from '../../../helpers/datatables.helper';
 import { AlertService } from '../../../services/alert.service';
 import { NavigationService } from '../../../services/navigation.service';
 import { I18nService } from '../../../services/i18n.service';
+import { Category } from '../../../models/collections/category.model';
+import { CategoriesService } from '../../../services/collections/categories.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'fa-posts-list',
@@ -26,25 +29,55 @@ export class PostsListComponent implements OnInit, OnDestroy {
   dataTableTrigger: Subject<void> = new Subject();
   private subscription: Subscription = new Subscription();
   allStatus: { labels: object, colors: object };
+  allCategories: Category[] = [];
+  private categoryChange: Subject<void> = new Subject<void>();
 
   constructor(
     private posts: PostsService,
+    private categories: CategoriesService,
     private alert: AlertService,
     private i18n: I18nService,
+    private route: ActivatedRoute,
     public navigation: NavigationService
-  ) {
-    this.allStatus = this.posts.getAllStatusWithColors();
-  }
+  ) { }
 
-  ngOnInit() {
-    this.allPosts = this.posts.getAll().pipe(map((posts: PostData[]) => {
-      return posts.sort((a: PostData, b: PostData) => b.createdAt - a.createdAt);
-    }));
+  async ngOnInit() {
+    // Get all status
+    this.allStatus = this.posts.getAllStatusWithColors();
+    // Get all categories
+    this.allCategories = await this.categories.getAll().pipe(
+      take(1),
+      map((categories: Category[]) => {
+        const allCategories: Category[] = [];
+        categories.forEach((category: Category) => {
+          allCategories[category.id] = category;
+        });
+        return allCategories;
+      })
+    ).toPromise();
+    // console.log(this.allCategories);
+    // Get route params
     this.subscription.add(
-      this.allPosts.subscribe((posts: PostData[]) => {
-        // console.log(posts);
-        // Refresh datatable on data change
-        refreshDataTable(this.dataTableElement, this.dataTableTrigger);
+      this.route.params.subscribe((params: { categoryId: string }) => {
+        const categoryId = params.categoryId;
+        this.categoryChange.next();
+        // Get all posts
+        this.allPosts = this.posts.getAll().pipe(
+          map((posts: PostData[]) => {
+            if (categoryId) {
+              posts = posts.filter((post: PostData) => post.categories.indexOf(categoryId) !== -1);
+            }
+            return posts.sort((a: PostData, b: PostData) => b.createdAt - a.createdAt);
+          }),
+          takeUntil(this.categoryChange)
+        );
+        this.subscription.add(
+          this.allPosts.subscribe((posts: PostData[]) => {
+            // console.log(posts);
+            // Refresh datatable on data change
+            refreshDataTable(this.dataTableElement, this.dataTableTrigger);
+          })
+        );
       })
     );
   }

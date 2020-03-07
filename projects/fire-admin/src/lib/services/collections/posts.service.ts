@@ -4,7 +4,7 @@ import { Post, PostData, PostStatus } from '../../models/collections/post.model'
 import { now, guid, isFile } from '../../helpers/functions.helper';
 import { StorageService } from '../storage.service';
 import { map, take } from 'rxjs/operators';
-import { of, merge } from 'rxjs';
+import { of, merge, Observable } from 'rxjs';
 import { getEmptyImage, getLoadingImage } from '../../helpers/assets.helper';
 import { SettingsService } from '../settings.service';
 import { Language } from '../../models/language.model';
@@ -95,8 +95,8 @@ export class PostsService {
     }
   }
 
-  getAll() {
-    return this.db.getCollection('posts').pipe(map((posts: Post[]) => {
+  private pipePosts(postsObservable: Observable<Post[]>) {
+    return postsObservable.pipe(map((posts: Post[]) => {
       const allPostsData: PostData[] = [];
       const activeSupportedLanguages = this.settings.getActiveSupportedLanguages().map((lang: Language) => lang.key);
       posts.forEach((post: Post) => {
@@ -115,8 +115,13 @@ export class PostsService {
     }));
   }
 
-  getWhere(field: string, operator: firebase.firestore.WhereFilterOp, value: string) {
-    return this.db.getCollection('posts', ref => ref.where(field, operator, value));
+  getAll() {
+    return this.pipePosts(this.db.getCollection('posts'));
+  }
+
+  getWhere(field: string, operator: firebase.firestore.WhereFilterOp, value: string, applyPipe: boolean = false) {
+    const postsObservable = this.db.getCollection('posts', ref => ref.where(field, operator, value));
+    return applyPipe ? this.pipePosts(postsObservable) : postsObservable;
   }
 
   edit(id: string, data: PostData) {

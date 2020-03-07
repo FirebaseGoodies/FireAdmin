@@ -4,7 +4,7 @@ import { Subject } from 'rxjs/internal/Subject';
 export function refreshDataTable(dataTableElement: DataTableDirective, dataTableTrigger: Subject<void>) {
   if (dataTableElement.dtInstance) {
     dataTableElement.dtInstance.then((dtInstance: DataTables.Api) => {
-      dtInstance.destroy();
+      dtInstance.clear().destroy();
       dataTableTrigger.next();
     });
   } else {
