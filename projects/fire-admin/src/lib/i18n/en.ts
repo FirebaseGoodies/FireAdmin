@@ -87,4 +87,7 @@ export const en = {
   "Edit": "Edit",
   "Delete": "Delete",
   "Save": "Save",
+  // Users
+  "Users": "Users",
+  "Roles": "Roles",
 };

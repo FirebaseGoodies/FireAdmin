@@ -40,6 +40,10 @@ import { EscapeUrlPipe } from './pipes/escape-url.pipe';
 import { AngularFireStorageModule } from '@angular/fire/storage';
 import { StorageService } from './services/storage.service';
 import { PostsTranslateComponent } from './components/posts/translate/posts-translate.component';
+import { UsersListComponent } from './components/users/list/users-list.component';
+import { UsersAddComponent } from './components/users/add/users-add.component';
+import { UsersEditComponent } from './components/users/edit/users-edit.component';
+import { UsersRolesComponent } from './components/users/roles/users-roles.component';
 
 @NgModule({
   declarations: [
@@ -62,7 +66,11 @@ import { PostsTranslateComponent } from './components/posts/translate/posts-tran
     AlertComponent,
     ButtonGroupComponent,
     EscapeUrlPipe,
-    PostsTranslateComponent
+    PostsTranslateComponent,
+    UsersListComponent,
+    UsersAddComponent,
+    UsersEditComponent,
+    UsersRolesComponent
   ],
   imports: [
     CommonModule,
