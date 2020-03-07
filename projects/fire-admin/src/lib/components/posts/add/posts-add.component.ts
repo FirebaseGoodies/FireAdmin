@@ -112,15 +112,24 @@ export class PostsAddComponent implements OnInit, AfterViewInit {
     reader.readAsDataURL(this.image);
   }
 
-  addPost(status?: PostStatus) {
-    this.isSubmitButtonsDisabled = true;
+  addPost(event: Event, status?: PostStatus) {
+    const target = event.target as any;
+    const startLoading = () => {
+      target.isLoading = true;
+      this.isSubmitButtonsDisabled = true;
+    };
+    const stopLoading = () => {
+      target.isLoading = false;
+      this.isSubmitButtonsDisabled = false;
+    };
+    startLoading();
     // Check if post slug is duplicated
     this.posts.getWhere(this.language + '.slug', '==', this.slug).pipe(take(1)).toPromise().then((posts: Post[]) => {
       //console.log(posts);
       if (posts && posts.length) {
         // Warn user about post slug
         this.alert.warning(this.i18n.get('PostSlugAlreadyExists'), false, 5000);
-        this.isSubmitButtonsDisabled = false;
+        stopLoading();
       } else {
         // Add post
         if (status) {
@@ -141,17 +150,17 @@ export class PostsAddComponent implements OnInit, AfterViewInit {
         }).catch((error: Error) => {
           this.alert.error(error.message);
         }).finally(() => {
-          this.isSubmitButtonsDisabled = false;
+          stopLoading();
         });
       }
     }).catch((error: Error) => {
       this.alert.error(error.message);
-      this.isSubmitButtonsDisabled = false;
+      stopLoading();
     });
   }
 
-  publishPost() {
-    this.addPost(PostStatus.Published);
+  publishPost(event: Event) {
+    this.addPost(event, PostStatus.Published);
   }
 
 }

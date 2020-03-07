@@ -45,8 +45,8 @@
               </span>
             </li>
             <li class="list-group-item d-flex px-3 pt-0">
-              <button class="btn btn-sm btn-accent m-auto" [disabled]="isSubmitButtonDisabled || !title?.length || !slug?.length || !date?.length" (click)="savePost()">
-                <i class="material-icons">save</i> {{ 'Save' | translate }}
+              <button class="btn btn-sm btn-accent m-auto" [disabled]="isSubmitButtonDisabled || !title?.length || !slug?.length || !date?.length" (click)="savePost($event)" #saveButton>
+                <i class="material-icons">save</i> {{ 'Save' | translate }} <i *ngIf="saveButton.isLoading" class="fas fa-circle-notch fa-spin ml-1"></i>
               </button>
             </li>
           </ul>

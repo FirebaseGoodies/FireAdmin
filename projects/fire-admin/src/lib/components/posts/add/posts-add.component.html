@@ -45,11 +45,11 @@
               </span>
             </li>
             <li class="list-group-item d-flex px-3 pt-0">
-              <button class="btn btn-sm btn-outline-accent" [disabled]="isSubmitButtonsDisabled || !title?.length || !slug?.length || !date?.length" (click)="addPost()">
-                <i class="material-icons">save</i> {{ 'SaveDraft' | translate }}
+              <button class="btn btn-sm btn-outline-accent" [disabled]="isSubmitButtonsDisabled || !title?.length || !slug?.length || !date?.length" (click)="addPost($event)" #addDraftButton>
+                <i class="material-icons">save</i> {{ 'SaveDraft' | translate }} <i *ngIf="addDraftButton.isLoading" class="fas fa-circle-notch fa-spin ml-1"></i>
               </button>
-              <button class="btn btn-sm btn-accent ml-auto" [disabled]="isSubmitButtonsDisabled || !title?.length || !slug?.length || !date?.length" (click)="publishPost()">
-                <i class="material-icons">file_copy</i> {{ 'Publish' | translate }}
+              <button class="btn btn-sm btn-accent ml-auto" [disabled]="isSubmitButtonsDisabled || !title?.length || !slug?.length || !date?.length" (click)="publishPost($event)" #publishButton>
+                <i class="material-icons">file_copy</i> {{ 'Publish' | translate }} <i *ngIf="publishButton.isLoading" class="fas fa-circle-notch fa-spin ml-1"></i>
               </button>
             </li>
           </ul>

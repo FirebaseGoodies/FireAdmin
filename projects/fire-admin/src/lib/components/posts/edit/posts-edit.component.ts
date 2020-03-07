@@ -134,15 +134,24 @@ export class PostsEditComponent implements OnInit, AfterViewInit, OnDestroy {
     reader.readAsDataURL(this.image);
   }
 
-  savePost() {
-    this.isSubmitButtonDisabled = true;
+  savePost(event: Event) {
+    const target = event.target as any;
+    const startLoading = () => {
+      target.isLoading = true;
+      this.isSubmitButtonDisabled = true;
+    };
+    const stopLoading = () => {
+      target.isLoading = false;
+      this.isSubmitButtonDisabled = false;
+    };
+    startLoading();
     // Check if post slug is duplicated
     this.posts.getWhere(this.language + '.slug', '==', this.slug).pipe(take(1)).toPromise().then((posts: Post[]) => {
       //console.log(posts, posts[0]['id']);
       if (posts && posts.length && (posts[0]['id'] as any) !== this.id) {
         // Warn user about post slug
         this.alert.warning(this.i18n.get('PostSlugAlreadyExists'), false, 5000);
-        this.isSubmitButtonDisabled = false;
+        stopLoading();
       } else {
         // Edit post
         const data: PostData = {
@@ -163,12 +172,12 @@ export class PostsEditComponent implements OnInit, AfterViewInit, OnDestroy {
         }).catch((error: Error) => {
           this.alert.error(error.message);
         }).finally(() => {
-          this.isSubmitButtonDisabled = false;
+          stopLoading();
         });
       }
     }).catch((error: Error) => {
       this.alert.error(error.message);
-      this.isSubmitButtonDisabled = false;
+      stopLoading();
     });
   }
 
