@@ -72,7 +72,7 @@ export class PostsListComponent implements OnInit, OnDestroy {
   }
 
   deletePost(post: PostData) {
-    this.posts.delete(post.id).then(() => {
+    this.posts.delete(post.id, post.lang).then(() => {
       this.alert.success(this.i18n.get('PostDeleted', { title: post.title }), false, 5000);
     }).catch((error: Error) => {
       this.alert.error(error.message);

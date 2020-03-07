@@ -54,24 +54,26 @@ export class PostsEditComponent implements OnInit, AfterViewInit, OnDestroy {
         // console.log(params);
         this.posts.get(params.id).pipe(take(1)).toPromise().then((post: Post) => {
           // console.log(post);
-          this.title = post[params.lang].title;
-          this.editor.root.innerHTML = post[params.lang].content;
-          this.status = post[params.lang].status;
-          this.slug = post[params.lang].slug;
-          this.date = new Date(post[params.lang].date).toISOString().slice(0, 10);
-          this.id = params.id;
-          this.language = params.lang;
-          this.image = null;
-          this.imageSrc = getEmptyImage();
-          if (post[params.lang].image) {
-            this.posts.getImageUrl(post[params.lang].image as  string).pipe(take(1)).toPromise().then((imageUrl: string) => {
-              this.imageSrc = imageUrl;
-            });
+          if (post && post[params.lang]) {
+            this.title = post[params.lang].title;
+            this.editor.root.innerHTML = post[params.lang].content;
+            this.status = post[params.lang].status;
+            this.slug = post[params.lang].slug;
+            this.date = new Date(post[params.lang].date).toISOString().slice(0, 10);
+            this.id = params.id;
+            this.language = params.lang;
+            this.image = null;
+            this.imageSrc = getEmptyImage();
+            if (post[params.lang].image) {
+              this.posts.getImageUrl(post[params.lang].image as  string).pipe(take(1)).toPromise().then((imageUrl: string) => {
+                this.imageSrc = imageUrl;
+              });
+            }
+            this.checkedCategories = post[params.lang].categories ? post[params.lang].categories : [];
+            this.languageChange.next();
+            this.setCategoriesObservable();
+            this.isSubmitButtonDisabled = false;
           }
-          this.checkedCategories = post[params.lang].categories ? post[params.lang].categories : [];
-          this.languageChange.next();
-          this.setCategoriesObservable();
-          this.isSubmitButtonDisabled = false;
         });
       })
     );

@@ -3,7 +3,7 @@ import { DatabaseService } from '../database.service';
 import { Post, PostData, PostStatus } from '../../models/collections/post.model';
 import { now, guid, isFile } from '../../helpers/functions.helper';
 import { StorageService } from '../storage.service';
-import { map } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 import { of, merge } from 'rxjs';
 import { getEmptyImage, getLoadingImage } from '../../helpers/assets.helper';
 import { SettingsService } from '../settings.service';
@@ -38,23 +38,20 @@ export class PostsService {
   }
 
   add(data: PostData, id?: string) {
-    if (id) {
-      return this.edit(id, data);
-    } else {
-      const post: Post = {};
-      post[data.lang] = {
-        title: data.title,
-        slug: data.slug,
-        date: data.date,
-        image: null,
-        content: data.content,
-        status: data.status,
-        categories: data.categories,
-        createdAt: now(), // timestamp
-        updatedAt: null
-      };
-      return this.uploadImageAfter(this.db.addDocument('posts', post), post, data);
-    }
+    const post: Post = {};
+    post[data.lang] = {
+      title: data.title,
+      slug: data.slug,
+      date: data.date,
+      image: null,
+      content: data.content,
+      status: data.status,
+      categories: data.categories,
+      createdAt: now(), // timestamp
+      updatedAt: null
+    };
+    const addPromise: Promise<any> = id ? this.db.setDocument('posts', id, post) : this.db.addDocument('posts', post);
+    return this.uploadImageAfter(addPromise, post, data);
   }
 
   private uploadImageAfter(promise: Promise<any>, post: Post, data: PostData) {
@@ -131,7 +128,16 @@ export class PostsService {
     return this.uploadImageAfter(this.db.setDocument('posts', id, post), post, {...data, id: id});
   }
 
-  delete(id: string) {
+  async delete(id: string, lang?: string) {
+    if (lang) {
+      const post = await this.get(id).pipe(take(1)).toPromise();
+      if (post && post[lang]) {
+        delete post[lang];
+        if (Object.keys(post).length > 0) {
+          return this.db.setDocument('posts', id, post, false);
+        }
+      }
+    }
     return this.db.deleteDocument('posts', id);
   }
 
