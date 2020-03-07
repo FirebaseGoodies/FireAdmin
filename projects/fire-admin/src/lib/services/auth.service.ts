@@ -10,7 +10,7 @@ export class AuthService {
   lastError: firebase.FirebaseError = null;
 
   constructor(private afa: AngularFireAuth) {
-    this.afa.auth.onAuthStateChanged((user) => {
+    this.afa.auth.onAuthStateChanged((user: firebase.User) => {
       // console.log(user);
       this.currentUser = user;
     });
@@ -20,7 +20,7 @@ export class AuthService {
     return !!this.currentUser;
   }
 
-  private setLastError(error: firebase.FirebaseError) {
+  private setLastError(error: firebase.FirebaseError): void {
     this.lastError = error;
     console.error(`[${error.code}] ${error.message}`);
   }

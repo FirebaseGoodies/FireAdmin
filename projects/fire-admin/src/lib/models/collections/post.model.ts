@@ -5,7 +5,7 @@ export interface PostData {
   lang?: string,
   title: string,
   slug: string,
-  date: number,
+  date: number, // timestamp
   image?: File|string|Observable<string>,
   content: string,
   status: PostStatus,

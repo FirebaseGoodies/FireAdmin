@@ -42,8 +42,9 @@ import { StorageService } from './services/storage.service';
 import { PostsTranslateComponent } from './components/posts/translate/posts-translate.component';
 import { UsersListComponent } from './components/users/list/users-list.component';
 import { UsersAddComponent } from './components/users/add/users-add.component';
-import { UsersEditComponent } from './components/users/edit/users-edit.component';
-import { UsersRolesComponent } from './components/users/roles/users-roles.component';
+import { UsersProfileComponent } from './components/users/profile/users-profile.component';
+import { UsersService } from './services/collections/users.service';
+import { FirebaseUserService } from './services/firebase-user.service';
 
 @NgModule({
   declarations: [
@@ -69,8 +70,7 @@ import { UsersRolesComponent } from './components/users/roles/users-roles.compon
     PostsTranslateComponent,
     UsersListComponent,
     UsersAddComponent,
-    UsersEditComponent,
-    UsersRolesComponent
+    UsersProfileComponent
   ],
   imports: [
     CommonModule,
@@ -100,6 +100,8 @@ import { UsersRolesComponent } from './components/users/roles/users-roles.compon
     PostsService,
     EscapeUrlPipe,
     StorageService,
+    UsersService,
+    FirebaseUserService,
     // Set database config (for AngularFireModule)
     {
       provide: FirebaseOptionsToken,

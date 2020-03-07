@@ -1,3 +1,98 @@
 <fa-layout>
-  <p>users-add works!</p>
+  <!-- Page Header -->
+  <div class="page-header row no-gutters py-4">
+    <div class="col-12 text-center text-sm-left mb-0">
+      <span class="text-uppercase page-subtitle">{{ 'Users' | translate }}</span>
+      <h3 class="page-title">{{ 'AddNewUser' | translate }}</h3>
+    </div>
+  </div>
+  <!-- End Page Header -->
+  <div class="row">
+    <div class="col-12">
+      <!-- Add New Post Form -->
+      <div class="card card-small mb-3">
+        <div class="card-header border-bottom">
+          <h6 class="m-0">{{ 'NewUser' | translate }}</h6>
+        </div>
+        <div class="card-body">
+          <form class="add-new-user" #addUserForm>
+            <div class="form-row">
+              <div class="col-lg-8">
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label for="firstName">{{ 'FirstName' | translate }}</label>
+                    <input type="text" class="form-control" id="firstName" [(ngModel)]="firstName" name="firstName" [class.is-invalid]="addUserForm.isSubmitted && !firstNameInput.checkValidity()" required #firstNameInput>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="lastName">{{ 'LastName' | translate }}</label>
+                    <input type="text" class="form-control" id="lastName" [(ngModel)]="lastName" name="lastName" [class.is-invalid]="addUserForm.isSubmitted && !lastNameInput.checkValidity()" required #lastNameInput>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="emailAddress">{{ 'Email' | translate }}</label>
+                    <div class="input-group input-group-seamless">
+                      <div class="input-group-prepend">
+                        <div class="input-group-text">
+                          <i class="material-icons">&#xE0BE;</i>
+                        </div>
+                      </div>
+                      <input type="email" class="form-control" id="emailAddress" [(ngModel)]="email" name="email" [class.is-invalid]="addUserForm.isSubmitted && !emailInput.checkValidity()" required #emailInput>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="password">{{ 'Password' | translate }}</label>
+                    <div class="input-group input-group-seamless">
+                      <div class="input-group-prepend">
+                        <div class="input-group-text">
+                          <i class="material-icons">lock</i>
+                        </div>
+                      </div>
+                      <input type="password" class="form-control" id="password" [(ngModel)]="password" name="password" [class.is-invalid]="addUserForm.isSubmitted && !passwordInput.checkValidity()" minlength="6" required #passwordInput>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="birthDate">{{ 'BirthDate' | translate }}</label>
+                    <div class="input-group input-group-seamless">
+                      <div class="input-group-prepend">
+                        <div class="input-group-text">
+                          <i class="material-icons">calendar_today</i>
+                        </div>
+                      </div>
+                      <input type="date" class="form-control" id="birthDate" [(ngModel)]="birthDate" name="birthDate">
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="displayEmail">{{ 'Role' | translate }}</label>
+                    <select class="custom-select" [(ngModel)]="role" name="role">
+                      <option *ngFor="let role of allRoles | keyvalue; let i = index" [value]="role.key">{{ role.value | translate }}</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-4">
+                <label for="userProfilePicture" class="text-center w-100 mb-4">{{ 'ProfilePicture' | translate }}</label>
+                <div class="edit-user-details__avatar m-auto">
+                  <img [src]="avatarSrc" alt="User Avatar">
+                  <label class="edit-user-details__avatar__change">
+                    <i class="material-icons mr-1">&#xE439;</i>
+                    <input type="file" accept="image/*" id="userProfilePicture" class="d-none" (change)="onAvatarChange($event)" #userAvatar>
+                  </label>
+                </div>
+                <button class="btn btn-sm btn-white d-table mx-auto mt-4" (click)="userAvatar.click()"><i class="material-icons">&#xE2C3;</i> {{ 'UploadImage' | translate }}</button>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-8">
+                <label for="userBio">{{ 'Bio' | translate }}</label>
+                <textarea style="min-height: 87px;" id="userBio" [(ngModel)]="bio" name="userBio" class="form-control" placeholder="{{ 'BioPlaceholder' | translate }}"></textarea>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-accent" [disabled]="addButon.isDisabled" (click)="addUser($event, addUserForm)" #addButon>
+              {{ 'AddUser' | translate }} <i *ngIf="addButon.isLoading" class="fas fa-circle-notch fa-spin ml-1"></i>
+            </button>
+          </form>
+        </div>
+      </div>
+      <!-- / Add New Post Form -->
+    </div>
+  </div>
 </fa-layout>

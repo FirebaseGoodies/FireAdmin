@@ -19,6 +19,7 @@ export const en = {
   "Comments": "Comments",
   "Menus": "Menus",
   "Media": "Media",
+  "Users": "Users",
   // Navbar
   "AddPost": "Add post",
   "Settings": "Settings",
@@ -87,7 +88,24 @@ export const en = {
   "Edit": "Edit",
   "Delete": "Delete",
   "Save": "Save",
-  // Users
-  "Users": "Users",
-  "Roles": "Roles",
+  // Users: Add
+  "AddNewUser": "Add New User",
+  "AddUser": "Add User",
+  "NewUser": "New User",
+  "FirstName": "First Name",
+  "LastName": "Last Name",
+  "Email": "Email",
+  "BirthDate": "Birth Date",
+  "Role": "Role",
+  "Bio": "Bio",
+  "BioPlaceholder": "I'm a design focused engineer.",
+  "ProfilePicture": "Profile Picture",
+  "UploadImage": "Upload Image",
+  "UserAdded": "User successfully added!",
+  // Roles
+  "Administrator": "Administrator",
+  "Editor": "Editor",
+  "Author": "Author",
+  "Contributor": "Contributor",
+  "Guest": "Guest",
 };

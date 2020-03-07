@@ -3,7 +3,7 @@ import { AuthService } from '../../../services/auth.service';
 import { NavigationService } from '../../../services/navigation.service';
 import { AlertService } from '../../../services/alert.service';
 import { toggleSidebar } from '../../../helpers/layout.helper';
-import { getLogo, getAvatar } from '../../../helpers/assets.helper';
+import { getLogo, getDefaultAvatar } from '../../../helpers/assets.helper';
 
 @Component({
   selector: 'fa-navbar',
@@ -16,7 +16,7 @@ export class NavbarComponent implements OnInit {
   @Input() isCentered: boolean = false;
   @Input() showBrand: boolean = false;
   logo: string = getLogo();
-  avatar: string = getAvatar();
+  avatar: string = getDefaultAvatar();
 
   constructor(private auth: AuthService, public navigation: NavigationService, private alert: AlertService) { }
 

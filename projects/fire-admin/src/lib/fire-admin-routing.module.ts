@@ -16,8 +16,7 @@ import { SettingsComponent } from './components/settings/settings.component';
 import { PostsTranslateComponent } from './components/posts/translate/posts-translate.component';
 import { UsersListComponent } from './components/users/list/users-list.component';
 import { UsersAddComponent } from './components/users/add/users-add.component';
-import { UsersEditComponent } from './components/users/edit/users-edit.component';
-import { UsersRolesComponent } from './components/users/roles/users-roles.component';
+import { UsersProfileComponent } from './components/users/profile/users-profile.component';
 
 const routes: Routes = [
   {
@@ -118,12 +117,8 @@ const routes: Routes = [
             component: UsersAddComponent
           },
           {
-            path: 'edit/:id',
-            component: UsersEditComponent
-          },
-          {
-            path: 'roles',
-            component: UsersRolesComponent
+            path: 'profile/:id',
+            component: UsersProfileComponent
           },
           {
             path: '**',
