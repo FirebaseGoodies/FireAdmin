@@ -12,7 +12,12 @@ import { Language } from '../../models/language.model';
 @Injectable()
 export class PostsService {
 
-  private allStatus: { [key: string]: string } = {};
+  private allStatus: object = {};
+  private statusColors: object = {
+    draft: 'warning',
+    published: 'success',
+    trash: 'danger'
+  };
 
   constructor(private db: DatabaseService, private storage: StorageService, private settings: SettingsService) {
     Object.keys(PostStatus).forEach((key: string) => {
@@ -22,6 +27,10 @@ export class PostsService {
 
   getAllStatus() {
     return this.allStatus;
+  }
+
+  getAllStatusWithColors() {
+    return { labels: this.allStatus, colors: this.statusColors };
   }
 
   getStatus(statusKey: string) {

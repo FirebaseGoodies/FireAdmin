@@ -15,7 +15,12 @@ export class SettingsComponent implements OnInit {
   i18nLanguage: string;
   i18nKey: string;
 
-  constructor(public settings: SettingsService, public navigation: NavigationService, private i18n: I18nService, private alert: AlertService) { }
+  constructor(
+    public settings: SettingsService,
+    public navigation: NavigationService,
+    private i18n: I18nService,
+    private alert: AlertService
+  ) { }
 
   ngOnInit() {
   }

@@ -25,17 +25,15 @@ export class PostsListComponent implements OnInit, OnDestroy {
   };
   dataTableTrigger: Subject<void> = new Subject();
   private subscription: Subscription = new Subscription();
-  allStatus: object = {
-    colors: {
-      draft: 'warning',
-      published: 'success',
-      trash: 'danger'
-    },
-    labels: {}
-  };
+  allStatus: { labels: object, colors: object };
 
-  constructor(private posts: PostsService, private alert: AlertService, public navigation: NavigationService, private i18n: I18nService) {
-    this.allStatus['labels'] = this.posts.getAllStatus();
+  constructor(
+    private posts: PostsService,
+    private alert: AlertService,
+    private i18n: I18nService,
+    public navigation: NavigationService
+  ) {
+    this.allStatus = this.posts.getAllStatusWithColors();
   }
 
   ngOnInit() {
