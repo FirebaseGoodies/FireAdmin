@@ -70,6 +70,10 @@ const routes: Routes = [
             component: PostsListComponent
           },
           {
+            path: 'list/status/:status',
+            component: PostsListComponent
+          },
+          {
             path: 'list/category/:categoryId',
             component: PostsListComponent
           },

@@ -36,7 +36,9 @@
                 </td>
                 <td>{{ post.date | date:'dd MMMM yyyy' }}</td>
                 <td>
-                  <span class="badge badge-pill badge-{{ allStatus.colors[post.status] || 'primary' }}">{{ allStatus.labels[post.status] | translate }}</span>
+                  <a [routerLink]="navigation.getRouterLink('posts', 'list', 'status', post.status)">
+                    <span class="badge badge-pill badge-{{ allStatus.colors[post.status] || 'primary' }}">{{ allStatus.labels[post.status] | translate }}</span>
+                  </a>
                 </td>
                 <td>{{ post.lang }}</td>
                 <td>

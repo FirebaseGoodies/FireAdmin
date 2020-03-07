@@ -30,7 +30,7 @@ export class PostsListComponent implements OnInit, OnDestroy {
   private subscription: Subscription = new Subscription();
   allStatus: { labels: object, colors: object };
   allCategories: Category[] = [];
-  private categoryChange: Subject<void> = new Subject<void>();
+  private routeParamsChange: Subject<void> = new Subject<void>();
 
   constructor(
     private posts: PostsService,
@@ -58,18 +58,22 @@ export class PostsListComponent implements OnInit, OnDestroy {
     // console.log(this.allCategories);
     // Get route params
     this.subscription.add(
-      this.route.params.subscribe((params: { categoryId: string }) => {
-        const categoryId = params.categoryId;
-        this.categoryChange.next();
+      this.route.params.subscribe((params: { status: string, categoryId: string }) => {
+        this.routeParamsChange.next();
         // Get all posts
         this.allPosts = this.posts.getAll().pipe(
           map((posts: PostData[]) => {
-            if (categoryId) {
-              posts = posts.filter((post: PostData) => post.categories.indexOf(categoryId) !== -1);
+            // Filter by status
+            if (params.status) {
+              posts = posts.filter((post: PostData) => post.status === params.status);
+            }
+            // Filter by category
+            else if (params.categoryId) {
+              posts = posts.filter((post: PostData) => post.categories.indexOf(params.categoryId) !== -1);
             }
             return posts.sort((a: PostData, b: PostData) => b.createdAt - a.createdAt);
           }),
-          takeUntil(this.categoryChange)
+          takeUntil(this.routeParamsChange)
         );
         this.subscription.add(
           this.allPosts.subscribe((posts: PostData[]) => {
