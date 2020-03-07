@@ -42,21 +42,21 @@
       </a>
     </li>
     <li class="nav-item dropdown">
-      <a class="nav-link dropdown-toggle" [class.active]="isActive('pages', 'list') || isActive('pages', 'add')" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="true">
+      <a class="nav-link dropdown-toggle" [class.active]="isActive(['pages', 'list'], ['pages', 'add'])" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="true">
         <i class="material-icons">insert_drive_file</i>
         <span>{{ 'Pages' | translate }}</span>
       </a>
-      <div class="dropdown-menu dropdown-menu-small" [class.show]="style === 'expanded' && (isActive('pages', 'list') || isActive('pages', 'add'))">
+      <div class="dropdown-menu dropdown-menu-small" [class.show]="style === 'expanded' && isActive(['pages', 'list'], ['pages', 'add'])">
         <a class="dropdown-item " [routerLink]="navigation.getRouterLink('pages', 'list')" routerLinkActive="active">{{ 'List' | translate }}</a>
         <a class="dropdown-item " [routerLink]="navigation.getRouterLink('pages', 'add')" routerLinkActive="active">{{ 'Add' | translate }}</a>
       </div>
     </li>
     <li class="nav-item dropdown">
-      <a class="nav-link dropdown-toggle" [class.active]="isActive('posts', 'list') || isActive('posts', 'add')" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="true">
+      <a class="nav-link dropdown-toggle" [class.active]="isActive(['posts', 'list'], ['posts', 'add'], ['posts', 'edit'], ['posts', 'categories'])" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="true">
         <i class="material-icons">description</i>
         <span>{{ 'Posts' | translate }}</span>
       </a>
-      <div class="dropdown-menu dropdown-menu-small" [class.show]="style === 'expanded' && (isActive('posts', 'list') || isActive('posts', 'add') || isActive('posts', 'categories'))">
+      <div class="dropdown-menu dropdown-menu-small" [class.show]="style === 'expanded' && isActive(['posts', 'list'], ['posts', 'add'], ['posts', 'edit'], ['posts', 'categories'])">
         <a class="dropdown-item " [routerLink]="navigation.getRouterLink('posts', 'list')" routerLinkActive="active">{{ 'List' | translate }}</a>
         <a class="dropdown-item " [routerLink]="navigation.getRouterLink('posts', 'add')" routerLinkActive="active">{{ 'Add' | translate }}</a>
         <a class="dropdown-item " [routerLink]="navigation.getRouterLink('posts', 'categories')" routerLinkActive="active">{{ 'Categories' | translate }}</a>

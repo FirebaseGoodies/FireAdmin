@@ -22,10 +22,20 @@ export class SidebarComponent implements OnInit, AfterViewInit {
     initDropdown();
   }
 
-  isActive(...path: string[]) {
+  private isRouteActive(...path: string[]) {
     const link = this.navigation.getRouterLink(...path).join('/');
     //console.log(link);
-    return this.navigation.router.isActive(link, true);
+    return this.navigation.router.isActive(link, false);
+  }
+
+  isActive(...routes: []) {
+    let isActive = false;
+    routes.forEach((path: string[]) => {
+      if (this.isRouteActive(...path)) {
+        isActive = true;
+      }
+    });
+    return isActive;
   }
 
   toggle() {
