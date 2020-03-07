@@ -4,8 +4,8 @@ import { I18nService } from '../../../services/i18n.service';
 import { slugify } from '../../../helpers/functions.helper';
 import { CategoriesService } from '../../../services/collections/categories.service';
 import { Category } from '../../../models/collections/category.model';
-import { Observable, Subscription, Subject } from 'rxjs';
-import { map, take, takeUntil } from 'rxjs/operators';
+import { Observable, Subscription } from 'rxjs';
+import { map, take } from 'rxjs/operators';
 import { AlertService } from '../../../services/alert.service';
 import { PostsService } from '../../../services/collections/posts.service';
 import { NavigationService } from '../../../services/navigation.service';
@@ -34,7 +34,6 @@ export class PostsEditComponent implements OnInit, AfterViewInit, OnDestroy {
   newCategory: string;
   isSubmitButtonDisabled: boolean = false;
   allStatus: object = {};
-  private languageChange: Subject<void> = new Subject<void>();
   private subscription: Subscription = new Subscription();
 
   constructor(
@@ -70,7 +69,6 @@ export class PostsEditComponent implements OnInit, AfterViewInit, OnDestroy {
               });
             }
             this.checkedCategories = post[params.lang].categories ? post[params.lang].categories : [];
-            this.languageChange.next();
             this.setCategoriesObservable();
             this.isSubmitButtonDisabled = false;
           } else {
@@ -90,12 +88,9 @@ export class PostsEditComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private setCategoriesObservable() {
-    this.categoriesObservable = this.categories.getWhere('lang', '==', this.language).pipe(
-      map((categories: Category[]) => {
-        return categories.sort((a: Category, b: Category) => b.createdAt - a.createdAt);
-      }),
-      takeUntil(this.languageChange)
-    );
+    this.categoriesObservable = this.categories.getWhere('lang', '==', this.language).pipe(map((categories: Category[]) => {
+      return categories.sort((a: Category, b: Category) => b.createdAt - a.createdAt);
+    }));
   }
 
   onTitleInput() {
