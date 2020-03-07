@@ -4940,6 +4940,7 @@ label {
   color: #007bff;
   background-color: transparent;
   box-shadow: none;
+  cursor: not-allowed;
 }
 .btn-outline-accent:not(:disabled):not(.disabled).active,
 .btn-outline-accent:not(:disabled):not(.disabled):active,

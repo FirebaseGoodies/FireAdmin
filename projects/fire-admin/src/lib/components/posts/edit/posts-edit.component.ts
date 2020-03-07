@@ -73,6 +73,8 @@ export class PostsEditComponent implements OnInit, AfterViewInit, OnDestroy {
             this.languageChange.next();
             this.setCategoriesObservable();
             this.isSubmitButtonDisabled = false;
+          } else {
+            this.navigation.redirectTo('posts', 'list');
           }
         });
       })
