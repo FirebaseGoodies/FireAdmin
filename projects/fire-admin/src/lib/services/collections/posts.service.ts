@@ -18,6 +18,7 @@ export class PostsService {
     published: 'success',
     trash: 'danger'
   };
+  private imagesCache: object = {};
 
   constructor(private db: DatabaseService, private storage: StorageService, private settings: SettingsService) {
     Object.keys(PostStatus).forEach((key: string) => {
@@ -84,7 +85,14 @@ export class PostsService {
   }
 
   getImageUrl(imagePath: string) {
-    return this.storage.get(imagePath).getDownloadURL();
+    if (this.imagesCache[imagePath]) {
+      return of(this.imagesCache[imagePath]);
+    } else {
+      return this.storage.get(imagePath).getDownloadURL().pipe(map((imageUrl: string) => {
+        this.imagesCache[imagePath] = imageUrl;
+        return imageUrl;
+      }));
+    }
   }
 
   getAll() {
