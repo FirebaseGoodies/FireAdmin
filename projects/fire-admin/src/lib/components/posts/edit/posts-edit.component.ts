@@ -32,7 +32,7 @@ export class PostsEditComponent implements OnInit, AfterViewInit, OnDestroy {
   checkedCategories: string[] = [];
   categoriesObservable: Observable<Category[]>;
   newCategory: string;
-  isSubmitButtonDisabled: boolean = false;
+  isSubmitButtonsDisabled: boolean = false;
   allStatus: object = {};
   private subscription: Subscription = new Subscription();
   private routeParamsChange: Subject<void> = new Subject<void>();
@@ -42,13 +42,13 @@ export class PostsEditComponent implements OnInit, AfterViewInit, OnDestroy {
     private categories: CategoriesService,
     private alert: AlertService,
     private posts: PostsService,
-    private navigation: NavigationService,
+    public navigation: NavigationService,
     private route: ActivatedRoute
   ) { }
 
   ngOnInit() {
     this.allStatus = this.posts.getAllStatus();
-    this.isSubmitButtonDisabled = true;
+    this.isSubmitButtonsDisabled = true;
     this.subscription.add(
       this.route.params.subscribe((params: { id: string, lang: string }) => {
         // console.log(params);
@@ -72,7 +72,7 @@ export class PostsEditComponent implements OnInit, AfterViewInit, OnDestroy {
             this.checkedCategories = post[params.lang].categories ? post[params.lang].categories : [];
             this.routeParamsChange.next();
             this.setCategoriesObservable();
-            this.isSubmitButtonDisabled = false;
+            this.isSubmitButtonsDisabled = false;
           } else {
             this.navigation.redirectTo('posts', 'list');
           }
@@ -140,11 +140,11 @@ export class PostsEditComponent implements OnInit, AfterViewInit, OnDestroy {
     const target = event.target as any;
     const startLoading = () => {
       target.isLoading = true;
-      this.isSubmitButtonDisabled = true;
+      this.isSubmitButtonsDisabled = true;
     };
     const stopLoading = () => {
       target.isLoading = false;
-      this.isSubmitButtonDisabled = false;
+      this.isSubmitButtonsDisabled = false;
     };
     startLoading();
     // Check if post slug is duplicated
