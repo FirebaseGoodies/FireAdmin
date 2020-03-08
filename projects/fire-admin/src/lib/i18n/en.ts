@@ -45,7 +45,7 @@ export const en = {
   "PostSlugAlreadyExists": "Post slug already exists! Choose another one.",
   // Posts: List
   "PostCreatedAt": "Creation date",
-  "PostUpdatedAt": "Modification date",
+  "PostUpdatedAt": "Last Modification date",
   "Translate": "Translate",
   "DeletePost": "Delete Post",
   "ConfirmDeletePost": "Please confirm deleting post <b>${title}</b> ?",
@@ -110,6 +110,8 @@ export const en = {
   "UserUpdated": "User successfully updated!",
   // Users: Profile
   "UserProfile": "User Profile",
+  "LatestPosts": "Latest Posts",
+  "ViewAll": "View All",
   // Roles
   "Administrator": "Administrator",
   "Editor": "Editor",

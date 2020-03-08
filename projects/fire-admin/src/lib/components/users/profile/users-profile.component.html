@@ -7,4 +7,138 @@
     </div>
   </div>
   <!-- End Page Header -->
+  <div class="row">
+    <div class="col-sm-12 col-lg-4">
+      <!-- User Details Card -->
+      <div class="card card-small mb-4 pt-3">
+        <div class="card-body p-0">
+          <div class="user-details__avatar mx-auto">
+            <img [src]="user?.avatar | async | escapeUrl" alt="User Avatar">
+          </div>
+          <h4 class="text-center m-0 mt-2">{{ (user?.firstName || '') + ' ' + (user?.lastName || '') }}</h4>
+          <p class="text-center text-light m-0 mb-2">{{ allRoles[user?.role] || '' }}</p>
+          <ul class="user-details__social user-details__social--primary d-table mx-auto mb-4">
+            <li class="mx-1">
+              <a [routerLink]="navigation.getRouterLink('users', 'edit', user?.id || '')" title="{{ 'EditUser' | translate }}"><i class="far fa-edit"></i></a>
+            </li>
+          </ul>
+          <div class="user-details__user-data border-top p-4">
+            <div class="row mb-3">
+              <div class="col w-50">
+                <span>{{ 'FirstName' | translate }}</span>
+                <span>{{ user?.firstName || '' }}</span>
+              </div>
+              <div class="col w-50">
+                <span>{{ 'LastName' | translate }}</span>
+                <span>{{ user?.lastName || '' }}</span>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col w-50">
+                <span>{{ 'Email' | translate }}</span>
+                <span>{{ user?.email || '' }}</span>
+              </div>
+              <div class="col w-50">
+                <span>{{ 'BirthDate' | translate }}</span>
+                <span>{{ (user?.birthDate | date:'dd MMMM yyyy') || '' }}</span>
+              </div>
+            </div>
+          </div>
+          <div class="user-details__tags border-top p-4" *ngIf="user?.bio">{{ user.bio }}</div>
+        </div>
+      </div>
+      <!-- End User Details Card -->
+    </div>
+    <div class="col-lg-8">
+      <!-- User Statistics -->
+      <div class="card card-small user-stats mb-4">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-6 col-sm-3 text-center">
+              <h4 class="m-0">10</h4>
+              <span class="text-light text-uppercase">{{ 'Posts' | translate }}</span>
+            </div>
+            <div class="col-6 col-sm-3 text-center">
+              <h4 class="m-0">80%</h4>
+              <span class="text-light text-uppercase">{{ 'Published' | translate }}</span>
+            </div>
+            <div class="col-6 col-sm-3 text-center">
+              <h4 class="m-0">4</h4>
+              <span class="text-light text-uppercase">{{ 'Pages' | translate }}</span>
+            </div>
+            <div class="col-6 col-sm-3 text-center">
+              <h4 class="m-0">3</h4>
+              <span class="text-light text-uppercase">{{ 'Translations' | translate }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- End User Statistics -->
+      <!-- Latest Posts -->
+      <div class="card card-small lo-stats mb-4">
+        <div class="card-header border-bottom">
+          <h6 class="m-0">{{ 'LatestPosts' | translate }}</h6>
+          <div class="block-handle"></div>
+        </div>
+        <div class="card-body p-0">
+          <table class="table mb-0">
+            <thead class="py-2 bg-light text-semibold border-bottom">
+              <tr>
+                <th class="text-left" colspan="2">{{ 'PostTitle' | translate }}</th>
+                <th class="text-center">{{ 'PostDate' | translate }}</th>
+                <th class="text-center">{{ 'PostStatus' | translate }}</th>
+                <th class="text-center">{{ 'Categories' | translate }}</th>
+                <th class="text-right">{{ 'Actions' | translate }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let post of latestPosts | async">
+                <td class="lo-stats__image">
+                  <img class="border rounded" [src]="post.image | async | escapeUrl">
+                </td>
+                <td class="lo-stats__order-details">
+                  <span>{{ post.title }}</span>
+                  <span>{{ post.slug }}</span>
+                </td>
+                <td class="text-center">{{ post.date | date:'dd MMMM yyyy' }}</td>
+                <td class="text-center">
+                  <span class="badge badge-pill badge-{{ allPostsStatus.colors[post.status] || 'primary' }}">{{ allPostsStatus.labels[post.status] | translate }}</span>
+                </td>
+                <td class="text-center text-primary">
+                  <ng-container *ngFor="let categoryId of post.categories; let i = index">
+                    <i *ngIf="i > 0">, </i>
+                    <a [routerLink]="navigation.getRouterLink('posts', 'list', 'category', categoryId)">{{ allPostsCategories[categoryId]?.label }}</a>
+                  </ng-container>
+                </td>
+                <td class="text-right">
+                  <div class="btn-group btn-group-sm" role="group" aria-label="Table row actions">
+                    <button *ngIf="post.isTranslatable" type="button" class="btn btn-white active-light" title="{{ 'Translate' | translate }}" [routerLink]="navigation.getRouterLink('posts', 'translate', post.id, post.lang)">
+                      <i class="material-icons">translate</i>
+                    </button>
+                    <button type="button" class="btn btn-white active-light" title="{{ 'Edit' | translate }}" [routerLink]="navigation.getRouterLink('posts', 'edit', post.id, post.lang)">
+                      <i class="material-icons">edit</i>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="card-footer border-top">
+          <div class="row">
+            <div class="col">
+              <select class="custom-select custom-select-sm w-auto" style="min-width: 130px" [(ngModel)]="postsLanguage" name="postsLanguage" (change)="onPostsLanguageChange()">
+                <option value="" disabled>{{ 'PostLanguage' | translate }}</option>
+                <option *ngFor="let lang of languages" [value]="lang.key">{{ lang.label | translate }}</option>
+              </select>
+            </div>
+            <div class="col text-right view-report">
+              <a [routerLink]="navigation.getRouterLink('posts', 'list', 'author', user?.id || '')">{{ 'ViewAll' | translate }} &rarr;</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- End Latest Posts -->
+    </div>
+  </div>
 </fa-layout>

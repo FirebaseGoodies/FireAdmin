@@ -15,7 +15,7 @@ import { NavigationService } from '../../../services/navigation.service';
 })
 export class UsersEditComponent implements OnInit, OnDestroy {
 
-  private id: string;
+  id: string;
   firstName: string;
   lastName: string;
   email: string;
@@ -34,13 +34,13 @@ export class UsersEditComponent implements OnInit, OnDestroy {
     private i18n: I18nService,
     private alert: AlertService,
     private route: ActivatedRoute,
-    private navigation: NavigationService
+    public navigation: NavigationService
   ) { }
 
   ngOnInit() {
     this.allRoles = this.users.getAllRoles();
     this.subscription.add(
-      this.route.params.subscribe((params: { id: string, lang: string }) => {
+      this.route.params.subscribe((params: { id: string }) => {
         // console.log(params);
         this.users.get(params.id).pipe(take(1)).toPromise().then((user: User) => {
           // console.log(user);
