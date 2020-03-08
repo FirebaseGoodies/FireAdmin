@@ -62,10 +62,16 @@ export class PostsService {
       createdBy: this.auth.currentUser.id,
       updatedBy: null
     };
-    if (id && data.image && !isFile(data.image)) {
-      post[data.lang].image = data.image;
+    let addPromise: Promise<any>;
+    if (id) {
+      data.id = id; // mandatory for image upload
+      if (data.image && !isFile(data.image)) {
+        post[data.lang].image = data.image;
+      }
+      addPromise = this.db.setDocument('posts', id, post);
+    } else {
+      addPromise = this.db.addDocument('posts', post);
     }
-    const addPromise: Promise<any> = id ? this.db.setDocument('posts', id, post) : this.db.addDocument('posts', post);
     return this.uploadImageAfter(addPromise, post, data);
   }
 
@@ -90,6 +96,9 @@ export class PostsService {
         } else {
           resolve();
         }
+      }).catch((error: Error) => {
+        // console.error(error);
+        reject(error);
       });
     });
   }
@@ -162,17 +171,62 @@ export class PostsService {
     return this.uploadImageAfter(this.db.setDocument('posts', id, post), post, {...data, id: id});
   }
 
-  async delete(id: string, lang?: string) {
-    if (lang) {
-      const post = await this.get(id).pipe(take(1)).toPromise();
-      if (post && post[lang]) {
-        delete post[lang];
-        if (Object.keys(post).length > 0) {
-          return this.db.setDocument('posts', id, post, false);
+  private deleteImagesAfter(promise: Promise<any>, ...imagesPath: string[]) {
+    return new Promise((resolve, reject) => {
+      promise.then(() => {
+        // console.log(imagesPath);
+        if (imagesPath.length) {
+          const promises: Promise<void>[] = [];
+          imagesPath.forEach((path: string) => {
+            if (path) {
+              promises.push(this.storage.delete(path).toPromise());
+            }
+          });
+          if (promises.length) { // Promise.all([]) should work fine, but let's play it safe
+            Promise.all(promises).then(() => {
+              resolve();
+            }).catch((error: Error) => {
+              // console.error(error);
+              reject(error);
+            });
+          } else {
+            resolve();
+          }
+        } else {
+          resolve();
         }
+      }).catch((error: Error) => {
+        // console.error(error);
+        reject(error);
+      });
+    });
+  }
+
+  async delete(id: string, lang?: string) {
+    const post: Post = await this.get(id).pipe(take(1)).toPromise();
+    // Delete single post translation (if translations length > 1)
+    if (lang && post && Object.keys(post).length > 1 && post[lang]) {
+      // Prepare post translation delete
+      let imagePath = post[lang].image as string;
+      delete post[lang];
+      // Prepare post image delete
+      if (imagePath) {
+        Object.keys(post).forEach((lang: string) => { // check the rest of post translations (lang key has been already deleted)
+          if (post[lang].image && post[lang].image === imagePath) {
+            imagePath = null; // do not delete image since it's used in another post translation
+          }
+        });
       }
+      return this.deleteImagesAfter(this.db.setDocument('posts', id, post, false), imagePath);
     }
-    return this.db.deleteDocument('posts', id);
+    // Delete full post document
+    const imagesPath = [];
+    Object.keys(post).forEach((lang: string) => {
+      if (post[lang].image && imagesPath.indexOf(post[lang].image) === -1) {
+        imagesPath.push(post[lang].image);
+      }
+    });
+    return this.deleteImagesAfter(this.db.deleteDocument('posts', id), ...imagesPath);
   }
 
   setStatus(id: string, lang: string, status: PostStatus) {

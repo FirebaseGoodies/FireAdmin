@@ -85,6 +85,9 @@ export class UsersService {
         } else {
           resolve();
         }
+      }).catch((error: Error) => {
+        // console.error(error);
+        reject(error);
       });
     });
   }
@@ -181,11 +184,31 @@ export class UsersService {
     });
   }
 
-  delete(id: string, email: string, password: string) {
+  private deleteImage(imagePath: string) {
     return new Promise((resolve, reject) => {
-      this.firebaseUser.delete(email, password).then(() => {
-        this.db.deleteDocument('users', id).then(() => {
+      if (imagePath) {
+        this.storage.delete(imagePath).toPromise().then(() => {
           resolve();
+        }).catch((error: Error) => {
+          // console.error(error);
+          reject(error);
+        });
+      } else {
+        resolve();
+      }
+    });
+  }
+
+  delete(id: string, data: { email: string, password: string, avatar: string }) {
+    return new Promise((resolve, reject) => {
+      this.firebaseUser.delete(data.email, data.password).then(() => {
+        this.db.deleteDocument('users', id).then(() => {
+          this.deleteImage(data.avatar).then(() => {
+            resolve();
+          }).catch((error: Error) => {
+            // console.error(error);
+            reject(error);
+          });
         }).catch((error: Error) => {
           // console.error(error);
           reject(error);
