@@ -31,6 +31,7 @@ export class PostsListComponent implements OnInit, OnDestroy {
   allStatus: { labels: object, colors: object };
   allCategories: Category[] = [];
   private routeParamsChange: Subject<void> = new Subject<void>();
+  isLoading: boolean = true;
 
   constructor(
     private posts: PostsService,
@@ -60,6 +61,7 @@ export class PostsListComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.route.params.subscribe((params: { status: string, categoryId: string }) => {
         this.routeParamsChange.next();
+        this.isLoading = true;
         // Get all posts
         this.allPosts = this.posts.getAll().pipe(
           map((posts: PostData[]) => {
@@ -80,6 +82,7 @@ export class PostsListComponent implements OnInit, OnDestroy {
             // console.log(posts);
             // Refresh datatable on data change
             refreshDataTable(this.dataTableElement, this.dataTableTrigger);
+            this.isLoading = false;
           })
         );
       })

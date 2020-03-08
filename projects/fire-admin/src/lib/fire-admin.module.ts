@@ -46,6 +46,7 @@ import { UsersProfileComponent } from './components/users/profile/users-profile.
 import { UsersService } from './services/collections/users.service';
 import { FirebaseUserService } from './services/firebase-user.service';
 import { UsersEditComponent } from './components/users/edit/users-edit.component';
+import { LoadingIndicatorComponent } from './components/shared/loading-indicator/loading-indicator.component';
 
 @NgModule({
   declarations: [
@@ -72,7 +73,8 @@ import { UsersEditComponent } from './components/users/edit/users-edit.component
     UsersListComponent,
     UsersAddComponent,
     UsersProfileComponent,
-    UsersEditComponent
+    UsersEditComponent,
+    LoadingIndicatorComponent
   ],
   imports: [
     CommonModule,
