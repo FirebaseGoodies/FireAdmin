@@ -1,3 +1,7 @@
+.edit-user-details__avatar {
+  box-shadow: none;
+}
+
 .edit-user-details__avatar img {
   height: 120px;
 }

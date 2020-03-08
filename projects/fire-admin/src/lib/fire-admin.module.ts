@@ -45,6 +45,7 @@ import { UsersAddComponent } from './components/users/add/users-add.component';
 import { UsersProfileComponent } from './components/users/profile/users-profile.component';
 import { UsersService } from './services/collections/users.service';
 import { FirebaseUserService } from './services/firebase-user.service';
+import { UsersEditComponent } from './components/users/edit/users-edit.component';
 
 @NgModule({
   declarations: [
@@ -70,7 +71,8 @@ import { FirebaseUserService } from './services/firebase-user.service';
     PostsTranslateComponent,
     UsersListComponent,
     UsersAddComponent,
-    UsersProfileComponent
+    UsersProfileComponent,
+    UsersEditComponent
   ],
   imports: [
     CommonModule,

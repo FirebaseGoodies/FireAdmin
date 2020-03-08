@@ -71,7 +71,7 @@
               <div class="col-lg-4">
                 <label for="userProfilePicture" class="text-center w-100 mb-4">{{ 'ProfilePicture' | translate }}</label>
                 <div class="edit-user-details__avatar m-auto">
-                  <img [src]="avatarSrc" alt="User Avatar">
+                  <img [src]="avatarSrc | escapeUrl" alt="User Avatar">
                   <label class="edit-user-details__avatar__change">
                     <i class="material-icons mr-1">&#xE439;</i>
                     <input type="file" accept="image/*" id="userProfilePicture" class="d-none" (change)="onAvatarChange($event)" #userAvatar>

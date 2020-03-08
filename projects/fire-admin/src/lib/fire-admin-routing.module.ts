@@ -17,6 +17,7 @@ import { PostsTranslateComponent } from './components/posts/translate/posts-tran
 import { UsersListComponent } from './components/users/list/users-list.component';
 import { UsersAddComponent } from './components/users/add/users-add.component';
 import { UsersProfileComponent } from './components/users/profile/users-profile.component';
+import { UsersEditComponent } from './components/users/edit/users-edit.component';
 
 const routes: Routes = [
   {
@@ -115,6 +116,10 @@ const routes: Routes = [
           {
             path: 'add',
             component: UsersAddComponent
+          },
+          {
+            path: 'edit/:id',
+            component: UsersEditComponent
           },
           {
             path: 'profile/:id',

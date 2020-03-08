@@ -103,6 +103,13 @@ export const en = {
   "ProfilePicture": "Profile Picture",
   "UploadImage": "Upload Image",
   "UserAdded": "User successfully added!",
+  // Users: Edit
+  "EditUser": "Edit User",
+  "UserDetails": "User Details",
+  "UpdateUser": "Update User",
+  "UserUpdated": "User successfully updated!",
+  // Users: Profile
+  "UserProfile": "User Profile",
   // Roles
   "Administrator": "Administrator",
   "Editor": "Editor",
