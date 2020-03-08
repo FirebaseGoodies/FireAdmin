@@ -36,8 +36,14 @@ export class AlertService {
         case 'primary':
           this.icon = 'info';
           break;
+        case 'success':
+          this.icon = 'check';
+          break;
         case 'warning':
           this.icon = 'exclamation';
+          break;
+        case 'danger':
+          this.icon = 'ban';
           break;
         default:
           this.icon = null;
