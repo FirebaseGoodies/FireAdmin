@@ -11,7 +11,8 @@
     <ul class="navbar-nav border-left flex-row ml-auto" [class.border-right]="isCentered">
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle text-nowrap px-3" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-          <img class="user-avatar rounded-circle mr-2" [src]="avatar | escapeUrl" alt="User Avatar"> <span class="d-none d-md-inline-block">{{ getUserName() }}</span>
+          <img class="user-avatar rounded-circle mr-2" [src]="((auth.currentUser?.avatar | async) || defaultAvatar) | escapeUrl" alt="User Avatar">
+          <span class="d-none d-md-inline-block align-middle">{{ getUserName() }}</span>
         </a>
         <div class="dropdown-menu dropdown-menu-small">
           <a class="dropdown-item" [routerLink]="navigation.getRouterLink('posts', 'add')"><i class="material-icons">note_add</i> {{ 'AddPost' | translate }}</a>

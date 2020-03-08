@@ -34,6 +34,7 @@ export class UsersAddComponent implements OnInit {
   ngOnInit() {
     this.allRoles = this.users.getAllRoles();
     this.role = Object.keys(this.allRoles)[0] as UserRole;
+    this.avatar = null;
     this.avatarSrc = getDefaultAvatar();
     this.bio = null;
   }
@@ -66,7 +67,7 @@ export class UsersAddComponent implements OnInit {
         lastName: this.lastName,
         email: this.email,
         password: this.password,
-        birthDate: new Date(this.birthDate).getTime(),
+        birthDate: this.birthDate ? new Date(this.birthDate).getTime() : null,
         role: this.role,
         bio: this.bio,
         avatar: this.avatar

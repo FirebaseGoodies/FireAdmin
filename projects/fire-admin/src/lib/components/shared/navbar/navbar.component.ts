@@ -16,15 +16,17 @@ export class NavbarComponent implements OnInit {
   @Input() isCentered: boolean = false;
   @Input() showBrand: boolean = false;
   logo: string = getLogo();
-  avatar: string = getDefaultAvatar();
+  defaultAvatar = getDefaultAvatar();
 
-  constructor(private auth: AuthService, public navigation: NavigationService, private alert: AlertService) { }
+  constructor(public auth: AuthService, public navigation: NavigationService, private alert: AlertService) { }
 
   ngOnInit() {
   }
 
   getUserName(): string {
-    return this.auth.currentUser ? this.auth.currentUser.providerData[0].displayName || this.auth.currentUser.providerData[0].email : 'unknown';
+    return this.auth.currentUser ? `${this.auth.currentUser.firstName} ${this.auth.currentUser.lastName}` : (
+      this.auth.firebaseUser ? this.auth.firebaseUser.providerData[0].displayName || this.auth.firebaseUser.providerData[0].email : 'unknown'
+    );
   }
 
   signOut(event: Event): void {

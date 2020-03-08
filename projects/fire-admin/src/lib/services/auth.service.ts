@@ -1,23 +1,47 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { first } from 'rxjs/operators';
+import { first, map, takeUntil } from 'rxjs/operators';
 import { auth } from 'firebase/app';
+import { User } from '../models/collections/user.model';
+import { UsersService } from './collections/users.service';
+import { Subject, Subscription } from 'rxjs';
 
 @Injectable()
 export class AuthService {
 
-  currentUser: firebase.User = null;
+  currentUser: User = null;
+  firebaseUser: firebase.User = null;
   lastError: firebase.FirebaseError = null;
+  private userChange: Subject<void> = new Subject<void>();
+  private subscription: Subscription = new Subscription();
 
-  constructor(private afa: AngularFireAuth) {
+  constructor(private afa: AngularFireAuth, private users: UsersService) {
     this.afa.auth.onAuthStateChanged((user: firebase.User) => {
       // console.log(user);
-      this.currentUser = user;
+      this.firebaseUser = user;
+      if (user) {
+        this.userChange.next();
+        this.subscription.add(
+          this.users.getWhere('uid', '==', user.uid).pipe(
+            map((users: User[]) => users[0] || null),
+            takeUntil(this.userChange)
+          ).subscribe((user: User) => {
+            if (user) {
+              user.avatar = this.users.getAvatarUrl(user.avatar as string);
+            }
+            this.currentUser = user;
+          })
+        );
+      }
     });
   }
 
+  unsubscribe() {
+    this.subscription.unsubscribe();
+  }
+
   private _isSignedIn(): boolean {
-    return !!this.currentUser;
+    return !!this.firebaseUser;
   }
 
   private setLastError(error: firebase.FirebaseError): void {

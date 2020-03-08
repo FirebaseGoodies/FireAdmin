@@ -1,5 +1,6 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, OnDestroy } from '@angular/core';
 import { AlertService } from './services/alert.service';
+import { AuthService } from './services/auth.service';
 
 @Component({
   selector: 'fa-root',
@@ -7,11 +8,15 @@ import { AlertService } from './services/alert.service';
   styleUrls: ['./fire-admin.component.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class FireAdminComponent implements OnInit {
+export class FireAdminComponent implements OnInit, OnDestroy {
 
-  constructor(private alert: AlertService) { }
+  constructor(private alert: AlertService, private auth: AuthService) { }
 
   ngOnInit() {
+  }
+
+  ngOnDestroy() {
+    this.auth.unsubscribe();
   }
 
   clearAlert() {

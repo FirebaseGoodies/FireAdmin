@@ -14,7 +14,7 @@ export interface User {
   firstName: string,
   lastName: string,
   email: string,
-  password?: string,
+  password: string,
   birthDate: number, // timestamp
   role: UserRole,
   bio: string,
