@@ -8,6 +8,7 @@ import { of, merge, Observable } from 'rxjs';
 import { getEmptyImage, getLoadingImage } from '../../helpers/assets.helper';
 import { SettingsService } from '../settings.service';
 import { Language } from '../../models/language.model';
+import { AuthService } from '../auth.service';
 
 @Injectable()
 export class PostsService {
@@ -20,7 +21,12 @@ export class PostsService {
   };
   private imagesCache: object = {};
 
-  constructor(private db: DatabaseService, private storage: StorageService, private settings: SettingsService) {
+  constructor(
+    private db: DatabaseService,
+    private storage: StorageService,
+    private settings: SettingsService,
+    private auth: AuthService
+  ) {
     Object.keys(PostStatus).forEach((key: string) => {
       this.allStatus[PostStatus[key]] = key;
     });
@@ -49,7 +55,9 @@ export class PostsService {
       status: data.status,
       categories: data.categories,
       createdAt: now(), // timestamp
-      updatedAt: null
+      updatedAt: null,
+      createdBy: this.auth.currentUser.id,
+      updatedBy: null
     };
     if (id && data.image && !isFile(data.image)) {
       post[data.lang].image = data.image;
@@ -141,7 +149,8 @@ export class PostsService {
       content: data.content,
       status: data.status,
       categories: data.categories,
-      updatedAt: now()
+      updatedAt: now(),
+      updatedBy: this.auth.currentUser.id
     };
     if (/*data.image !== undefined && */data.image === null) {
       post[data.lang].image = null;

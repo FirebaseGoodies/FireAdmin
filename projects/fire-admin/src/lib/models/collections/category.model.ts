@@ -5,5 +5,7 @@ export interface Category {
   slug: string,
   lang: string,
   createdAt?: number,
-  updatedAt?: number
+  updatedAt?: number,
+  createdBy?: string,
+  updatedBy?: string
 }

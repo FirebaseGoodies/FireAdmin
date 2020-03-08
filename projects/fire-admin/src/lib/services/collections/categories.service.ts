@@ -2,11 +2,12 @@ import { Injectable } from '@angular/core';
 import { DatabaseService } from '../database.service';
 import { Category } from '../../models/collections/category.model';
 import { now } from '../../helpers/functions.helper';
+import { AuthService } from '../auth.service';
 
 @Injectable()
 export class CategoriesService {
 
-  constructor(private db: DatabaseService) { }
+  constructor(private db: DatabaseService, private auth: AuthService) { }
 
   add(data: Category) {
     const category: Category = {
@@ -14,7 +15,9 @@ export class CategoriesService {
       slug: data.slug,
       lang: data.lang,
       createdAt: now(), // timestamp
-      updatedAt: null
+      updatedAt: null,
+      createdBy: this.auth.currentUser.id,
+      updatedBy: null
     };
     return this.db.addDocument('categories', category);
   }
@@ -36,7 +39,8 @@ export class CategoriesService {
       label: data.label,
       slug: data.slug,
       lang: data.lang,
-      updatedAt: now()
+      updatedAt: now(),
+      updatedBy: this.auth.currentUser.id
     };
     return this.db.setDocument('categories', id, category);
   }

@@ -20,5 +20,7 @@ export interface User {
   bio: string,
   avatar?: File|string|Observable<string>,
   createdAt?: number,
-  updatedAt?: number
+  updatedAt?: number,
+  createdBy?: string,
+  updatedBy?: string
 }

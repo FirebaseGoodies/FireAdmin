@@ -7,6 +7,7 @@ import { FirebaseUserService } from '../firebase-user.service';
 import { getDefaultAvatar, getLoadingImage } from '../../helpers/assets.helper';
 import { of, merge } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { AuthService } from '../auth.service';
 
 @Injectable()
 export class UsersService {
@@ -14,7 +15,12 @@ export class UsersService {
   private allRoles: object = {};
   private imagesCache: object = {};
 
-  constructor(private db: DatabaseService, private storage: StorageService, private firebaseUser: FirebaseUserService) {
+  constructor(
+    private db: DatabaseService,
+    private storage: StorageService,
+    private firebaseUser: FirebaseUserService,
+    private auth: AuthService
+  ) {
     Object.keys(UserRole).forEach((key: string) => {
       this.allRoles[UserRole[key]] = key;
     });
@@ -35,7 +41,9 @@ export class UsersService {
       bio: data.bio,
       avatar: null,
       createdAt: now(), // timestamp
-      updatedAt: null
+      updatedAt: null,
+      createdBy: this.auth.currentUser.id,
+      updatedBy: null
     };
     return new Promise((resolve, reject) => {
       this.firebaseUser.create(data.email, data.password).then((uid: string) => {
@@ -144,7 +152,8 @@ export class UsersService {
       birthDate: data.birthDate,
       role: data.role,
       bio: data.bio,
-      updatedAt: now()
+      updatedAt: now(),
+      updatedBy: this.auth.currentUser.id
     };
     if (/*data.avatar !== undefined && */data.avatar === null) {
       user.avatar = null;

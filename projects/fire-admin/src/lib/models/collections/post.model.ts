@@ -12,6 +12,8 @@ export interface PostData {
   categories: string[],
   createdAt?: number,
   updatedAt?: number,
+  createdBy?: string,
+  updatedBy?: string,
   isTranslatable?: boolean
 }
 
