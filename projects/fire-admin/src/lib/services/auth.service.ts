@@ -30,6 +30,7 @@ export class AuthService {
               user.avatar = this.users.getAvatarUrl(user.avatar as string);
             }
             this.currentUser = user;
+            this.users.setCurrentUser(user); // used to avoid circular dependency issue (when injecting auth service into users service)
           })
         );
       }
