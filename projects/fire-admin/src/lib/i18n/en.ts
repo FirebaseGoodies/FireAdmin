@@ -22,6 +22,7 @@ export const en = {
   "Users": "Users",
   // Navbar
   "AddPost": "Add post",
+  "Profile": "Profile",
   "Settings": "Settings",
   "Logout": "Logout",
   // Posts: Add
