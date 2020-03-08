@@ -13,6 +13,7 @@ export interface PostData {
   createdAt?: number,
   updatedAt?: number,
   createdBy?: string,
+  author?: string|Observable<string>,
   updatedBy?: string,
   isTranslatable?: boolean
 }

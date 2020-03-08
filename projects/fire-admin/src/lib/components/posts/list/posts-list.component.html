@@ -23,6 +23,7 @@
                 <th>{{ 'Categories' | translate }}</th>
                 <th>{{ 'PostCreatedAt' | translate }}</th>
                 <th>{{ 'PostUpdatedAt' | translate }}</th>
+                <th>{{ 'PostAuthor' | translate }}</th>
                 <th class="text-right hide-sort-icons">{{ 'Actions' | translate }}</th>
               </tr>
             </thead>
@@ -50,6 +51,11 @@
                 </td>
                 <td>{{ post.createdAt | date:'dd MMMM yyyy HH:mm' }}</td>
                 <td>{{ post.updatedAt | date:'dd MMMM yyyy HH:mm' }}</td>
+                <td>
+                  <a *ngIf="post.createdBy" [routerLink]="navigation.getRouterLink('users', 'profile', post.createdBy)">
+                    {{ post.author | async }}
+                  </a>
+                </td>
                 <td class="text-right">
                   <div class="btn-group btn-group-sm" role="group" aria-label="Table row actions">
                     <button *ngIf="post.status !== 'published'" type="button" class="btn btn-white active-light" title="{{ 'Publish' | translate }}" (click)="publishPost($event, post)">

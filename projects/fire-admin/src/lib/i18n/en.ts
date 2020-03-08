@@ -46,6 +46,7 @@ export const en = {
   // Posts: List
   "PostCreatedAt": "Creation date",
   "PostUpdatedAt": "Last Modification date",
+  "PostAuthor": "Author",
   "Translate": "Translate",
   "DeletePost": "Delete Post",
   "ConfirmDeletePost": "Please confirm deleting post <b>${title}</b> ?",

@@ -1,0 +1,7 @@
+/* ::ng-deep .dataTables_wrapper {
+  display: table;
+} */
+
+.lo-stats__order-details {
+  min-width: 200px;
+}

@@ -59,7 +59,7 @@ export class PostsListComponent implements OnInit, OnDestroy {
     // console.log(this.allCategories);
     // Get route params
     this.subscription.add(
-      this.route.params.subscribe((params: { status: string, categoryId: string }) => {
+      this.route.params.subscribe((params: { status: string, categoryId: string, authorId: string }) => {
         this.routeParamsChange.next();
         this.isLoading = true;
         // Get all posts
@@ -72,6 +72,10 @@ export class PostsListComponent implements OnInit, OnDestroy {
             // Filter by category
             else if (params.categoryId) {
               posts = posts.filter((post: PostData) => post.categories.indexOf(params.categoryId) !== -1);
+            }
+            // Filter by author
+            else if (params.authorId) {
+              posts = posts.filter((post: PostData) => post.createdBy === params.authorId);
             }
             return posts.sort((a: PostData, b: PostData) => b.createdAt - a.createdAt);
           }),

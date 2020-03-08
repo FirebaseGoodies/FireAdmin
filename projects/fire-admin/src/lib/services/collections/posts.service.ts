@@ -9,6 +9,8 @@ import { getEmptyImage, getLoadingImage } from '../../helpers/assets.helper';
 import { SettingsService } from '../settings.service';
 import { Language } from '../../models/language.model';
 import { AuthService } from '../auth.service';
+import { UsersService } from './users.service';
+import { User } from '../../models/collections/user.model';
 
 @Injectable()
 export class PostsService {
@@ -25,6 +27,7 @@ export class PostsService {
     private db: DatabaseService,
     private storage: StorageService,
     private settings: SettingsService,
+    private users: UsersService,
     private auth: AuthService
   ) {
     Object.keys(PostStatus).forEach((key: string) => {
@@ -123,6 +126,7 @@ export class PostsService {
           data.id = post['id'] as string|any;
           data.lang = lang;
           data.image = data.image ? merge(of(getLoadingImage()), this.getImageUrl(data.image as string)) : of(getEmptyImage());
+          data.author = data.createdBy ? this.users.get(data.createdBy).pipe(map((user: User) => `${user.firstName} ${user.lastName}`)) : of(null);
           data.isTranslatable = !activeSupportedLanguages.every((lang: string) => languages.includes(lang));
           allPostsData.push(data);
         });

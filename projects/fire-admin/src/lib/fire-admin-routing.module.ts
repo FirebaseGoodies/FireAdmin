@@ -83,6 +83,10 @@ const routes: Routes = [
             component: PostsListComponent
           },
           {
+            path: 'list/author/:authorId',
+            component: PostsListComponent
+          },
+          {
             path: 'add',
             component: PostsAddComponent
           },
