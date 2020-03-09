@@ -7,7 +7,7 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class LoadingIndicatorComponent implements OnInit {
 
-  @Input() show: boolean = false;
+  @Input() show: boolean = true;
   @Input() icon: string = 'fas fa-circle-notch';
   @Input() size: string = '2x';
   @Input() animation: string = 'spin';

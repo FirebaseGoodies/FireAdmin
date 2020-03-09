@@ -92,35 +92,44 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let post of latestPosts | async">
-                <td class="lo-stats__image">
-                  <img class="border rounded" [src]="post.image | async | escapeUrl">
-                </td>
-                <td class="lo-stats__order-details">
-                  <span>{{ post.title }}</span>
-                  <span>{{ post.slug }}</span>
-                </td>
-                <td class="text-center">{{ post.date | date:'dd MMMM yyyy' }}</td>
-                <td class="text-center">
-                  <span class="badge badge-pill badge-{{ allPostsStatus.colors[post.status] || 'primary' }}">{{ allPostsStatus.labels[post.status] | translate }}</span>
-                </td>
-                <td class="text-center text-primary">
-                  <ng-container *ngFor="let categoryId of post.categories; let i = index">
-                    <i *ngIf="i > 0">, </i>
-                    <a [routerLink]="navigation.getRouterLink('posts', 'list', 'category', categoryId)">{{ allPostsCategories[categoryId]?.label }}</a>
-                  </ng-container>
-                </td>
-                <td class="text-right">
-                  <div class="btn-group btn-group-sm" role="group" aria-label="Table row actions">
-                    <button *ngIf="post.isTranslatable" type="button" class="btn btn-white active-light" title="{{ 'Translate' | translate }}" [routerLink]="navigation.getRouterLink('posts', 'translate', post.id, post.lang)">
-                      <i class="material-icons">translate</i>
-                    </button>
-                    <button type="button" class="btn btn-white active-light" title="{{ 'Edit' | translate }}" [routerLink]="navigation.getRouterLink('posts', 'edit', post.id, post.lang)">
-                      <i class="material-icons">edit</i>
-                    </button>
-                  </div>
-                </td>
-              </tr>
+              <ng-container *ngIf="latestPosts | async as posts; else loadingPostsTemplate">
+                <tr *ngFor="let post of posts">
+                  <td class="lo-stats__image">
+                    <img class="border rounded" [src]="post.image | async | escapeUrl">
+                  </td>
+                  <td class="lo-stats__order-details">
+                    <span>{{ post.title }}</span>
+                    <span>{{ post.slug }}</span>
+                  </td>
+                  <td class="text-center">{{ post.date | date:'dd MMMM yyyy' }}</td>
+                  <td class="text-center">
+                    <span class="badge badge-pill badge-{{ allPostsStatus.colors[post.status] || 'primary' }}">{{ allPostsStatus.labels[post.status] | translate }}</span>
+                  </td>
+                  <td class="text-center text-primary">
+                    <ng-container *ngFor="let categoryId of post.categories; let i = index">
+                      <i *ngIf="i > 0">, </i>
+                      <a [routerLink]="navigation.getRouterLink('posts', 'list', 'category', categoryId)">{{ allPostsCategories[categoryId]?.label }}</a>
+                    </ng-container>
+                  </td>
+                  <td class="text-right">
+                    <div class="btn-group btn-group-sm" role="group" aria-label="Table row actions">
+                      <button *ngIf="post.isTranslatable" type="button" class="btn btn-white active-light" title="{{ 'Translate' | translate }}" [routerLink]="navigation.getRouterLink('posts', 'translate', post.id, post.lang)">
+                        <i class="material-icons">translate</i>
+                      </button>
+                      <button type="button" class="btn btn-white active-light" title="{{ 'Edit' | translate }}" [routerLink]="navigation.getRouterLink('posts', 'edit', post.id, post.lang)">
+                        <i class="material-icons">edit</i>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              </ng-container>
+              <ng-template #loadingPostsTemplate>
+                <tr>
+                  <td class="text-center" colspan="6">
+                    <fa-loading-indicator size="1x"></fa-loading-indicator>
+                  </td>
+                </tr>
+              </ng-template>
             </tbody>
           </table>
         </div>
