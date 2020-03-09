@@ -1,3 +1,3 @@
-<div *ngIf="show" class="loading-indicator">
-  <i class="fas fa-circle-notch fa-spin fa-2x"></i>
+<div *ngIf="show" [class.centered]="center">
+  <i class="{{ icon }} fa-{{ animation }} fa-{{ size }}"></i>
 </div>
