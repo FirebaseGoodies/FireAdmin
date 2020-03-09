@@ -28,7 +28,7 @@ export class SidebarComponent implements OnInit, AfterViewInit {
     return this.navigation.router.isActive(link, false);
   }
 
-  isActive(...routes: []) {
+  isActive(...routes: any[]) {
     let isActive = false;
     routes.forEach((path: string[]) => {
       if (this.isRouteActive(...path)) {

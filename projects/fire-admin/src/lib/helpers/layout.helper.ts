@@ -1,4 +1,5 @@
-import * as $ from 'jquery';
+//import * as $ from 'jquery'; // throw "Cannot call a namespace ('$')" error on build
+declare var $: any;
 import 'bootstrap';
 
 $.extend($.easing, {

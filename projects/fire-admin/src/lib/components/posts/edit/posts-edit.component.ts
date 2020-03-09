@@ -33,7 +33,7 @@ export class PostsEditComponent implements OnInit, AfterViewInit, OnDestroy {
   categoriesObservable: Observable<Category[]>;
   newCategory: string;
   isSubmitButtonsDisabled: boolean = false;
-  allStatus: object = {};
+  allStatus: object|any = {};
   private subscription: Subscription = new Subscription();
   private routeParamsChange: Subject<void> = new Subject<void>();
 

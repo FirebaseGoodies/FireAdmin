@@ -50,7 +50,7 @@
                       <li class="list-group-item px-0 pb-2">
                         <div *ngFor="let lang of settings.supportedLanguages; let i = index" class="custom-control custom-checkbox mb-1">
                           <input type="checkbox" class="custom-control-input" [id]="'lang' + i" [checked]="lang.isActive"
-                            (click)="settings.getActiveSupportedLanguages()?.length < 2 && lang.isActive ? $event.preventDefault() : return"
+                            (click)="onSupportedLanguageCheckboxClick($event, lang)"
                             (change)="lang.isActive = $event.target.checked"
                           >
                           <label class="custom-control-label" [for]="'lang' + i" [title]="lang.key">{{ lang.label | translate }}</label>

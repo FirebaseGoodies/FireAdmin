@@ -55,4 +55,11 @@ export class SettingsComponent implements OnInit {
     }
   }
 
+  onSupportedLanguageCheckboxClick(event: Event, lang: Language) {
+    const activeSupportedLanguages = this.settings.getActiveSupportedLanguages();
+    if (activeSupportedLanguages.length < 2 && lang.isActive) {
+      event.preventDefault();
+    }
+  }
+
 }

@@ -20,7 +20,7 @@ import { ActivatedRoute } from '@angular/router';
 export class PostsListComponent implements OnInit, OnDestroy {
 
   allPosts: Observable<PostTranslation[]>;
-  selectedPost: Post = null;
+  selectedPost: PostTranslation = null;
   @ViewChild(DataTableDirective, {static : false}) private dataTableElement: DataTableDirective;
   dataTableOptions: DataTables.Settings|any = {
     responsive: true,

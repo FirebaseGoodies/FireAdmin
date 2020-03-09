@@ -22,7 +22,7 @@ export class UsersEditComponent implements OnInit, OnDestroy {
   password: string;
   birthDate: string;
   role: UserRole;
-  allRoles: object = {};
+  allRoles: object|any = {};
   bio: string;
   private avatar: File;
   avatarSrc: string|ArrayBuffer;
