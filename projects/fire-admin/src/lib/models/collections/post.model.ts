@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs';
 
-export interface PostData {
+export interface PostTranslation {
   id?: string,
   lang?: string,
   title: string,
@@ -25,5 +25,5 @@ export enum PostStatus {
 }
 
 export interface Post {
-  [key: string]: PostData // key == lang
+  [key: string]: PostTranslation // key == lang
 }

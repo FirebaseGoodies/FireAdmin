@@ -9,7 +9,7 @@ import { map, take, takeUntil } from 'rxjs/operators';
 import { AlertService } from '../../../services/alert.service';
 import { PostsService } from '../../../services/collections/posts.service';
 import { NavigationService } from '../../../services/navigation.service';
-import { Post, PostStatus, PostData } from '../../../models/collections/post.model';
+import { Post, PostStatus, PostTranslation } from '../../../models/collections/post.model';
 import { getEmptyImage } from '../../../helpers/assets.helper';
 import { ActivatedRoute } from '@angular/router';
 
@@ -156,7 +156,7 @@ export class PostsEditComponent implements OnInit, AfterViewInit, OnDestroy {
         stopLoading();
       } else {
         // Edit post
-        const data: PostData = {
+        const data: PostTranslation = {
           lang: this.language,
           title: this.title,
           slug: this.slug,

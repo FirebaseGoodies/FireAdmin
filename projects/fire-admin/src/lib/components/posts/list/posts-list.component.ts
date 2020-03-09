@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { DataTableDirective } from 'angular-datatables';
 import { Subject, Subscription, Observable } from 'rxjs';
-import { Post, PostData, PostStatus } from '../../../models/collections/post.model';
+import { Post, PostTranslation, PostStatus } from '../../../models/collections/post.model';
 import { PostsService } from '../../../services/collections/posts.service';
 import { map, take, takeUntil } from 'rxjs/operators';
 import { refreshDataTable } from '../../../helpers/datatables.helper';
@@ -19,7 +19,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class PostsListComponent implements OnInit, OnDestroy {
 
-  allPosts: Observable<PostData[]>;
+  allPosts: Observable<PostTranslation[]>;
   selectedPost: Post = null;
   @ViewChild(DataTableDirective, {static : false}) private dataTableElement: DataTableDirective;
   dataTableOptions: DataTables.Settings|any = {
@@ -64,25 +64,25 @@ export class PostsListComponent implements OnInit, OnDestroy {
         this.isLoading = true;
         // Get all posts
         this.allPosts = this.posts.getAll().pipe(
-          map((posts: PostData[]) => {
+          map((posts: PostTranslation[]) => {
             // Filter by status
             if (params.status) {
-              posts = posts.filter((post: PostData) => post.status === params.status);
+              posts = posts.filter((post: PostTranslation) => post.status === params.status);
             }
             // Filter by category
             else if (params.categoryId) {
-              posts = posts.filter((post: PostData) => post.categories.indexOf(params.categoryId) !== -1);
+              posts = posts.filter((post: PostTranslation) => post.categories.indexOf(params.categoryId) !== -1);
             }
             // Filter by author
             else if (params.authorId) {
-              posts = posts.filter((post: PostData) => post.createdBy === params.authorId);
+              posts = posts.filter((post: PostTranslation) => post.createdBy === params.authorId);
             }
-            return posts.sort((a: PostData, b: PostData) => b.createdAt - a.createdAt);
+            return posts.sort((a: PostTranslation, b: PostTranslation) => b.createdAt - a.createdAt);
           }),
           takeUntil(this.routeParamsChange)
         );
         this.subscription.add(
-          this.allPosts.subscribe((posts: PostData[]) => {
+          this.allPosts.subscribe((posts: PostTranslation[]) => {
             // console.log(posts);
             // Refresh datatable on data change
             refreshDataTable(this.dataTableElement, this.dataTableTrigger);
@@ -98,7 +98,7 @@ export class PostsListComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 
-  private setPostStatus(event: Event, post: PostData, status: PostStatus) {
+  private setPostStatus(event: Event, post: PostTranslation, status: PostStatus) {
     const target = event.target as any;
     target.disabled = true;
     this.posts.setStatus(post.id, post.lang, status).catch((error: Error) => {
@@ -107,15 +107,15 @@ export class PostsListComponent implements OnInit, OnDestroy {
     });
   }
 
-  publishPost(event: Event, post: PostData) {
+  publishPost(event: Event, post: PostTranslation) {
     this.setPostStatus(event, post, PostStatus.Published);
   }
 
-  moveToTrash(event: Event, post: PostData) {
+  moveToTrash(event: Event, post: PostTranslation) {
     this.setPostStatus(event, post, PostStatus.Trash);
   }
 
-  deletePost(post: PostData) {
+  deletePost(post: PostTranslation) {
     this.posts.delete(post.id, post.lang).then(() => {
       this.alert.success(this.i18n.get('PostDeleted', { title: post.title }), false, 5000);
     }).catch((error: Error) => {

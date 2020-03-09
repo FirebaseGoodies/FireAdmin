@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { DatabaseService } from '../database.service';
-import { Post, PostData, PostStatus } from '../../models/collections/post.model';
+import { Post, PostTranslation, PostStatus } from '../../models/collections/post.model';
 import { now, guid, isFile } from '../../helpers/functions.helper';
 import { StorageService } from '../storage.service';
 import { map, take } from 'rxjs/operators';
@@ -47,7 +47,7 @@ export class PostsService {
     return this.allStatus[statusKey];
   }
 
-  add(data: PostData, id?: string) {
+  add(data: PostTranslation, id?: string) {
     const post: Post = {};
     post[data.lang] = {
       title: data.title,
@@ -75,7 +75,7 @@ export class PostsService {
     return this.uploadImageAfter(addPromise, post, data);
   }
 
-  private uploadImageAfter(promise: Promise<any>, post: Post, data: PostData) {
+  private uploadImageAfter(promise: Promise<any>, post: Post, data: PostTranslation) {
     return new Promise((resolve, reject) => {
       promise.then((doc: any) => {
         if (data.image && isFile(data.image)) {
@@ -125,22 +125,22 @@ export class PostsService {
 
   private pipePosts(postsObservable: Observable<Post[]>) {
     return postsObservable.pipe(map((posts: Post[]) => {
-      const allPostsData: PostData[] = [];
+      const allPostsTranslations: PostTranslation[] = [];
       const activeSupportedLanguages = this.settings.getActiveSupportedLanguages().map((lang: Language) => lang.key);
       posts.forEach((post: Post) => {
         // console.log(post);
         const languages = Object.keys(post).filter((key: string) => key !== 'id');
         languages.forEach((lang: string) => {
-          const data = post[lang];
-          data.id = post['id'] as string|any;
-          data.lang = lang;
-          data.image = data.image ? merge(of(getLoadingImage()), this.getImageUrl(data.image as string)) : of(getEmptyImage());
-          data.author = data.createdBy ? this.users.get(data.createdBy).pipe(map((user: User) => `${user.firstName} ${user.lastName}`)) : of(null);
-          data.isTranslatable = !activeSupportedLanguages.every((lang: string) => languages.includes(lang));
-          allPostsData.push(data);
+          const translation = post[lang];
+          translation.id = post['id'] as string|any;
+          translation.lang = lang;
+          translation.image = translation.image ? merge(of(getLoadingImage()), this.getImageUrl(translation.image as string)) : of(getEmptyImage());
+          translation.author = translation.createdBy ? this.users.get(translation.createdBy).pipe(map((user: User) => `${user.firstName} ${user.lastName}`)) : of(null);
+          translation.isTranslatable = !activeSupportedLanguages.every((lang: string) => languages.includes(lang));
+          allPostsTranslations.push(translation);
         });
       });
-      return allPostsData;
+      return allPostsTranslations;
     }));
   }
 
@@ -153,7 +153,7 @@ export class PostsService {
     return applyPipe ? this.pipePosts(postsObservable) : postsObservable;
   }
 
-  edit(id: string, data: PostData) {
+  edit(id: string, data: PostTranslation) {
     const post: Post = {};
     post[data.lang] = {
       title: data.title,
