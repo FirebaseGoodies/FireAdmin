@@ -30,7 +30,7 @@
             <tbody>
               <tr *ngFor="let post of allPosts | async">
                 <td class="text-left lo-stats__image pr-0">
-                  <img class="border rounded" [src]="post.image | async | escapeUrl">
+                  <img class="border rounded" [src]="post.image.url | async | escapeUrl">
                 </td>
                 <td class="text-left lo-stats__order-details">
                   <span>{{ post.title }}</span>
@@ -61,10 +61,10 @@
                     <button *ngIf="post.status !== 'published'" type="button" class="btn btn-white active-light" title="{{ 'Publish' | translate }}" (click)="publishPost($event, post)">
                       <i class="material-icons">check</i>
                     </button>
-                    <button *ngIf="post.isTranslatable" type="button" class="btn btn-white active-light" title="{{ 'Translate' | translate }}" [routerLink]="navigation.getRouterLink('posts', 'translate', post.id, post.lang)">
+                    <button *ngIf="post.isTranslatable" type="button" class="btn btn-white active-light" title="{{ 'Translate' | translate }}" [routerLink]="navigation.getRouterLink('posts', 'translate', post.id)">
                       <i class="material-icons">translate</i>
                     </button>
-                    <button type="button" class="btn btn-white active-light" title="{{ 'Edit' | translate }}" [routerLink]="navigation.getRouterLink('posts', 'edit', post.id, post.lang)">
+                    <button type="button" class="btn btn-white active-light" title="{{ 'Edit' | translate }}" [routerLink]="navigation.getRouterLink('posts', 'edit', post.id)">
                       <i class="material-icons">edit</i>
                     </button>
                     <ng-container *ngIf="post.status !== 'trash'; else deleteButton">

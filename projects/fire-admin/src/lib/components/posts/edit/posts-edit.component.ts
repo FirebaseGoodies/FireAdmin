@@ -9,7 +9,7 @@ import { map, take, takeUntil } from 'rxjs/operators';
 import { AlertService } from '../../../services/alert.service';
 import { PostsService } from '../../../services/collections/posts.service';
 import { NavigationService } from '../../../services/navigation.service';
-import { Post, PostStatus, PostTranslation } from '../../../models/collections/post.model';
+import { Post, PostStatus } from '../../../models/collections/post.model';
 import { getEmptyImage } from '../../../helpers/assets.helper';
 import { ActivatedRoute } from '@angular/router';
 
@@ -50,26 +50,26 @@ export class PostsEditComponent implements OnInit, AfterViewInit, OnDestroy {
     this.allStatus = this.posts.getAllStatus();
     this.isSubmitButtonsDisabled = true;
     this.subscription.add(
-      this.route.params.subscribe((params: { id: string, lang: string }) => {
+      this.route.params.subscribe((params: { id: string }) => {
         // console.log(params);
         this.posts.get(params.id).pipe(take(1)).toPromise().then((post: Post) => {
           // console.log(post);
-          if (post && post[params.lang]) {
-            this.title = post[params.lang].title;
-            this.editor.root.innerHTML = post[params.lang].content;
-            this.status = post[params.lang].status;
-            this.slug = post[params.lang].slug;
-            this.date = new Date(post[params.lang].date).toISOString().slice(0, 10);
-            this.id = params.id;
-            this.language = params.lang;
+          if (post) {
+            this.id = post.id;
+            this.title = post.title;
+            this.editor.root.innerHTML = post.content;
+            this.status = post.status;
+            this.slug = post.slug;
+            this.date = new Date(post.date).toISOString().slice(0, 10);
+            this.language = post.lang;
             this.image = null;
             this.imageSrc = getEmptyImage();
-            if (post[params.lang].image) {
-              this.posts.getImageUrl(post[params.lang].image as  string).pipe(take(1)).toPromise().then((imageUrl: string) => {
+            if (post.image) {
+              this.posts.getImageUrl(post.image as  string).pipe(take(1)).toPromise().then((imageUrl: string) => {
                 this.imageSrc = imageUrl;
               });
             }
-            this.checkedCategories = post[params.lang].categories ? post[params.lang].categories : [];
+            this.checkedCategories = post.categories ? post.categories : [];
             this.routeParamsChange.next();
             this.setCategoriesObservable();
             this.isSubmitButtonsDisabled = false;
@@ -156,7 +156,7 @@ export class PostsEditComponent implements OnInit, AfterViewInit, OnDestroy {
         stopLoading();
       } else {
         // Edit post
-        const data: PostTranslation = {
+        const data: Post = {
           lang: this.language,
           title: this.title,
           slug: this.slug,

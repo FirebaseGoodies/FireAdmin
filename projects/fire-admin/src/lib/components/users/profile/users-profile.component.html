@@ -95,7 +95,7 @@
               <ng-container *ngIf="latestPosts | async as posts; else loadingPostsTemplate">
                 <tr *ngFor="let post of posts">
                   <td class="lo-stats__image">
-                    <img class="border rounded" [src]="post.image | async | escapeUrl">
+                    <img class="border rounded" [src]="post.image.url | async | escapeUrl">
                   </td>
                   <td class="lo-stats__order-details">
                     <span>{{ post.title }}</span>
@@ -113,10 +113,10 @@
                   </td>
                   <td class="text-right">
                     <div class="btn-group btn-group-sm" role="group" aria-label="Table row actions">
-                      <button *ngIf="post.isTranslatable" type="button" class="btn btn-white active-light" title="{{ 'Translate' | translate }}" [routerLink]="navigation.getRouterLink('posts', 'translate', post.id, post.lang)">
+                      <button *ngIf="post.isTranslatable" type="button" class="btn btn-white active-light" title="{{ 'Translate' | translate }}" [routerLink]="navigation.getRouterLink('posts', 'translate', post.id)">
                         <i class="material-icons">translate</i>
                       </button>
-                      <button type="button" class="btn btn-white active-light" title="{{ 'Edit' | translate }}" [routerLink]="navigation.getRouterLink('posts', 'edit', post.id, post.lang)">
+                      <button type="button" class="btn btn-white active-light" title="{{ 'Edit' | translate }}" [routerLink]="navigation.getRouterLink('posts', 'edit', post.id)">
                         <i class="material-icons">edit</i>
                       </button>
                     </div>

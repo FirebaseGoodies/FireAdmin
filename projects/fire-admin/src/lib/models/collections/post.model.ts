@@ -1,12 +1,12 @@
 import { Observable } from 'rxjs';
 
-export interface PostTranslation {
+export interface Post {
   id?: string,
-  lang?: string,
+  lang: string,
   title: string,
   slug: string,
   date: number, // timestamp
-  image?: File|string|Observable<string>,
+  image?: File|string|Observable<string>|{ path: string|any, url: string|Observable<string> },
   content: string,
   status: PostStatus,
   categories: string[],
@@ -15,6 +15,7 @@ export interface PostTranslation {
   createdBy?: string,
   author?: string|Observable<string>,
   updatedBy?: string,
+  translations?: PostTranslation,
   isTranslatable?: boolean
 }
 
@@ -24,6 +25,6 @@ export enum PostStatus {
   Trash = 'trash'
 }
 
-export interface Post {
-  [key: string]: PostTranslation // key == lang
+export interface PostTranslation {
+  [key: string]: string // key == lang, value == post id
 }

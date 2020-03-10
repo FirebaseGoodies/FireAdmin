@@ -21,7 +21,7 @@ import { Language } from '../../../models/language.model';
 })
 export class PostsTranslateComponent implements OnInit, AfterViewInit, OnDestroy {
 
-  private id: string;
+  private origin: { id: string, lang: string };
   title: string;
   editor: any;
   private status: PostStatus;
@@ -50,28 +50,28 @@ export class PostsTranslateComponent implements OnInit, AfterViewInit, OnDestroy
   ngOnInit() {
     this.isSubmitButtonsDisabled = true;
     this.subscription.add(
-      this.route.params.subscribe((params: { id: string, lang: string }) => {
+      this.route.params.subscribe((params: { id: string }) => {
         // console.log(params);
         this.posts.get(params.id).pipe(take(1)).toPromise().then((post: Post) => {
           // console.log(post);
-          if (post && post[params.lang]) {
+          if (post) {
             this.languages = this.posts.getTranslationLanguages(post);
             if (this.languages.length) {
+              this.origin = { id: post.id, lang: post.lang };
               this.language = this.languages[0].key;
-              this.title = post[params.lang].title;
-              this.editor.root.innerHTML = post[params.lang].content;
+              this.title = post.title;
+              this.editor.root.innerHTML = post.content;
               this.status = PostStatus.Draft;
-              this.slug = post[params.lang].slug;
-              this.date = new Date(post[params.lang].date).toISOString().slice(0, 10);
-              this.id = params.id;
-              this.image = post[params.lang].image as string;
+              this.slug = post.slug;
+              this.date = new Date(post.date).toISOString().slice(0, 10);
+              this.image = post.image as string;
               this.imageSrc = getEmptyImage();
-              if (post[params.lang].image) {
-                this.posts.getImageUrl(post[params.lang].image as  string).pipe(take(1)).toPromise().then((imageUrl: string) => {
+              if (post.image) {
+                this.posts.getImageUrl(post.image as  string).pipe(take(1)).toPromise().then((imageUrl: string) => {
                   this.imageSrc = imageUrl;
                 });
               }
-              this.checkedCategories = post[params.lang].categories ? post[params.lang].categories : [];
+              this.checkedCategories = post.categories ? post.categories : [];
               this.languageOrRouteParamsChange.next();
               this.setCategoriesObservable();
               this.isSubmitButtonsDisabled = false;
@@ -161,7 +161,7 @@ export class PostsTranslateComponent implements OnInit, AfterViewInit, OnDestroy
     // Check if post slug is duplicated
     this.posts.getWhere(this.language + '.slug', '==', this.slug).pipe(take(1)).toPromise().then((posts: Post[]) => {
       //console.log(posts, posts[0]['id']);
-      if (posts && posts.length && (posts[0]['id'] as any) !== this.id) {
+      if (posts && posts.length && (posts[0]['id'] as any) !== this.origin.id) {
         // Warn user about post slug
         this.alert.warning(this.i18n.get('PostSlugAlreadyExists'), false, 5000);
         stopLoading();
@@ -170,7 +170,7 @@ export class PostsTranslateComponent implements OnInit, AfterViewInit, OnDestroy
         if (status) {
           this.status = status;
         }
-        this.posts.add({
+        this.posts.translate({
           lang: this.language,
           title: this.title,
           slug: this.slug,
@@ -179,7 +179,7 @@ export class PostsTranslateComponent implements OnInit, AfterViewInit, OnDestroy
           image: this.image,
           status: this.status,
           categories: this.checkedCategories
-        }, this.id).then(() => {
+        }, this.origin).then(() => {
           this.alert.success(this.i18n.get('PostAdded'), false, 5000, true);
           this.navigation.redirectTo('posts', 'list');
         }).catch((error: Error) => {

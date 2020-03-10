@@ -3,7 +3,7 @@ import { DatabaseService } from '../database.service';
 import { Post, PostTranslation, PostStatus } from '../../models/collections/post.model';
 import { now, guid, isFile } from '../../helpers/functions.helper';
 import { StorageService } from '../storage.service';
-import { map, take } from 'rxjs/operators';
+import { map, take, mergeMap } from 'rxjs/operators';
 import { of, merge, Observable } from 'rxjs';
 import { getEmptyImage, getLoadingImage } from '../../helpers/assets.helper';
 import { SettingsService } from '../settings.service';
@@ -47,10 +47,10 @@ export class PostsService {
     return this.allStatus[statusKey];
   }
 
-  add(data: PostTranslation, id?: string) {
-    const post: Post = {};
-    post[data.lang] = {
+  add(data: Post, origin?: { lang: string, id: string }) {
+    const post: Post = {
       title: data.title,
+      lang: data.lang,
       slug: data.slug,
       date: data.date,
       image: null,
@@ -62,53 +62,75 @@ export class PostsService {
       createdBy: this.auth.currentUser.id,
       updatedBy: null
     };
-    let addPromise: Promise<any>;
-    if (id) {
-      data.id = id; // mandatory for image upload
-      if (data.image && !isFile(data.image)) {
-        post[data.lang].image = data.image;
-      }
-      addPromise = this.db.setDocument('posts', id, post);
-    } else {
-      addPromise = this.db.addDocument('posts', post);
+    if (origin && data.image && !isFile(data.image)) {
+      post.image = data.image;
     }
-    return this.uploadImageAfter(addPromise, post, data);
-  }
-
-  private uploadImageAfter(promise: Promise<any>, post: Post, data: PostTranslation) {
     return new Promise((resolve, reject) => {
-      promise.then((doc: any) => {
-        if (data.image && isFile(data.image)) {
-          const id = doc ? doc.id : data.id;
-          const imageFile = (data.image as File);
-          const imageName = guid() + '.' + imageFile.name.split('.').pop();
-          const imagePath = `posts/${id}/${imageName}`;
-          this.storage.upload(imagePath, imageFile).then(() => {
-            post[data.lang].image = imagePath;
-            const savePromise: Promise<any> = doc ? doc.set(post) : this.db.setDocument('posts', id, post);
-            savePromise.finally(() => {
-              resolve();
-            });
+      this.db.addDocument('posts', post).then((doc: any) => {
+        this.uploadImage(doc.id, data.image as File).then(() => {
+          this.addTranslation(doc.id, data.lang, origin).then(() => {
+            resolve();
           }).catch((error: Error) => {
-            // console.error(error);
             reject(error);
           });
-        } else {
-          resolve();
-        }
+        }).catch((error: Error) => {
+          reject(error);
+        });
       }).catch((error: Error) => {
-        // console.error(error);
         reject(error);
       });
     });
   }
 
+  translate(data: Post, origin: { lang: string, id: string }) {
+    return this.add(data, origin);
+  }
+
+  private async addTranslation(id: string, lang: string, origin?: { lang: string, id: string }) {
+    const translation = { [lang]: id };
+    const translations: PostTranslation[] = origin ? await this.getTranslationsWhere(origin.lang, '==', origin.id).pipe(take(1)).toPromise() : null;
+    return translations && translations.length ? this.db.setDocument('postTranslations', translations[0].id, translation) : this.db.addDocument('postTranslations', translation);
+  }
+
+  private uploadImage(id: string, imageFile: File) {
+    return new Promise((resolve, reject) => {
+      if (imageFile && isFile(imageFile)) {
+        const imageName = guid() + '.' + imageFile.name.split('.').pop();
+        const imagePath = `posts/${id}/${imageName}`;
+        this.storage.upload(imagePath, imageFile).then(() => {
+          this.db.setDocument('posts', id, { image: imagePath }).then(() => {
+            resolve();
+          }).catch((error: Error) => {
+            reject(error);
+          });
+        }).catch((error: Error) => {
+          reject(error);
+        });
+      } else {
+        resolve();
+      }
+    });
+  }
+
   get(id: string) {
-    return this.db.getDocument('posts', id);
+    return this.db.getDocument('posts', id).pipe(mergeMap(async (post: Post) => {
+      const translations = await this.getTranslationsWhere(post.lang, '==', id).pipe(take(1)).toPromise();
+      post.id = id;
+      post.translations = translations[0];
+      return post;
+    }));
+  }
+
+  getTranslations(id: string) {
+    return this.db.getDocument('postTranslations', id);
+  }
+
+  private getTranslationsWhere(field: string, operator: firebase.firestore.WhereFilterOp, value: string) {
+    return this.db.getCollection('postTranslations', ref => ref.where(field, operator, value));
   }
 
   getTranslationLanguages(post: Post) {
-    const postLanguages = Object.keys(post).filter((key: string) => key !== 'id');
+    const postLanguages = Object.keys(post.translations).filter((key: string) => key !== 'id');
     return this.settings.getActiveSupportedLanguages().filter((lang: Language) => postLanguages.indexOf(lang.key) === -1);
   }
 
@@ -124,23 +146,23 @@ export class PostsService {
   }
 
   private pipePosts(postsObservable: Observable<Post[]>) {
-    return postsObservable.pipe(map((posts: Post[]) => {
-      const allPostsTranslations: PostTranslation[] = [];
+    return postsObservable.pipe(mergeMap(async (posts: Post[]) => {
       const activeSupportedLanguages = this.settings.getActiveSupportedLanguages().map((lang: Language) => lang.key);
-      posts.forEach((post: Post) => {
+      //posts.forEach((post: Post) => { // forEach loop doesn't seems to work well with async/await
+      for (let post of posts) {
         // console.log(post);
-        const languages = Object.keys(post).filter((key: string) => key !== 'id');
-        languages.forEach((lang: string) => {
-          const translation = post[lang];
-          translation.id = post['id'] as string|any;
-          translation.lang = lang;
-          translation.image = translation.image ? merge(of(getLoadingImage()), this.getImageUrl(translation.image as string)) : of(getEmptyImage());
-          translation.author = translation.createdBy ? this.users.get(translation.createdBy).pipe(map((user: User) => `${user.firstName} ${user.lastName}`)) : of(null);
-          translation.isTranslatable = !activeSupportedLanguages.every((lang: string) => languages.includes(lang));
-          allPostsTranslations.push(translation);
-        });
-      });
-      return allPostsTranslations;
+        const postTranslations = await this.getTranslationsWhere(post.lang, '==', post.id).pipe(take(1)).toPromise();
+        post.translations = postTranslations[0];
+        const postLanguages = Object.keys(post.translations).filter((key: string) => key !== 'id');
+        post.image = {
+          path: post.image,
+          url: post.image ? merge(of(getLoadingImage()), this.getImageUrl(post.image as string)) : of(getEmptyImage())
+        };
+        post.author = post.createdBy ? this.users.get(post.createdBy).pipe(map((user: User) => `${user.firstName} ${user.lastName}`)) : of(null);
+        post.isTranslatable = !activeSupportedLanguages.every((lang: string) => postLanguages.includes(lang));
+      }
+      //});
+      return posts;
     }));
   }
 
@@ -153,10 +175,10 @@ export class PostsService {
     return applyPipe ? this.pipePosts(postsObservable) : postsObservable;
   }
 
-  edit(id: string, data: PostTranslation) {
-    const post: Post = {};
-    post[data.lang] = {
+  edit(id: string, data: Post) {
+    const post: Post = {
       title: data.title,
+      lang: data.lang,
       slug: data.slug,
       date: data.date,
       content: data.content,
@@ -166,71 +188,72 @@ export class PostsService {
       updatedBy: this.auth.currentUser.id
     };
     if (/*data.image !== undefined && */data.image === null) {
-      post[data.lang].image = null;
+      post.image = null;
     }
-    return this.uploadImageAfter(this.db.setDocument('posts', id, post), post, {...data, id: id});
-  }
-
-  private deleteImagesAfter(promise: Promise<any>, ...imagesPath: string[]) {
     return new Promise((resolve, reject) => {
-      promise.then(() => {
-        // console.log(imagesPath);
-        if (imagesPath.length) {
-          const promises: Promise<void>[] = [];
-          imagesPath.forEach((path: string) => {
-            if (path) {
-              promises.push(this.storage.delete(path).toPromise());
-            }
-          });
-          if (promises.length) { // Promise.all([]) should work fine, but let's play it safe
-            Promise.all(promises).then(() => {
-              resolve();
-            }).catch((error: Error) => {
-              // console.error(error);
-              reject(error);
-            });
-          } else {
-            resolve();
-          }
-        } else {
+      this.db.setDocument('posts', id, post).then(() => {
+        this.uploadImage(id, data.image as File).then(() => {
           resolve();
-        }
+        }).catch((error: Error) => {
+          reject(error);
+        });
       }).catch((error: Error) => {
-        // console.error(error);
         reject(error);
       });
     });
   }
 
-  async delete(id: string, lang?: string) {
-    const post: Post = await this.get(id).pipe(take(1)).toPromise();
-    // Delete single post translation (if translations length > 1)
-    if (lang && post && Object.keys(post).length > 1 && post[lang]) {
-      // Prepare post translation delete
-      let imagePath = post[lang].image as string;
-      delete post[lang];
-      // Prepare post image delete
+  private deleteImage(imagePath: string) {
+    return new Promise((resolve, reject) => {
+      // console.log(imagePath);
       if (imagePath) {
-        Object.keys(post).forEach((lang: string) => { // check the rest of post translations (lang key has been already deleted)
-          if (post[lang].image && post[lang].image === imagePath) {
-            imagePath = null; // do not delete image since it's used in another post translation
-          }
+        this.storage.delete(imagePath).toPromise().then(() => {
+          resolve();
+        }).catch((error: Error) => {
+          reject(error);
         });
-      }
-      return this.deleteImagesAfter(this.db.setDocument('posts', id, post, false), imagePath);
-    }
-    // Delete full post document
-    const imagesPath = [];
-    Object.keys(post).forEach((lang: string) => {
-      if (post[lang].image && imagesPath.indexOf(post[lang].image) === -1) {
-        imagesPath.push(post[lang].image);
+      } else {
+        resolve();
       }
     });
-    return this.deleteImagesAfter(this.db.deleteDocument('posts', id), ...imagesPath);
   }
 
-  setStatus(id: string, lang: string, status: PostStatus) {
-    return this.db.setDocument('posts', id, { [lang]: { status: status } });
+  private deleteTranslation(id: string, lang?: string, translations?: PostTranslation) {
+    const newTranslations = lang && translations ? Object.keys(translations).reduce((object, key) => {
+      if (key !== 'id' && key !== lang) {
+        object[key] = translations[key];
+      }
+      return object;
+    }, {}) : {};
+    return Object.keys(newTranslations).length > 0 ? this.db.setDocument('postTranslations', id, newTranslations, false) : this.db.deleteDocument('postTranslations', id);
+  }
+
+  async delete(id: string, data: { lang: string, translations: PostTranslation, imagePath?: string }) {
+    if (data.imagePath) {
+      const posts: Post[] = await this.getWhere('image', '==', data.imagePath).pipe(take(1)).toPromise();
+      if (posts.length > 1) {
+        data.imagePath = null; // do not delete image if used by more than 1 post
+      }
+    }
+    return new Promise((resolve, reject) => {
+      this.db.deleteDocument('posts', id).then(() => {
+        this.deleteTranslation(data.translations.id, data.lang, data.translations).then(() => {
+          this.deleteImage(data.imagePath).then(() => {
+            resolve();
+          }).catch((error: Error) => {
+            reject(error);
+          });
+        }).catch((error: Error) => {
+          reject(error);
+        });
+      }).catch((error: Error) => {
+        reject(error);
+      });
+    });
+  }
+
+  setStatus(id: string, status: PostStatus) {
+    return this.db.setDocument('posts', id, { status: status });
   }
 
 }

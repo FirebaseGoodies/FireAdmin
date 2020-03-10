@@ -6,7 +6,7 @@ import { UsersService } from '../../../services/collections/users.service';
 import { Subscription, Subject, Observable } from 'rxjs';
 import { map, takeUntil, take } from 'rxjs/operators';
 import { PostsService } from '../../../services/collections/posts.service';
-import { PostTranslation } from '../../../models/collections/post.model';
+import { Post } from '../../../models/collections/post.model';
 import { Language } from '../../../models/language.model';
 import { SettingsService } from '../../../services/settings.service';
 import { Category } from '../../../models/collections/category.model';
@@ -21,7 +21,7 @@ export class UsersProfileComponent implements OnInit, OnDestroy {
 
   user: User;
   allRoles: object = {};
-  latestPosts: Observable<PostTranslation[]>;
+  latestPosts: Observable<Post[]>;
   postsLanguage: string;
   languages: Language[];
   allPostsStatus: { labels: object, colors: object };
@@ -92,14 +92,14 @@ export class UsersProfileComponent implements OnInit, OnDestroy {
   }
 
   private getLatestPosts() {
-    this.latestPosts = this.posts.getWhere(this.postsLanguage + '.createdBy', '==', this.user.id, true).pipe(
-      map((posts: PostTranslation[]) => {
+    this.latestPosts = this.posts.getWhere('createdBy', '==', this.user.id, true).pipe(
+      map((posts: Post[]) => {
         // console.log(posts);
         // Filter by lang
         if (this.postsLanguage) {
-          posts = posts.filter((post: PostTranslation) => post.lang === this.postsLanguage);
+          posts = posts.filter((post: Post) => post.lang === this.postsLanguage);
         }
-        return posts.slice(0, 5).sort((a: PostTranslation, b: PostTranslation) => b.createdAt - a.createdAt);
+        return posts.slice(0, 5).sort((a: Post, b: Post) => b.createdAt - a.createdAt);
       }),
       takeUntil(this.postsLanguageChange)
     );

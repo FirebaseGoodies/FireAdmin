@@ -91,11 +91,11 @@ const routes: Routes = [
             component: PostsAddComponent
           },
           {
-            path: 'edit/:id/:lang',
+            path: 'edit/:id',
             component: PostsEditComponent
           },
           {
-            path: 'translate/:id/:lang',
+            path: 'translate/:id',
             component: PostsTranslateComponent
           },
           {

@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { DataTableDirective } from 'angular-datatables';
 import { Subject, Subscription, Observable } from 'rxjs';
-import { Post, PostTranslation, PostStatus } from '../../../models/collections/post.model';
+import { Post, PostStatus } from '../../../models/collections/post.model';
 import { PostsService } from '../../../services/collections/posts.service';
 import { map, take, takeUntil } from 'rxjs/operators';
 import { refreshDataTable } from '../../../helpers/datatables.helper';
@@ -19,8 +19,8 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class PostsListComponent implements OnInit, OnDestroy {
 
-  allPosts: Observable<PostTranslation[]>;
-  selectedPost: PostTranslation = null;
+  allPosts: Observable<Post[]>;
+  selectedPost: Post = null;
   @ViewChild(DataTableDirective, {static : false}) private dataTableElement: DataTableDirective;
   dataTableOptions: DataTables.Settings|any = {
     responsive: true,
@@ -64,25 +64,25 @@ export class PostsListComponent implements OnInit, OnDestroy {
         this.isLoading = true;
         // Get all posts
         this.allPosts = this.posts.getAll().pipe(
-          map((posts: PostTranslation[]) => {
+          map((posts: Post[]) => {
             // Filter by status
             if (params.status) {
-              posts = posts.filter((post: PostTranslation) => post.status === params.status);
+              posts = posts.filter((post: Post) => post.status === params.status);
             }
             // Filter by category
             else if (params.categoryId) {
-              posts = posts.filter((post: PostTranslation) => post.categories.indexOf(params.categoryId) !== -1);
+              posts = posts.filter((post: Post) => post.categories.indexOf(params.categoryId) !== -1);
             }
             // Filter by author
             else if (params.authorId) {
-              posts = posts.filter((post: PostTranslation) => post.createdBy === params.authorId);
+              posts = posts.filter((post: Post) => post.createdBy === params.authorId);
             }
-            return posts.sort((a: PostTranslation, b: PostTranslation) => b.createdAt - a.createdAt);
+            return posts.sort((a: Post, b: Post) => b.createdAt - a.createdAt);
           }),
           takeUntil(this.routeParamsChange)
         );
         this.subscription.add(
-          this.allPosts.subscribe((posts: PostTranslation[]) => {
+          this.allPosts.subscribe((posts: Post[]) => {
             // console.log(posts);
             // Refresh datatable on data change
             refreshDataTable(this.dataTableElement, this.dataTableTrigger);
@@ -98,25 +98,29 @@ export class PostsListComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 
-  private setPostStatus(event: Event, post: PostTranslation, status: PostStatus) {
+  private setPostStatus(event: Event, post: Post, status: PostStatus) {
     const target = event.target as any;
     target.disabled = true;
-    this.posts.setStatus(post.id, post.lang, status).catch((error: Error) => {
+    this.posts.setStatus(post.id, status).catch((error: Error) => {
       this.alert.error(error.message);
       target.disabled = false;
     });
   }
 
-  publishPost(event: Event, post: PostTranslation) {
+  publishPost(event: Event, post: Post) {
     this.setPostStatus(event, post, PostStatus.Published);
   }
 
-  moveToTrash(event: Event, post: PostTranslation) {
+  moveToTrash(event: Event, post: Post) {
     this.setPostStatus(event, post, PostStatus.Trash);
   }
 
-  deletePost(post: PostTranslation) {
-    this.posts.delete(post.id, post.lang).then(() => {
+  deletePost(post: Post) {
+    this.posts.delete(post.id, {
+      lang: post.lang,
+      translations: post.translations,
+      imagePath: (post.image as any).path as string
+    }).then(() => {
       this.alert.success(this.i18n.get('PostDeleted', { title: post.title }), false, 5000);
     }).catch((error: Error) => {
       this.alert.error(error.message);
