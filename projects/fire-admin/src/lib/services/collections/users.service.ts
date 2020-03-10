@@ -54,11 +54,9 @@ export class UsersService {
         this.uploadImageAfter(this.db.addDocument('users', user), user, data).then(() => {
           resolve();
         }).catch((error: Error) => {
-          // console.error(error);
           reject(error);
         });
       }).catch((error: Error) => {
-        // console.error(error);
         reject(error);
       });
     });
@@ -79,14 +77,12 @@ export class UsersService {
               resolve();
             });
           }).catch((error: Error) => {
-            // console.error(error);
             reject(error);
           });
         } else {
           resolve();
         }
       }).catch((error: Error) => {
-        // console.error(error);
         reject(error);
       });
     });
@@ -125,7 +121,6 @@ export class UsersService {
         this.firebaseUser.updateEmail(email, password, newEmail).then(() => {
           resolve();
         }).catch((error: Error) => {
-          // console.error(error);
           reject(error);
         });
       } else {
@@ -140,7 +135,6 @@ export class UsersService {
         this.firebaseUser.updatePassword(email, password, newPassword).then(() => {
           resolve();
         }).catch((error: Error) => {
-          // console.error(error);
           reject(error);
         });
       } else {
@@ -170,15 +164,12 @@ export class UsersService {
           this.uploadImageAfter(this.db.setDocument('users', id, user), user, {...data, id: id}).then(() => {
             resolve();
           }).catch((error: Error) => {
-            // console.error(error);
             reject(error);
           });
         }).catch((error: Error) => {
-          // console.error(error);
           reject(error);
         });
       }).catch((error: Error) => {
-        // console.error(error);
         reject(error);
       });
     });
@@ -190,7 +181,6 @@ export class UsersService {
         this.storage.delete(imagePath).toPromise().then(() => {
           resolve();
         }).catch((error: Error) => {
-          // console.error(error);
           reject(error);
         });
       } else {
@@ -206,15 +196,12 @@ export class UsersService {
           this.deleteImage(data.avatar).then(() => {
             resolve();
           }).catch((error: Error) => {
-            // console.error(error);
             reject(error);
           });
         }).catch((error: Error) => {
-          // console.error(error);
           reject(error);
         });
       }).catch((error: Error) => {
-        // console.error(error);
         reject(error);
       });
     });
