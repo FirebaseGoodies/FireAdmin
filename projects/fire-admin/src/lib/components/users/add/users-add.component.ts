@@ -33,7 +33,7 @@ export class UsersAddComponent implements OnInit {
 
   ngOnInit() {
     this.allRoles = this.users.getAllRoles();
-    this.role = Object.keys(this.allRoles)[0] as UserRole;
+    this.role = UserRole.Guest;
     this.avatar = null;
     this.avatarSrc = getDefaultAvatar();
     this.bio = null;

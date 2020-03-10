@@ -18,9 +18,10 @@ export interface User {
   birthDate: number, // timestamp
   role: UserRole,
   bio: string,
-  avatar?: File|string|Observable<string>,
+  avatar?: File|string|Observable<string>|{ path: string|any, url: string|Observable<string> },
   createdAt?: number,
   updatedAt?: number,
   createdBy?: string,
+  creator?: string|Observable<string>, // used to fetch creator name without overriding createdBy field
   updatedBy?: string
 }

@@ -113,6 +113,14 @@ export const en = {
   "UserProfile": "User Profile",
   "LatestPosts": "Latest Posts",
   "ViewAll": "View All",
+  // Users: List
+  "UserName": "User name",
+  "CreatedAt": "Creation date",
+  "UpdatedAt": "Last modification date",
+  "CreatedBy": "Created by",
+  "DeleteUser": "Delete User",
+  "ConfirmDeleteUser": "Please confirm deleting user <b>${name}</b> ?",
+  "UserDeleted": "User <b>${name}</b> has been deleted!",
   // Roles
   "Administrator": "Administrator",
   "Editor": "Editor",

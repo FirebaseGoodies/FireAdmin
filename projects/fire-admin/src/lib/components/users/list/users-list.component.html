@@ -1,3 +1,88 @@
 <fa-layout>
-  <p>users-list works!</p>
+  <!-- Page Header -->
+  <div class="page-header row no-gutters py-4">
+    <div class="col-12 text-center text-sm-left mb-0">
+      <span class="text-uppercase page-subtitle">{{ 'Users' | translate }}</span>
+      <h3 class="page-title">{{ 'List' | translate }}</h3>
+    </div>
+  </div>
+  <!-- End Page Header -->
+  <fa-loading-indicator [show]="isLoading" [center]="true"></fa-loading-indicator>
+  <div class="row">
+    <div class="col-12 mb-4">
+      <div class="card card-small lo-stats">
+        <div class="card-body p-0">
+          <table datatable [dtOptions]="dataTableOptions" [dtTrigger]="dataTableTrigger" class="file-manager file-manager-list d-none table-responsive">
+            <thead>
+              <tr>
+                <th class="hide-sort-icons"></th>
+                <th class="text-left">{{ 'UserName' | translate }}</th>
+                <th>{{ 'Email' | translate }}</th>
+                <th>{{ 'BirthDate' | translate }}</th>
+                <th>{{ 'Role' | translate }}</th>
+                <th>{{ 'CreatedAt' | translate }}</th>
+                <th>{{ 'UpdatedAt' | translate }}</th>
+                <th>{{ 'CreatedBy' | translate }}</th>
+                <th class="text-right hide-sort-icons">{{ 'Actions' | translate }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let user of allUsers | async">
+                <td class="text-left lo-stats__image pr-0">
+                  <img class="border rounded" [src]="user.avatar?.url | async | escapeUrl">
+                </td>
+                <td class="text-left lo-stats__order-details">
+                  <span>{{ user.firstName + ' ' + user.lastName }}</span>
+                  <span>{{ allRoles[user.role] | translate }}</span>
+                </td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.birthDate | date:'dd MMMM yyyy' }}</td>
+                <td>
+                  <a [routerLink]="navigation.getRouterLink('users', 'list', 'role', user.role)">{{ allRoles[user.role] | translate }}</a>
+                </td>
+                <td>{{ user.createdAt | date:'dd MMMM yyyy HH:mm' }}</td>
+                <td>{{ user.updatedAt | date:'dd MMMM yyyy HH:mm' }}</td>
+                <td>
+                  <a *ngIf="user.createdBy" [routerLink]="navigation.getRouterLink('users', 'profile', user.createdBy)">
+                    <span *ngIf="user.creator | async as creator">
+                      {{ creator.firstName + ' ' + creator.lastName }}
+                    </span>
+                  </a>
+                </td>
+                <td class="text-right">
+                  <div class="btn-group btn-group-sm" role="group" aria-label="Table row actions">
+                    <button type="button" class="btn btn-white active-light" title="{{ 'Edit' | translate }}" [routerLink]="navigation.getRouterLink('users', 'edit', user.id)">
+                      <i class="material-icons">edit</i>
+                    </button>
+                    <button type="button" class="btn btn-danger" title="{{ 'Delete' | translate }}" data-toggle="modal" data-target="#deleteModal" (click)="selectedUser = user">
+                      <i class="material-icons">delete</i>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
 </fa-layout>
+
+<!-- Delete Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">{{ 'DeleteUser' | translate }}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body" innerHTML="{{ 'ConfirmDeleteUser' | translate: {name: selectedUser?.firstName + ' ' + selectedUser?.lastName} }}"></div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-white" data-dismiss="modal">{{ 'Cancel' | translate }}</button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="deleteUser(selectedUser)">{{ 'Delete' | translate }}</button>
+      </div>
+    </div>
+  </div>
+</div>

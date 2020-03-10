@@ -118,6 +118,10 @@ const routes: Routes = [
             component: UsersListComponent
           },
           {
+            path: 'list/role/:role',
+            component: UsersListComponent
+          },
+          {
             path: 'add',
             component: UsersAddComponent
           },
