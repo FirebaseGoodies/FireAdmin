@@ -3,19 +3,24 @@ declare var Quill: any;
 export function initTextEditor(selector: string, placeholder: string = '') {
   const quill = new Quill(selector, {
     modules: {
-      toolbar: [
-        [{ header: [1, 2, 3, 4, 5, !1] }],
-        ["bold", "italic", "underline", "strike"],
-        ["blockquote", "code-block"],
-        //[{ header: 1 }, { header: 2 }],
-        [{ list: "ordered" }, { list: "bullet" }],
-        //[{ script: "sub" }, { script: "super" }],
-        [{ color: [] }, { background: [] }],
-        [{ align: [] }],
-        [{ indent: "-1" }, { indent: "+1" }],
-        ["link", "image", "video"],
-        ["html"]
-      ]
+      toolbar: {
+        container: [
+          [{ header: [1, 2, 3, 4, 5, !1] }],
+          ["bold", "italic", "underline", "strike"],
+          ["blockquote", "code-block"],
+          //[{ header: 1 }, { header: 2 }],
+          [{ list: "ordered" }, { list: "bullet" }],
+          //[{ script: "sub" }, { script: "super" }],
+          [{ color: [] }, { background: [] }],
+          [{ align: [] }],
+          [{ indent: "-1" }, { indent: "+1" }],
+          ["link", "image", "video"],
+          ["html"]
+        ],
+        handlers: {
+          'html': () => { }
+        }
+      }
     },
     placeholder: placeholder,
     theme: "snow"
