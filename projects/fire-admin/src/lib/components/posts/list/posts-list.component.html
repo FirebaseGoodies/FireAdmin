@@ -42,7 +42,7 @@
                     <span class="badge badge-pill badge-{{ allStatus.colors[post.status] || 'primary' }}">{{ allStatus.labels[post.status] | translate }}</span>
                   </a>
                 </td>
-                <td>{{ post.lang }}</td>
+                <td>{{ allLanguages[post.lang].label | translate }}</td>
                 <td>
                   <ng-container *ngFor="let categoryId of post.categories; let i = index">
                     <i *ngIf="i > 0">, </i>

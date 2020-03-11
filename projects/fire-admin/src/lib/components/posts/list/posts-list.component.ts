@@ -11,6 +11,8 @@ import { I18nService } from '../../../services/i18n.service';
 import { Category } from '../../../models/collections/category.model';
 import { CategoriesService } from '../../../services/collections/categories.service';
 import { ActivatedRoute } from '@angular/router';
+import { SettingsService } from '../../../services/settings.service';
+import { Language } from '../../../models/language.model';
 
 @Component({
   selector: 'fa-posts-list',
@@ -30,6 +32,7 @@ export class PostsListComponent implements OnInit, OnDestroy {
   private subscription: Subscription = new Subscription();
   allStatus: { labels: object, colors: object };
   allCategories: Category[] = [];
+  allLanguages: Language[] = [];
   private routeParamsChange: Subject<void> = new Subject<void>();
   isLoading: boolean = true;
 
@@ -39,7 +42,8 @@ export class PostsListComponent implements OnInit, OnDestroy {
     private alert: AlertService,
     private i18n: I18nService,
     private route: ActivatedRoute,
-    public navigation: NavigationService
+    public navigation: NavigationService,
+    private settings: SettingsService
   ) { }
 
   async ngOnInit() {
@@ -56,6 +60,10 @@ export class PostsListComponent implements OnInit, OnDestroy {
         return allCategories;
       })
     ).toPromise();
+    // Get all languages
+    this.settings.supportedLanguages.forEach((language: Language) => {
+      this.allLanguages[language.key] = language;
+    });
     // console.log(this.allCategories);
     // Get route params
     this.subscription.add(
