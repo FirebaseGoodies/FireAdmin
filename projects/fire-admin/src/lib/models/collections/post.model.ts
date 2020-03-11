@@ -15,7 +15,8 @@ export interface Post {
   createdBy?: string,
   author?: string|Observable<string>,
   updatedBy?: string,
-  translations?: PostTranslation,
+  translationId?: string,
+  translations?: PostTranslation, // used to store translations on object fetch
   isTranslatable?: boolean
 }
 

@@ -21,7 +21,7 @@ import { Language } from '../../../models/language.model';
 })
 export class PostsTranslateComponent implements OnInit, AfterViewInit, OnDestroy {
 
-  private origin: { id: string, lang: string };
+  private origin: Post;
   title: string;
   editor: any;
   private status: PostStatus;
@@ -57,7 +57,7 @@ export class PostsTranslateComponent implements OnInit, AfterViewInit, OnDestroy
           if (post) {
             this.languages = this.posts.getTranslationLanguages(post);
             if (this.languages.length) {
-              this.origin = { id: post.id, lang: post.lang };
+              this.origin = post;
               this.language = this.languages[0].key;
               this.title = post.title;
               this.editor.root.innerHTML = post.content;
@@ -71,7 +71,7 @@ export class PostsTranslateComponent implements OnInit, AfterViewInit, OnDestroy
                   this.imageSrc = imageUrl;
                 });
               }
-              this.checkedCategories = post.categories ? post.categories : [];
+              this.checkedCategories = /*post.categories ? post.categories : */[];
               this.languageOrRouteParamsChange.next();
               this.setCategoriesObservable();
               this.isSubmitButtonsDisabled = false;
@@ -178,8 +178,9 @@ export class PostsTranslateComponent implements OnInit, AfterViewInit, OnDestroy
           content: this.editor.root.innerHTML,
           image: this.image,
           status: this.status,
-          categories: this.checkedCategories
-        }, this.origin).then(() => {
+          categories: this.checkedCategories,
+          translationId: this.origin.translationId
+        }).then(() => {
           this.alert.success(this.i18n.get('PostAdded'), false, 5000, true);
           this.navigation.redirectTo('posts', 'list');
         }).catch((error: Error) => {

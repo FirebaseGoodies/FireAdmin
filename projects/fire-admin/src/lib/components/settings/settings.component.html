@@ -65,7 +65,7 @@
                           <input type="text" class="form-control" placeholder="{{ 'Key' | translate }}" [(ngModel)]="i18nKey" name="i18nKey">
                           <div class="input-group-append">
                             <button class="btn btn-white px-2" type="button" title="{{ 'Add' | translate }}"
-                              [disabled]="!i18nLanguage?.length || !i18nKey?.length || i18nKey.length < 2 || i18nKey === 'id' || settings.supportedLanguageExists(i18nLanguage, i18nKey)"
+                              [disabled]="!i18nLanguage?.length || !i18nKey?.length || i18nKey.length < 2 || settings.supportedLanguageExists(i18nLanguage, i18nKey)"
                               (click)="addSupportedLanguage()"
                             >
                               <i class="material-icons">add</i>

@@ -117,9 +117,10 @@ export class PostsListComponent implements OnInit, OnDestroy {
 
   deletePost(post: Post) {
     this.posts.delete(post.id, {
+      imagePath: (post.image as any).path as string,
       lang: post.lang,
-      translations: post.translations,
-      imagePath: (post.image as any).path as string
+      translationId: post.translationId,
+      translations: post.translations
     }).then(() => {
       this.alert.success(this.i18n.get('PostDeleted', { title: post.title }), false, 5000);
     }).catch((error: Error) => {

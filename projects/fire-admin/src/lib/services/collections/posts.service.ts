@@ -47,7 +47,7 @@ export class PostsService {
     return this.allStatus[statusKey];
   }
 
-  add(data: Post, origin?: { lang: string, id: string }) {
+  add(data: Post, translationId?: string) {
     const post: Post = {
       title: data.title,
       lang: data.lang,
@@ -62,14 +62,18 @@ export class PostsService {
       createdBy: this.auth.currentUser.id,
       updatedBy: null
     };
-    if (origin && data.image && !isFile(data.image)) {
+    if (translationId && data.image && !isFile(data.image)) {
       post.image = data.image;
     }
     return new Promise((resolve, reject) => {
       this.db.addDocument('posts', post).then((doc: any) => {
         this.uploadImage(doc.id, data.image as File).then(() => {
-          this.addTranslation(doc.id, data.lang, origin).then(() => {
-            resolve();
+          this.addTranslation(data.lang, doc.id, translationId).then((translation: any) => {
+            doc.set({ translationId: translationId || translation.id}, { merge: true }).then(() => {
+              resolve();
+            }).catch((error: Error) => {
+              reject(error);
+            });
           }).catch((error: Error) => {
             reject(error);
           });
@@ -82,14 +86,8 @@ export class PostsService {
     });
   }
 
-  translate(data: Post, origin: { lang: string, id: string }) {
-    return this.add(data, origin);
-  }
-
-  private async addTranslation(id: string, lang: string, origin?: { lang: string, id: string }) {
-    const translation = { [lang]: id };
-    const translations: PostTranslation[] = origin ? await this.getTranslationsWhere(origin.lang, '==', origin.id).pipe(take(1)).toPromise() : null;
-    return translations && translations.length ? this.db.setDocument('postTranslations', translations[0].id, translation) : this.db.addDocument('postTranslations', translation);
+  translate(data: Post) {
+    return this.add(data, data.translationId);
   }
 
   private uploadImage(id: string, imageFile: File) {
@@ -114,23 +112,15 @@ export class PostsService {
 
   get(id: string) {
     return this.db.getDocument('posts', id).pipe(mergeMap(async (post: Post) => {
-      const translations = await this.getTranslationsWhere(post.lang, '==', id).pipe(take(1)).toPromise();
+      const translations = await this.getTranslations(post.translationId).pipe(take(1)).toPromise();
       post.id = id;
-      post.translations = translations[0];
+      post.translations = translations;
       return post;
     }));
   }
 
-  getTranslations(id: string) {
-    return this.db.getDocument('postTranslations', id);
-  }
-
-  private getTranslationsWhere(field: string, operator: firebase.firestore.WhereFilterOp, value: string) {
-    return this.db.getCollection('postTranslations', ref => ref.where(field, operator, value));
-  }
-
   getTranslationLanguages(post: Post) {
-    const postLanguages = Object.keys(post.translations).filter((key: string) => key !== 'id');
+    const postLanguages = Object.keys(post.translations);
     return this.settings.getActiveSupportedLanguages().filter((lang: Language) => postLanguages.indexOf(lang.key) === -1);
   }
 
@@ -151,9 +141,9 @@ export class PostsService {
       //posts.forEach((post: Post) => { // forEach loop doesn't seems to work well with async/await
       for (let post of posts) {
         // console.log(post);
-        const postTranslations = await this.getTranslationsWhere(post.lang, '==', post.id).pipe(take(1)).toPromise();
-        post.translations = postTranslations[0];
-        const postLanguages = Object.keys(post.translations).filter((key: string) => key !== 'id');
+        post.translations = await this.getTranslations(post.translationId).pipe(take(1)).toPromise();
+        // console.log(post.translations);
+        const postLanguages = Object.keys(post.translations);
         post.image = {
           path: post.image,
           url: post.image ? merge(of(getLoadingImage()), this.getImageUrl(post.image as string)) : of(getEmptyImage())
@@ -218,17 +208,7 @@ export class PostsService {
     });
   }
 
-  private deleteTranslation(id: string, lang?: string, translations?: PostTranslation) {
-    const newTranslations = lang && translations ? Object.keys(translations).reduce((object, key) => {
-      if (key !== 'id' && key !== lang) {
-        object[key] = translations[key];
-      }
-      return object;
-    }, {}) : {};
-    return Object.keys(newTranslations).length > 0 ? this.db.setDocument('postTranslations', id, newTranslations, false) : this.db.deleteDocument('postTranslations', id);
-  }
-
-  async delete(id: string, data: { lang: string, translations: PostTranslation, imagePath?: string }) {
+  async delete(id: string, data: { imagePath: string, lang: string, translationId: string, translations: PostTranslation }) {
     if (data.imagePath) {
       const posts: Post[] = await this.getWhere('image', '==', data.imagePath).pipe(take(1)).toPromise();
       if (posts.length > 1) {
@@ -236,8 +216,8 @@ export class PostsService {
       }
     }
     return new Promise((resolve, reject) => {
-      this.db.deleteDocument('posts', id).then(() => {
-        this.deleteTranslation(data.translations.id, data.lang, data.translations).then(() => {
+      this.deleteTranslation(data.translationId, data.lang, data.translations).then(() => { // should be done before deleting document (posts observable will be synced before if not)
+        this.db.deleteDocument('posts', id).then(() => {
           this.deleteImage(data.imagePath).then(() => {
             resolve();
           }).catch((error: Error) => {
@@ -254,6 +234,33 @@ export class PostsService {
 
   setStatus(id: string, status: PostStatus) {
     return this.db.setDocument('posts', id, { status: status });
+  }
+
+  //----------------------------------------------------
+  // Translations
+  //----------------------------------------------------
+
+  private addTranslation(lang: string, id: string, parentId?: string) {
+    const translation = { [lang]: id };
+    return parentId ? this.db.setDocument('postTranslations', parentId, translation) : this.db.addDocument('postTranslations', translation);
+  }
+
+  private getTranslations(id: string) {
+    return this.db.getDocument('postTranslations', id);
+  }
+
+  private getTranslationsWhere(field: string, operator: firebase.firestore.WhereFilterOp, value: string) {
+    return this.db.getCollection('postTranslations', ref => ref.where(field, operator, value));
+  }
+
+  private deleteTranslation(id: string, lang?: string, translations?: PostTranslation) {
+    const newTranslations = lang && translations ? Object.keys(translations).reduce((object, key) => {
+      if (key !== lang) {
+        object[key] = translations[key];
+      }
+      return object;
+    }, {}) : {};
+    return Object.keys(newTranslations).length > 0 ? this.db.setDocument('postTranslations', id, newTranslations, false) : this.db.deleteDocument('postTranslations', id);
   }
 
 }
