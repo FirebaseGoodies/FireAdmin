@@ -138,6 +138,7 @@
             <div class="col">
               <select class="custom-select custom-select-sm w-auto" style="min-width: 130px" [(ngModel)]="postsLanguage" name="postsLanguage" (change)="onPostsLanguageChange()">
                 <option value="" disabled>{{ 'PostLanguage' | translate }}</option>
+                <option value="*">{{ 'All' | translate }}</option>
                 <option *ngFor="let lang of languages" [value]="lang.key">{{ lang.label | translate }}</option>
               </select>
             </div>

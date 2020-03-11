@@ -44,7 +44,7 @@ export class UsersProfileComponent implements OnInit, OnDestroy {
     this.allRoles = this.users.getAllRoles();
     // Get languages
     this.languages = this.settings.getActiveSupportedLanguages();
-    this.postsLanguage = this.languages[0].key;
+    this.postsLanguage = '*';//this.languages[0].key;
     // Get all posts status
     this.allPostsStatus = this.posts.getAllStatusWithColors();
     // Get all posts categories
@@ -92,14 +92,20 @@ export class UsersProfileComponent implements OnInit, OnDestroy {
   }
 
   private getLatestPosts() {
-    this.latestPosts = this.posts.getWhere('createdBy', '==', this.user.id, true).pipe(
+    this.latestPosts = this.posts.getWhereFn(ref => {
+      let query: any = ref;
+      query = query.where('createdBy', '==', this.user.id);
+      // Filter by lang
+      if (this.postsLanguage !== '*') {
+        query = query.where('lang', '==', this.postsLanguage);
+      }
+      //query = query.orderBy('createdAt', 'desc'); // needs a database index to work
+      query = query.limit(5);
+      return query;
+    }, true).pipe(
       map((posts: Post[]) => {
         // console.log(posts);
-        // Filter by lang
-        if (this.postsLanguage) {
-          posts = posts.filter((post: Post) => post.lang === this.postsLanguage);
-        }
-        return posts.slice(0, 5).sort((a: Post, b: Post) => b.createdAt - a.createdAt);
+        return posts.sort((a: Post, b: Post) => b.createdAt - a.createdAt);
       }),
       takeUntil(this.postsLanguageChange)
     );

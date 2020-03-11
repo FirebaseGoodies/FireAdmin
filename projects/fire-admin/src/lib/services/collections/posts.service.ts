@@ -11,6 +11,7 @@ import { Language } from '../../models/language.model';
 import { AuthService } from '../auth.service';
 import { UsersService } from './users.service';
 import { User } from '../../models/collections/user.model';
+import { QueryFn } from '@angular/fire/firestore';
 
 @Injectable()
 export class PostsService {
@@ -162,6 +163,11 @@ export class PostsService {
 
   getWhere(field: string, operator: firebase.firestore.WhereFilterOp, value: string, applyPipe: boolean = false) {
     const postsObservable = this.db.getCollection('posts', ref => ref.where(field, operator, value));
+    return applyPipe ? this.pipePosts(postsObservable) : postsObservable;
+  }
+
+  getWhereFn(queryFn: QueryFn, applyPipe: boolean = false) {
+    const postsObservable = this.db.getCollection('posts', queryFn);
     return applyPipe ? this.pipePosts(postsObservable) : postsObservable;
   }
 

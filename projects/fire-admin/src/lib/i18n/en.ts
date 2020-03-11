@@ -57,6 +57,7 @@ export const en = {
   // Posts: Translate
   "TranslatePost": "Translate Post",
   // Languages
+  "All": "All",
   "English": "English",
   "French": "French",
   "Arabic": "Arabic",
