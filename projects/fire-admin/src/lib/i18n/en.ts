@@ -113,7 +113,7 @@ export const en = {
   // Users: Profile
   "UserProfile": "User Profile",
   "LatestPosts": "Latest Posts",
-  "ViewAll": "View All",
+  "FullList": "Full List",
   // Users: List
   "UserName": "User name",
   "CreatedAt": "Creation date",
