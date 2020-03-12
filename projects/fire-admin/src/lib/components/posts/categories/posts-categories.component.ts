@@ -105,4 +105,8 @@ export class PostsCategoriesComponent implements OnInit, OnDestroy {
     });
   }
 
+  setSelectedCategory(category: Category) {
+    this.selectedCategory = Object.assign({}, category);
+  }
+
 }

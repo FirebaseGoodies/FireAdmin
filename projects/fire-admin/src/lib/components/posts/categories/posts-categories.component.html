@@ -61,10 +61,10 @@
                 <td>{{ allLanguages[category.lang].label | translate }}</td>
                 <td class="text-right">
                   <div class="btn-group btn-group-sm" role="group" aria-label="Table row actions">
-                    <button type="button" class="btn btn-white active-light" title="{{ 'Edit' | translate }}" data-toggle="modal" data-target="#editModal" (click)="selectedCategory = category">
+                    <button type="button" class="btn btn-white active-light" title="{{ 'Edit' | translate }}" data-toggle="modal" data-target="#editModal" (click)="setSelectedCategory(category)">
                       <i class="material-icons">edit</i>
                     </button>
-                    <button type="button" class="btn btn-danger" title="{{ 'Delete' | translate }}" data-toggle="modal" data-target="#deleteModal" (click)="selectedCategory = category">
+                    <button type="button" class="btn btn-danger" title="{{ 'Delete' | translate }}" data-toggle="modal" data-target="#deleteModal" (click)="setSelectedCategory(category)">
                       <i class="material-icons">delete</i>
                     </button>
                   </div>
