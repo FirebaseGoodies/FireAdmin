@@ -128,4 +128,17 @@ export const en = {
   "Author": "Author",
   "Contributor": "Contributor",
   "Guest": "Guest",
+  // Translations
+  "AddNewTranslation": "Add New Translation",
+  "NewTranslation": "New Translation",
+  "TranslationKey": "Key",
+  "TranslationValue": "Value",
+  "TranslationLanguage": "Language",
+  "AddTranslation": "Add Translation",
+  "TranslationAdded": "Translation successfully added!",
+  "DeleteTranslation": "Delete Translation",
+  "ConfirmDeleteTranslation": "Please confirm deleting translation <b>${key}</b> ?",
+  "TranslationDeleted": "Translation <b>${key}</b> has been deleted!",
+  "EditTranslation": "Edit Translation",
+  "TranslationSaved": "Translation <b>${key}</b> has been saved!",
 };

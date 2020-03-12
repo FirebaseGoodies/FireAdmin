@@ -18,6 +18,7 @@ import { UsersListComponent } from './components/users/list/users-list.component
 import { UsersAddComponent } from './components/users/add/users-add.component';
 import { UsersProfileComponent } from './components/users/profile/users-profile.component';
 import { UsersEditComponent } from './components/users/edit/users-edit.component';
+import { TranslationsComponent } from './components/translations/translations.component';
 
 const routes: Routes = [
   {
@@ -138,6 +139,12 @@ const routes: Routes = [
             redirectTo: 'list'
           }
         ]
+      },
+      // Translations
+      {
+        path: 'translations',
+        component: TranslationsComponent,
+        canActivate: [AuthGuardService]
       },
       // 404
       {

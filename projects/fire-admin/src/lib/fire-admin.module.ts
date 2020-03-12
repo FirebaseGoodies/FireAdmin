@@ -47,6 +47,8 @@ import { UsersService } from './services/collections/users.service';
 import { FirebaseUserService } from './services/firebase-user.service';
 import { UsersEditComponent } from './components/users/edit/users-edit.component';
 import { LoadingIndicatorComponent } from './components/shared/loading-indicator/loading-indicator.component';
+import { TranslationsComponent } from './components/translations/translations.component';
+import { TranslationsService } from './services/collections/translations.service';
 
 @NgModule({
   declarations: [
@@ -74,7 +76,8 @@ import { LoadingIndicatorComponent } from './components/shared/loading-indicator
     UsersAddComponent,
     UsersProfileComponent,
     UsersEditComponent,
-    LoadingIndicatorComponent
+    LoadingIndicatorComponent,
+    TranslationsComponent
   ],
   imports: [
     CommonModule,
@@ -106,6 +109,7 @@ import { LoadingIndicatorComponent } from './components/shared/loading-indicator
     StorageService,
     UsersService,
     FirebaseUserService,
+    TranslationsService,
     // Set database config (for AngularFireModule)
     {
       provide: FirebaseOptionsToken,

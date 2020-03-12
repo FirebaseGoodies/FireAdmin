@@ -1,0 +1,133 @@
+<fa-layout>
+  <!-- Page Header -->
+  <div class="page-header row no-gutters py-4">
+    <div class="col-12 text-center text-sm-left mb-0">
+      <span class="text-uppercase page-subtitle">{{ 'Translations' | translate }}</span>
+      <h3 class="page-title">{{ 'AddNewTranslation' | translate }}</h3>
+    </div>
+  </div>
+  <!-- End Page Header -->
+  <div class="row">
+    <div class="col-lg-4 col-md-12">
+      <!-- Add New Translation Form -->
+      <div class="card card-small mb-3">
+        <div class="card-header border-bottom">
+          <h6 class="m-0">{{ 'NewTranslation' | translate }}</h6>
+        </div>
+        <div class="card-body">
+          <form>
+            <div class="form-group">
+              <input type="text" class="form-control" placeholder="{{ 'TranslationKey' | translate }}" [(ngModel)]="key" name="key">
+            </div>
+            <div class="form-group">
+              <input type="text" class="form-control" placeholder="{{ 'TranslationValue' | translate }}" [(ngModel)]="value" name="value">
+            </div>
+            <div class="form-group">
+              <select class="custom-select" [(ngModel)]="language" name="language">
+                <option value="" disabled>{{ 'TranslationLanguage' | translate }}</option>
+                <option *ngFor="let lang of languages" [value]="lang.key">{{ lang.label | translate }}</option>
+              </select>
+            </div>
+            <div class="form-group mb-0">
+              <button type="submit" class="btn btn-accent" [disabled]="!key?.length || key === 'id' || !value?.length || !language?.length" (click)="addTranslation($event)">
+                <i class="material-icons">add</i> {{ 'AddTranslation' | translate }}
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+      <!-- / Add New Translation Form -->
+    </div>
+    <div class="col-lg-8 col-md-12">
+      <!-- Translations List -->
+      <div class="card card-small mb-3">
+        <div class="card-header border-bottom">
+          <h6 class="m-0">{{ 'Translations' | translate }}</h6>
+        </div>
+        <div class="card-body p-0">
+          <table datatable [dtOptions]="dataTableOptions" [dtTrigger]="dataTableTrigger" class="file-manager file-manager-list d-none table-responsive">
+            <thead>
+              <tr>
+                <th class="text-left">{{ 'TranslationKey' | translate }}</th>
+                <th>{{ 'TranslationValue' | translate }}</th>
+                <th>{{ 'TranslationLanguage' | translate }}</th>
+                <th class="text-right hide-sort-icons">{{ 'Actions' | translate }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let translation of allTranslations | async">
+                <td class="text-left">{{ translation.key }}</td>
+                <td>{{ translation.value }}</td>
+                <td>{{ allLanguages[translation.lang].label | translate }}</td>
+                <td class="text-right">
+                  <div class="btn-group btn-group-sm" role="group" aria-label="Table row actions">
+                    <button type="button" class="btn btn-white active-light" title="{{ 'Edit' | translate }}" data-toggle="modal" data-target="#editModal" (click)="setSelectedTranslation(translation)">
+                      <i class="material-icons">edit</i>
+                    </button>
+                    <button type="button" class="btn btn-danger" title="{{ 'Delete' | translate }}" data-toggle="modal" data-target="#deleteModal" (click)="setSelectedTranslation(translation)">
+                      <i class="material-icons">delete</i>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <!-- / Translations List -->
+    </div>
+  </div>
+</fa-layout>
+
+<!-- Edit Modal -->
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">{{ 'EditTranslation' | translate }}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <input type="text" class="form-control" placeholder="{{ 'TranslationKey' | translate }}" [(ngModel)]="selectedTranslation && selectedTranslation.key" name="key">
+          </div>
+          <div class="form-group">
+            <input type="text" class="form-control" placeholder="{{ 'TranslationValue' | translate }}" [(ngModel)]="selectedTranslation && selectedTranslation.value" name="value">
+          </div>
+          <div class="form-group mb-0">
+            <select class="custom-select" [(ngModel)]="selectedTranslation && selectedTranslation.lang" name="language">
+              <option value="" disabled>{{ 'TranslationLanguage' | translate }}</option>
+              <option *ngFor="let lang of languages" [value]="lang.key">{{ lang.label | translate }}</option>
+            </select>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-white" data-dismiss="modal">{{ 'Cancel' | translate }}</button>
+        <button type="button" class="btn btn-accent" data-dismiss="modal" [disabled]="!selectedTranslation?.key?.length || selectedTranslation?.key === 'id' || !selectedTranslation?.value?.length || !selectedTranslation?.lang?.length" (click)="editTranslation(selectedTranslation)">{{ 'Save' | translate }}</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Delete Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">{{ 'DeleteTranslation' | translate }}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body" innerHTML="{{ 'ConfirmDeleteTranslation' | translate: {key: selectedTranslation?.key} }}"></div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-white" data-dismiss="modal">{{ 'Cancel' | translate }}</button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="deleteTranslation(selectedTranslation)">{{ 'Delete' | translate }}</button>
+      </div>
+    </div>
+  </div>
+</div>
