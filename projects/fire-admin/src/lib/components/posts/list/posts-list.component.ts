@@ -3,7 +3,7 @@ import { DataTableDirective } from 'angular-datatables';
 import { Subject, Subscription, Observable } from 'rxjs';
 import { Post, PostStatus } from '../../../models/collections/post.model';
 import { PostsService } from '../../../services/collections/posts.service';
-import { map, take, takeUntil } from 'rxjs/operators';
+import { map, takeUntil } from 'rxjs/operators';
 import { refreshDataTable } from '../../../helpers/datatables.helper';
 import { AlertService } from '../../../services/alert.service';
 import { NavigationService } from '../../../services/navigation.service';
@@ -46,25 +46,26 @@ export class PostsListComponent implements OnInit, OnDestroy {
     private settings: SettingsService
   ) { }
 
-  async ngOnInit() {
+  ngOnInit() {
     // Get all status
     this.allStatus = this.posts.getAllStatusWithColors();
     // Get all categories
-    this.allCategories = await this.categories.getAll().pipe(
-      take(1),
-      map((categories: Category[]) => {
+    this.subscription.add(
+      this.categories.getAll().pipe(map((categories: Category[]) => {
         const allCategories: Category[] = [];
         categories.forEach((category: Category) => {
           allCategories[category.id] = category;
         });
         return allCategories;
+      })).subscribe((categories: Category[]) => {
+        // console.log(categories);
+        this.allCategories = categories;
       })
-    ).toPromise();
+    );
     // Get all languages
     this.settings.supportedLanguages.forEach((language: Language) => {
       this.allLanguages[language.key] = language;
     });
-    // console.log(this.allCategories);
     // Get route params
     this.subscription.add(
       this.route.params.subscribe((params: { status: string, categoryId: string, authorId: string }) => {

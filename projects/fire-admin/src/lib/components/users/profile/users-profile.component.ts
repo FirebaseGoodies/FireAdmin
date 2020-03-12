@@ -4,7 +4,7 @@ import { User } from '../../../models/collections/user.model';
 import { ActivatedRoute } from '@angular/router';
 import { UsersService } from '../../../services/collections/users.service';
 import { Subscription, Subject, Observable } from 'rxjs';
-import { map, takeUntil, take } from 'rxjs/operators';
+import { map, takeUntil } from 'rxjs/operators';
 import { PostsService } from '../../../services/collections/posts.service';
 import { Post } from '../../../models/collections/post.model';
 import { Language } from '../../../models/language.model';
@@ -39,7 +39,7 @@ export class UsersProfileComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute
   ) { }
 
-  async ngOnInit() {
+  ngOnInit() {
     // Get all roles
     this.allRoles = this.users.getAllRoles();
     // Get languages
@@ -48,16 +48,18 @@ export class UsersProfileComponent implements OnInit, OnDestroy {
     // Get all posts status
     this.allPostsStatus = this.posts.getAllStatusWithColors();
     // Get all posts categories
-    this.allPostsCategories = await this.categories.getAll().pipe(
-      take(1),
-      map((categories: Category[]) => {
+    this.subscription.add(
+      this.categories.getAll().pipe(map((categories: Category[]) => {
         const allCategories: Category[] = [];
         categories.forEach((category: Category) => {
           allCategories[category.id] = category;
         });
         return allCategories;
+      })).subscribe((categories: Category[]) => {
+        // console.log(categories);
+        this.allPostsCategories = categories;
       })
-    ).toPromise();
+    );
     // Get user data
     this.subscription.add(
       this.route.params.subscribe((params: { id: string }) => {
