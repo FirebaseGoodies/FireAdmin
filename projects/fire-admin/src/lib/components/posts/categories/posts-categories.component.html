@@ -58,7 +58,7 @@
               <tr *ngFor="let category of allCategories | async">
                 <td class="text-left">{{ category.label }}</td>
                 <td>{{ category.slug }}</td>
-                <td>{{ category.lang }}</td>
+                <td>{{ allLanguages[category.lang].label | translate }}</td>
                 <td class="text-right">
                   <div class="btn-group btn-group-sm" role="group" aria-label="Table row actions">
                     <button type="button" class="btn btn-white active-light" title="{{ 'Edit' | translate }}" data-toggle="modal" data-target="#editModal" (click)="selectedCategory = category">

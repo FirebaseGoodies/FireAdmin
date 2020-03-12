@@ -22,6 +22,7 @@ export class PostsCategoriesComponent implements OnInit, OnDestroy {
   slug: string;
   language: string;
   languages: Language[];
+  allLanguages: Language[] = [];
   allCategories: Observable<Category[]>;
   selectedCategory: Category = null;
   @ViewChild(DataTableDirective, {static : false}) private dataTableElement: DataTableDirective;
@@ -40,8 +41,14 @@ export class PostsCategoriesComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
+    // Get active languages
     this.languages = this.settings.getActiveSupportedLanguages();
     this.language = this.languages[0].key;
+    // Get all languages
+    this.settings.supportedLanguages.forEach((language: Language) => {
+      this.allLanguages[language.key] = language;
+    });
+    // Get all categories
     this.allCategories = this.categories.getAll().pipe(map((categories: Category[]) => {
       return categories.sort((a: Category, b: Category) => b.createdAt - a.createdAt);
     }));
