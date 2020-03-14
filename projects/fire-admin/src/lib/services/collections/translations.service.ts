@@ -61,4 +61,20 @@ export class TranslationsService {
     });
   }
 
+  keyExists(key: string, lang: string): Promise<boolean> {
+    return new Promise((resolve, reject) => {
+      this.db.getDocumentRef('translations', lang).get().toPromise().then((doc) => {
+        const translations = doc.data();
+        if (translations[key]) {
+          resolve(true);
+        } else {
+          resolve(false);
+        }
+      }).catch((error: Error) => {
+        console.log(error);
+        resolve(false);
+      });
+    });
+  }
+
 }

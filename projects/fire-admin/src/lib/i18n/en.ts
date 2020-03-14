@@ -141,4 +141,5 @@ export const en = {
   "TranslationDeleted": "Translation <b>${key}</b> has been deleted!",
   "EditTranslation": "Edit Translation",
   "TranslationSaved": "Translation <b>${key}</b> has been saved!",
+  "TranslationKeyAlreadyExists": "Translation key <b>${key}</b> already exists for language <b>${lang}</b>.",
 };

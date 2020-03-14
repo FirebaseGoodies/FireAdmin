@@ -63,17 +63,28 @@ export class TranslationsComponent implements OnInit, OnDestroy {
   }
 
   addTranslation(event: Event) {
-    (event.target as any).disabled = true;
-    this.translations.add({
-      key: this.key,
-      value: this.value,
-      lang: this.language
-    }).then(() => {
-      this.alert.success(this.i18n.get('TranslationAdded'), false, 5000);
-    }).catch((error: Error) => {
-      this.alert.error(error.message);
-    }).finally(() => {
-      this.key = this.value = '';
+    const addButton = event.target as any;
+    addButton.disabled = true;
+    // Check if translation key already exists
+    this.translations.keyExists(this.key, this.language).then((exists: boolean) => {
+      if (exists) {
+        // Warn user about existing translation key
+        const lang = this.i18n.get(this.allLanguages[this.language].label);
+        this.alert.warning(this.i18n.get('TranslationKeyAlreadyExists', { key: this.key, lang: lang }), false, 5000);
+        addButton.disabled = false;
+      } else {
+        this.translations.add({
+          key: this.key,
+          value: this.value,
+          lang: this.language
+        }).then(() => {
+          this.alert.success(this.i18n.get('TranslationAdded'), false, 5000);
+        }).catch((error: Error) => {
+          this.alert.error(error.message);
+        }).finally(() => {
+          this.key = this.value = '';
+        });
+      }
     });
   }
 

@@ -91,18 +91,18 @@
       </div>
       <div class="modal-body">
         <form>
-          <div class="form-group">
+          <!-- <div class="form-group">
             <input type="text" class="form-control" placeholder="{{ 'TranslationKey' | translate }}" [(ngModel)]="selectedTranslation && selectedTranslation.key" name="key">
-          </div>
+          </div> -->
           <div class="form-group">
             <input type="text" class="form-control" placeholder="{{ 'TranslationValue' | translate }}" [(ngModel)]="selectedTranslation && selectedTranslation.value" name="value">
           </div>
-          <div class="form-group mb-0">
+          <!-- <div class="form-group mb-0">
             <select class="custom-select" [(ngModel)]="selectedTranslation && selectedTranslation.lang" name="language">
               <option value="" disabled>{{ 'TranslationLanguage' | translate }}</option>
               <option *ngFor="let lang of languages" [value]="lang.key">{{ lang.label | translate }}</option>
             </select>
-          </div>
+          </div> -->
         </form>
       </div>
       <div class="modal-footer">

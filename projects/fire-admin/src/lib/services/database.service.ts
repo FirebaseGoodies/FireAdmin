@@ -1,4 +1,4 @@
-import { AngularFirestore, DocumentReference, QueryFn } from '@angular/fire/firestore';
+import { AngularFirestore, DocumentReference, QueryFn, AngularFirestoreDocument, AngularFirestoreCollection } from '@angular/fire/firestore';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -19,12 +19,21 @@ export class DatabaseService {
   }
 
   /**
+   * Get collection ref
+   * 
+   * @param path 
+   */
+  getCollectionRef(path: string, queryFn?: QueryFn): AngularFirestoreCollection<firebase.firestore.DocumentData> {
+    return this.db.collection(path, queryFn);
+  }
+
+  /**
    * Get collection
    * 
    * @param path 
    */
   getCollection(path: string, queryFn?: QueryFn): Observable<any> {
-    return this.db.collection(path, queryFn).snapshotChanges().pipe(map((changes) => {
+    return this.getCollectionRef(path, queryFn).snapshotChanges().pipe(map((changes) => {
         // console.log(changes);
         let docs = [];
         changes.forEach(({ payload: { doc } }) => {
@@ -64,13 +73,23 @@ export class DatabaseService {
   }
 
   /**
+   * Get document ref
+   * 
+   * @param collectionPath 
+   * @param documentPath 
+   */
+  getDocumentRef(collectionPath: string, documentPath: string): AngularFirestoreDocument<firebase.firestore.DocumentData> {
+    return this.db.collection(collectionPath).doc(documentPath);
+  }
+
+  /**
    * Get document
    * 
    * @param collectionPath 
    * @param documentPath 
    */
   getDocument(collectionPath: string, documentPath: string): Observable<any> {
-    return this.db.collection(collectionPath).doc(documentPath).valueChanges();
+    return this.getDocumentRef(collectionPath, documentPath).valueChanges();
   }
 
   /**
