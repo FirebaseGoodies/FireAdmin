@@ -1,3 +1,88 @@
 <fa-layout>
-  <p>pages-add works!</p>
+  <!-- Page Header -->
+  <div class="page-header row no-gutters py-4">
+    <div class="col-12 text-center text-sm-left mb-0">
+      <span class="text-uppercase page-subtitle">{{ 'Pages' | translate }}</span>
+      <h3 class="page-title">{{ 'AddNewPage' | translate }}</h3>
+    </div>
+  </div>
+  <!-- End Page Header -->
+  <div class="row">
+    <div class="col-lg-9 col-md-12">
+      <!-- Add New Page Form -->
+      <div class="card card-small mb-3">
+        <div class="card-body">
+          <form class="add-new-page">
+            <input class="form-control form-control-lg" type="text" placeholder="{{ 'PageTitle' | translate }}" [(ngModel)]="title" name="title" (input)="onTitleInput()">
+          </form>
+        </div>
+        <div class="card-footer border-top d-flex">
+          <div class="my-auto ml-auto">
+            <button class="btn btn-sm btn-white" (click)="addBlock($event)">
+              <i class="material-icons">add</i> {{ 'AddBlock' | translate }}
+            </button>
+          </div>
+        </div>
+      </div>
+      <!-- / Add New Page Form -->
+      <div class="row">
+        <div class="col">
+          <span class="file-manager__group-title text-uppercase text-light">{{ 'PageBlocks' | translate }}</span>
+        </div>
+      </div>
+      <div class="row">
+        <div *ngFor="let block of blocks; let i = index" class="col-lg-6">
+          <div class="card card-small mb-3">
+            <div class="card-header border-bottom d-flex" #blockCardHeader>
+              <h6 class="m-0 overflow-hidden">{{ block.key?.length ? block.key : ('PageBlock' | translate) }}</h6>
+              <span class="ml-auto cursor-pointer" title="{{ 'RemoveBlock' | translate }}" (click)="removeBlock(i)">
+                <i class="material-icons">delete_outline</i>
+              </span>
+              <span class="ml-4">
+                <div class="block-handle cursor-pointer" title="{{ 'CollapseBlock' | translate }}" (click)="blockCardHeader.isToggled = !blockCardHeader.isToggled"></div>
+              </span>
+            </div>
+            <div class="card-body" [class.d-none]="blockCardHeader.isToggled">
+              <input class="form-control mb-3" type="text" placeholder="{{ 'BlockName' | translate }}" [(ngModel)]="block.name" name="block-name" (input)="onBlockNameInput(block)">
+              <select class="form-control custom-select mb-3" [(ngModel)]="block.type" name="block-type">
+                <option value="" disabled>{{ 'BlockType' | translate }}</option>
+                <option *ngFor="let type of blockTypes" [value]="type.value">{{ type.label | translate }}</option>
+              </select>
+              <textarea class="form-control" style="min-height: 100px" placeholder="{{ 'BlockContent' | translate }}" [(ngModel)]="block.content" name="block-content"></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-3 col-md-12">
+      <!-- Page Overview -->
+      <div class="card card-small mb-3">
+        <div class="card-header border-bottom">
+          <h6 class="m-0">{{ 'Actions' | translate }}</h6>
+        </div>
+        <div class="card-body p-0">
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item p-3">
+              <span class="d-flex mb-2">
+                <i class="material-icons mr-1 mt-1">translate</i><span class="mr-1 mt-1">{{ 'PageLanguage' | translate }}:</span>
+                <select class="custom-select col-md-7 ml-auto" [(ngModel)]="language" name="language">
+                  <option *ngFor="let lang of languages" [value]="lang.key">{{ lang.label | translate }}</option>
+                </select>
+              </span>
+              <span class="d-flex mb-2">
+                <i class="material-icons mr-1 mt-1">link</i><span class="mr-1 mt-1">{{ 'PageSlug' | translate }}:</span>
+                <input type="text" class="form-control col-md-7 ml-auto" [(ngModel)]="slug" name="slug">
+              </span>
+            </li>
+            <li class="list-group-item d-flex px-3 pt-0">
+              <button class="btn btn-sm btn-accent m-auto" [disabled]="!title?.length || !slug?.length" (click)="addPage($event)" #addButton>
+                <i class="material-icons">note_add</i> {{ 'AddPage' | translate }} <i *ngIf="addButton.isLoading" class="fas fa-circle-notch fa-spin ml-1"></i>
+              </button>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <!-- / Page Overview -->
+    </div>
+  </div>
 </fa-layout>
