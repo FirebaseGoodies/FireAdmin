@@ -49,3 +49,27 @@ export function toggleSidebar() {
     $(".main-sidebar").toggleClass("open");
   }
 }
+
+export function initPopover(selector: string = '.popover') {
+  /**
+   * Stolen from: https://stackoverflow.com/a/19684440
+   */
+  $(selector).popover({
+    trigger: 'manual',
+    html: true,
+    animation: false
+  }).on('mouseenter', function () {
+    var _this = this;
+    $(this).popover('show');
+    $('.popover').on('mouseleave', function () {
+      $(_this).popover('hide');
+    });
+  }).on('mouseleave', function () {
+    var _this = this;
+    setTimeout(function () {
+      if (!$('.popover:hover').length) {
+        $(_this).popover('hide');
+      }
+    }, 300);
+  });
+}

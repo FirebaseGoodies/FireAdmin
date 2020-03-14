@@ -129,7 +129,6 @@ export const en = {
   "Contributor": "Contributor",
   "Guest": "Guest",
   // Translations
-  "AddNewTranslation": "Add New Translation",
   "NewTranslation": "New Translation",
   "TranslationKey": "Key",
   "TranslationValue": "Value",
@@ -142,4 +141,5 @@ export const en = {
   "EditTranslation": "Edit Translation",
   "TranslationSaved": "Translation <b>${key}</b> has been saved!",
   "TranslationKeyAlreadyExists": "Translation key <b>${key}</b> already exists for language <b>${lang}</b>.",
+  "TranslationsTooltip": "Translations can be used with <a href=\"http://www.ngx-translate.com/\" target=\"_blank\">ngx-translate</a> library, for any repetitive text (on header/footer or breadcrumb) that needs to be translated.",
 };

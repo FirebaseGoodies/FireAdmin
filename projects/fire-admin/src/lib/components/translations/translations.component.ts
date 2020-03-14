@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, AfterViewInit } from '@angular/core';
 import { SettingsService } from '../../services/settings.service';
 import { Language } from '../../models/language.model';
 import { AlertService } from '../../services/alert.service';
@@ -8,13 +8,14 @@ import { DataTableDirective } from 'angular-datatables';
 import { refreshDataTable } from '../../helpers/datatables.helper';
 import { TranslationData } from '../../models/collections/translation.model';
 import { TranslationsService } from '../../services/collections/translations.service';
+import { initPopover } from '../../helpers/layout.helper';
 
 @Component({
   selector: 'fa-translations',
   templateUrl: './translations.component.html',
   styleUrls: ['./translations.component.css']
 })
-export class TranslationsComponent implements OnInit, OnDestroy {
+export class TranslationsComponent implements OnInit, OnDestroy, AfterViewInit {
 
   key: string;
   value: string;
@@ -60,6 +61,10 @@ export class TranslationsComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.dataTableTrigger.unsubscribe();
     this.subscription.unsubscribe();
+  }
+
+  ngAfterViewInit() {
+    initPopover('#translations-tooltip');
   }
 
   addTranslation(event: Event) {
