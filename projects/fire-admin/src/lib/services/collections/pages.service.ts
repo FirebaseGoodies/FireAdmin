@@ -35,8 +35,12 @@ export class PagesService extends DocumentTranslationsService {
       createdBy: this.auth.currentUser.id,
       updatedBy: null
     };
-    data.blocks.forEach((block: PageBlock|any) => {
-      page.blocks[block.key] = {
+    data.blocks.forEach((block: PageBlock|any, index: number) => {
+      let key = block.key;
+      if (page.blocks[key]) {
+        key += '-' + index;
+      }
+      page.blocks[key] = {
         name: block.name,
         type: block.type,
         content: block.content
@@ -117,8 +121,12 @@ export class PagesService extends DocumentTranslationsService {
       updatedAt: now(),
       updatedBy: this.auth.currentUser.id
     };
-    data.blocks.forEach((block: PageBlock|any) => {
-      page.blocks[block.key] = {
+    data.blocks.forEach((block: PageBlock|any, index: number) => {
+      let key = block.key;
+      if (page.blocks[key]) {
+        key += '-' + index;
+      }
+      page.blocks[key] = {
         name: block.name,
         type: block.type,
         content: block.content
