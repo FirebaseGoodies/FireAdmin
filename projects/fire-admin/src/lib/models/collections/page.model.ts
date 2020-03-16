@@ -1,3 +1,5 @@
+import { DocumentTranslation } from './document-translation';
+import { Observable } from 'rxjs';
 
 export interface Page {
   id?: string,
@@ -8,7 +10,11 @@ export interface Page {
   createdAt?: number,
   updatedAt?: number,
   createdBy?: string,
-  updatedBy?: string
+  author?: string|Observable<string>,
+  updatedBy?: string,
+  translationId?: string,
+  translations?: PageTranslation, // used to store translations on object fetch
+  isTranslatable?: boolean
 }
 
 export interface PageBlock {
@@ -24,6 +30,4 @@ export enum PageBlockType {
   JSON = 'json'
 }
 
-export interface PageTranslation {
-  [key: string]: string // key == lang, value == page id
-}
+export interface PageTranslation extends DocumentTranslation { }

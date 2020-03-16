@@ -12,9 +12,10 @@ import { AuthService } from '../auth.service';
 import { UsersService } from './users.service';
 import { User } from '../../models/collections/user.model';
 import { QueryFn } from '@angular/fire/firestore';
+import { DocumentTranslationsService } from './abstract/document-translations.service';
 
 @Injectable()
-export class PostsService {
+export class PostsService extends DocumentTranslationsService {
 
   private allStatus: object = {};
   private statusColors: object = {
@@ -25,12 +26,13 @@ export class PostsService {
   private imagesCache: object = {};
 
   constructor(
-    private db: DatabaseService,
+    protected db: DatabaseService,
     private storage: StorageService,
     private settings: SettingsService,
     private users: UsersService,
     private auth: AuthService
   ) {
+    super(db, 'postTranslations');
     Object.keys(PostStatus).forEach((key: string) => {
       this.allStatus[PostStatus[key]] = key;
     });
@@ -240,33 +242,6 @@ export class PostsService {
 
   setStatus(id: string, status: PostStatus) {
     return this.db.setDocument('posts', id, { status: status });
-  }
-
-  //----------------------------------------------------
-  // Translations
-  //----------------------------------------------------
-
-  private addTranslation(lang: string, id: string, parentId?: string) {
-    const translation = { [lang]: id };
-    return parentId ? this.db.setDocument('postTranslations', parentId, translation) : this.db.addDocument('postTranslations', translation);
-  }
-
-  private getTranslations(id: string) {
-    return this.db.getDocument('postTranslations', id);
-  }
-
-  private getTranslationsWhere(field: string, operator: firebase.firestore.WhereFilterOp, value: string) {
-    return this.db.getCollection('postTranslations', ref => ref.where(field, operator, value));
-  }
-
-  private deleteTranslation(id: string, lang?: string, translations?: PostTranslation) {
-    const newTranslations = lang && translations ? Object.keys(translations).reduce((object, key) => {
-      if (key !== lang) {
-        object[key] = translations[key];
-      }
-      return object;
-    }, {}) : {};
-    return Object.keys(newTranslations).length > 0 ? this.db.setDocument('postTranslations', id, newTranslations, false) : this.db.deleteDocument('postTranslations', id);
   }
 
 }
