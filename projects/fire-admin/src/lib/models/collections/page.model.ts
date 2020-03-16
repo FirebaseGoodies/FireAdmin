@@ -6,7 +6,7 @@ export interface Page {
   title: string,
   slug: string,
   lang: string,
-  blocks: { [key: string]: PageBlock }[],
+  blocks: { [key: string]: PageBlock },
   createdAt?: number,
   updatedAt?: number,
   createdBy?: string,

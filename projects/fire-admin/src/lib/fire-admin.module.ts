@@ -49,6 +49,7 @@ import { UsersEditComponent } from './components/users/edit/users-edit.component
 import { LoadingIndicatorComponent } from './components/shared/loading-indicator/loading-indicator.component';
 import { TranslationsComponent } from './components/translations/translations.component';
 import { TranslationsService } from './services/collections/translations.service';
+import { PagesService } from './services/collections/pages.service';
 
 @NgModule({
   declarations: [
@@ -110,6 +111,7 @@ import { TranslationsService } from './services/collections/translations.service
     UsersService,
     FirebaseUserService,
     TranslationsService,
+    PagesService,
     // Set database config (for AngularFireModule)
     {
       provide: FirebaseOptionsToken,

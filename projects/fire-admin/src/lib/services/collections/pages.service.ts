@@ -24,28 +24,34 @@ export class PagesService extends DocumentTranslationsService {
     super(db, 'pageTranslations');
   }
 
-  add(data: Page, translationId?: string) {
-    const page: Page = {
-      title: data.title,
-      lang: data.lang,
-      slug: data.slug,
-      blocks: [],
-      createdAt: now(), // timestamp
-      updatedAt: null,
-      createdBy: this.auth.currentUser.id,
-      updatedBy: null
-    };
-    data.blocks.forEach((block: PageBlock|any, index: number) => {
-      let key = block.key;
-      if (page.blocks[key]) {
+  formatBlocks(blocks: PageBlock[]) {
+    let formattedBlocks = {};
+    blocks.forEach((block: PageBlock, index: number) => {
+      let key = block.key || index;
+      if (formattedBlocks[key]) {
         key += '-' + index;
       }
-      page.blocks[key] = {
+      formattedBlocks[key] = {
         name: block.name,
         type: block.type,
         content: block.content
       };
     });
+    //console.log(blocks, formattedBlocks);
+    return formattedBlocks;
+  }
+
+  add(data: Page, translationId?: string) {
+    const page: Page = {
+      title: data.title,
+      lang: data.lang,
+      slug: data.slug,
+      blocks: data.blocks || {},
+      createdAt: now(), // timestamp
+      updatedAt: null,
+      createdBy: this.auth.currentUser.id,
+      updatedBy: null
+    };
     return new Promise((resolve, reject) => {
       this.db.addDocument('pages', page).then((doc: any) => {
         this.addTranslation(data.lang, doc.id, translationId).then((translation: any) => {
@@ -117,21 +123,10 @@ export class PagesService extends DocumentTranslationsService {
       title: data.title,
       lang: data.lang,
       slug: data.slug,
-      blocks: [],
+      blocks: data.blocks || {},
       updatedAt: now(),
       updatedBy: this.auth.currentUser.id
     };
-    data.blocks.forEach((block: PageBlock|any, index: number) => {
-      let key = block.key;
-      if (page.blocks[key]) {
-        key += '-' + index;
-      }
-      page.blocks[key] = {
-        name: block.name,
-        type: block.type,
-        content: block.content
-      };
-    });
     return this.db.setDocument('pages', id, page);
   }
 
@@ -143,6 +138,17 @@ export class PagesService extends DocumentTranslationsService {
         }).catch((error: Error) => {
           reject(error);
         });
+      }).catch((error: Error) => {
+        reject(error);
+      });
+    });
+  }
+
+  isSlugDuplicated(slug: string, lang: string, id?: string): Promise<boolean> {
+    return new Promise((resolve, reject) => {
+      this.getWhereFn(ref => ref.where('slug', '==', slug).where('lang', '==', lang)).pipe(take(1)).toPromise().then((pages: Page[]) => {
+        //console.log(pages, pages[0]['id']);
+        resolve(pages && pages.length && (!id || (pages[0]['id'] as any) !== id));
       }).catch((error: Error) => {
         reject(error);
       });

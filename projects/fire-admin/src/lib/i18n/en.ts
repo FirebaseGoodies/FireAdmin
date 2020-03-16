@@ -39,6 +39,8 @@ export const en = {
   "BlockContent": "Content",
   "RemoveBlock": "Remove",
   "CollapseBlock": "Collapse",
+  "PageAdded": "Page successfully added!",
+  "PageSlugAlreadyExists": "Page slug already exists! Choose another one.",
   // Pages: Block types
   "Text": "Text",
   "HTML": "HTML",
