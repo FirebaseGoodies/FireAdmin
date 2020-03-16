@@ -148,7 +148,7 @@ export class PostsEditComponent implements OnInit, AfterViewInit, OnDestroy {
     };
     startLoading();
     // Check if post slug is duplicated
-    this.posts.getWhere(this.language + '.slug', '==', this.slug).pipe(take(1)).toPromise().then((posts: Post[]) => {
+    this.posts.getWhereFn(ref => ref.where('slug', '==', this.slug).where('lang', '==', this.language)).pipe(take(1)).toPromise().then((posts: Post[]) => {
       //console.log(posts, posts[0]['id']);
       if (posts && posts.length && (posts[0]['id'] as any) !== this.id) {
         // Warn user about post slug
