@@ -159,9 +159,8 @@ export class PostsTranslateComponent implements OnInit, AfterViewInit, OnDestroy
     };
     startLoading();
     // Check if post slug is duplicated
-    this.posts.getWhereFn(ref => ref.where('slug', '==', this.slug).where('lang', '==', this.language)).pipe(take(1)).toPromise().then((posts: Post[]) => {
-      //console.log(posts, posts[0]['id']);
-      if (posts && posts.length && (posts[0]['id'] as any) !== this.origin.id) {
+    this.posts.isSlugDuplicated(this.slug, this.language, this.origin.id).then((duplicated: boolean) => {
+      if (duplicated) {
         // Warn user about post slug
         this.alert.warning(this.i18n.get('PostSlugAlreadyExists'), false, 5000);
         stopLoading();

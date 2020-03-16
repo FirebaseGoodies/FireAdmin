@@ -7,11 +7,11 @@ import { Language } from '../../../models/language.model';
 import { CategoriesService } from '../../../services/collections/categories.service';
 import { Category } from '../../../models/collections/category.model';
 import { Observable, Subject } from 'rxjs';
-import { map, take, takeUntil } from 'rxjs/operators';
+import { map, takeUntil } from 'rxjs/operators';
 import { AlertService } from '../../../services/alert.service';
 import { PostsService } from '../../../services/collections/posts.service';
 import { NavigationService } from '../../../services/navigation.service';
-import { Post, PostStatus } from '../../../models/collections/post.model';
+import { PostStatus } from '../../../models/collections/post.model';
 import { getEmptyImage } from '../../../helpers/assets.helper';
 
 @Component({
@@ -124,9 +124,8 @@ export class PostsAddComponent implements OnInit, AfterViewInit {
     };
     startLoading();
     // Check if post slug is duplicated
-    this.posts.getWhereFn(ref => ref.where('slug', '==', this.slug).where('lang', '==', this.language)).pipe(take(1)).toPromise().then((posts: Post[]) => {
-      //console.log(posts);
-      if (posts && posts.length) {
+    this.posts.isSlugDuplicated(this.slug, this.language).then((duplicated: boolean) => {
+      if (duplicated) {
         // Warn user about post slug
         this.alert.warning(this.i18n.get('PostSlugAlreadyExists'), false, 5000);
         stopLoading();

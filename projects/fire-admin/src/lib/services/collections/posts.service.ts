@@ -244,4 +244,15 @@ export class PostsService extends DocumentTranslationsService {
     return this.db.setDocument('posts', id, { status: status });
   }
 
+  isSlugDuplicated(slug: string, lang: string, id?: string): Promise<boolean> {
+    return new Promise((resolve, reject) => {
+      this.getWhereFn(ref => ref.where('slug', '==', slug).where('lang', '==', lang)).pipe(take(1)).toPromise().then((posts: Post[]) => {
+        //console.log(posts, posts[0]['id']);
+        resolve(posts && posts.length && (!id || (posts[0]['id'] as any) !== id));
+      }).catch((error: Error) => {
+        reject(error);
+      });
+    });
+  }
+
 }
