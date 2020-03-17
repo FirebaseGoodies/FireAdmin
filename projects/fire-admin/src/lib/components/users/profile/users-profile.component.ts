@@ -6,11 +6,13 @@ import { UsersService } from '../../../services/collections/users.service';
 import { Subscription, Subject, Observable } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
 import { PostsService } from '../../../services/collections/posts.service';
-import { Post } from '../../../models/collections/post.model';
+import { Post, PostStatus } from '../../../models/collections/post.model';
 import { Language } from '../../../models/language.model';
 import { SettingsService } from '../../../services/settings.service';
 import { Category } from '../../../models/collections/category.model';
 import { CategoriesService } from '../../../services/collections/categories.service';
+import { AuthService } from '../../../services/auth.service';
+import { PagesService } from '../../../services/collections/pages.service';
 
 @Component({
   selector: 'fa-users-profile',
@@ -29,6 +31,7 @@ export class UsersProfileComponent implements OnInit, OnDestroy {
   private subscription: Subscription = new Subscription();
   private routeParamsChange: Subject<void> = new Subject<void>();
   private postsLanguageChange: Subject<void> = new Subject<void>();
+  statistics: { posts?: number, publishedPosts?: number, comments?: number, pages?: number } = {};
 
   constructor(
     public navigation: NavigationService,
@@ -36,10 +39,14 @@ export class UsersProfileComponent implements OnInit, OnDestroy {
     private posts: PostsService,
     private categories: CategoriesService,
     private settings: SettingsService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private auth: AuthService,
+    private pages: PagesService
   ) { }
 
   ngOnInit() {
+    // Get statistics
+    this.getStatistics();
     // Get all roles
     this.allRoles = this.users.getAllRoles();
     // Get languages
@@ -116,6 +123,22 @@ export class UsersProfileComponent implements OnInit, OnDestroy {
   onPostsLanguageChange() {
     this.postsLanguageChange.next();
     this.getLatestPosts();
+  }
+
+  private getStatistics() {
+    this.subscription.add(
+      this.auth.currentUserChange.subscribe(async (user: User) => {
+        // console.log(user);
+        if (user) {
+          this.statistics.posts = await this.posts.countWhere('createdBy', '==', user.id);
+          const publishedPosts = await this.posts.countWhereFn(ref => ref.where('createdBy', '==', user.id).where('status', '==', PostStatus.Published));
+          this.statistics.publishedPosts = Math.round((publishedPosts / this.statistics.posts) * 100);
+          this.statistics.comments = 0; // ToDo
+          this.statistics.pages = await this.pages.countWhere('createdBy', '==', user.id);
+        }
+      })
+    );
+    this.auth.currentUserChange.next(this.auth.currentUser); // push currentUser in case current user is already set
   }
 
 }

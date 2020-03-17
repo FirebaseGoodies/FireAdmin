@@ -10,9 +10,10 @@ import { Subject, Subscription } from 'rxjs';
 export class AuthService {
 
   currentUser: User = null;
+  currentUserChange: Subject<User> = new Subject<User>(); // emit User object on each user change
   firebaseUser: firebase.User = null;
   lastError: firebase.FirebaseError = null;
-  private userChange: Subject<void> = new Subject<void>();
+  private userChange: Subject<void> = new Subject<void>(); // used to stop users service subscription
   private subscription: Subscription = new Subscription();
 
   constructor(private afa: AngularFireAuth, private users: UsersService) {
@@ -30,6 +31,7 @@ export class AuthService {
               user.avatar = this.users.getAvatarUrl(user.avatar as string);
             }
             this.currentUser = user;
+            this.currentUserChange.next(this.currentUser);
             this.users.setCurrentUser(user); // used to avoid circular dependency issue (when injecting auth service into users service)
           })
         );

@@ -255,4 +255,19 @@ export class PostsService extends DocumentTranslationsService {
     });
   }
 
+  async countAll() {
+    const posts = await this.getAll().pipe(take(1)).toPromise();
+    return posts ? posts.length : 0;
+  }
+
+  async countWhere(field: string, operator: firebase.firestore.WhereFilterOp, value: string) {
+    const posts = await this.getWhere(field, operator, value).pipe(take(1)).toPromise();
+    return posts ? posts.length : 0;
+  }
+
+  async countWhereFn(queryFn: QueryFn) {
+    const posts = await this.getWhereFn(queryFn).pipe(take(1)).toPromise();
+    return posts ? posts.length : 0;
+  }
+
 }

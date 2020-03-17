@@ -55,20 +55,20 @@
         <div class="card-body">
           <div class="row">
             <div class="col-6 col-sm-3 text-center">
-              <h4 class="m-0">10</h4>
+              <h4 class="m-0">{{ statistics?.posts || 0 }}</h4>
               <span class="text-light text-uppercase">{{ 'Posts' | translate }}</span>
             </div>
             <div class="col-6 col-sm-3 text-center">
-              <h4 class="m-0">80%</h4>
+              <h4 class="m-0">{{ statistics?.publishedPosts || 0 }}%</h4>
               <span class="text-light text-uppercase">{{ 'Published' | translate }}</span>
             </div>
             <div class="col-6 col-sm-3 text-center">
-              <h4 class="m-0">4</h4>
-              <span class="text-light text-uppercase">{{ 'Pages' | translate }}</span>
+              <h4 class="m-0">{{ statistics?.comments || 0 }}</h4>
+              <span class="text-light text-uppercase">{{ 'Comments' | translate }}</span>
             </div>
             <div class="col-6 col-sm-3 text-center">
-              <h4 class="m-0">3</h4>
-              <span class="text-light text-uppercase">{{ 'Translations' | translate }}</span>
+              <h4 class="m-0">{{ statistics?.pages || 0 }}</h4>
+              <span class="text-light text-uppercase">{{ 'Pages' | translate }}</span>
             </div>
           </div>
         </div>
@@ -99,7 +99,7 @@
                   </td>
                   <td class="lo-stats__order-details">
                     <span>{{ post.title }}</span>
-                    <span>{{ post.slug }}</span>
+                    <span>{{ '/' + post.slug }}</span>
                   </td>
                   <td class="text-center">{{ post.date | date:'dd MMMM yyyy' }}</td>
                   <td class="text-center">
