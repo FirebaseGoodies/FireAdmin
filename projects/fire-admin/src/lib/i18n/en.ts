@@ -45,6 +45,13 @@ export const en = {
   "Text": "Text",
   "HTML": "HTML",
   "JSON": "JSON",
+  // Pages: List
+  "PageCreatedAt": "Creation date",
+  "PageUpdatedAt": "Last Modification date",
+  "PageAuthor": "Author",
+  "DeletePage": "Delete Page",
+  "ConfirmDeletePage": "Please confirm deleting page <b>${title}</b> ?",
+  "PageDeleted": "Page <b>${title}</b> has been deleted!",
   // Posts: Add
   "AddNewPost": "Add New Post",
   "PostTitle": "Post Title",

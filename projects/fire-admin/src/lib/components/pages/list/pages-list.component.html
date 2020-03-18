@@ -1,3 +1,85 @@
 <fa-layout>
-  <p>pages-list works!</p>
+  <!-- Page Header -->
+  <div class="page-header row no-gutters py-4">
+    <div class="col-12 text-center text-sm-left mb-0">
+      <span class="text-uppercase page-subtitle">{{ 'Pages' | translate }}</span>
+      <h3 class="page-title">{{ 'List' | translate }}</h3>
+    </div>
+  </div>
+  <!-- End Page Header -->
+  <fa-loading-indicator [show]="isLoading" [center]="true"></fa-loading-indicator>
+  <div class="row">
+    <div class="col-12 mb-4">
+      <div class="card card-small lo-stats">
+        <div class="card-body p-0">
+          <table datatable [dtOptions]="dataTableOptions" [dtTrigger]="dataTableTrigger" class="file-manager file-manager-list d-none table-responsive">
+            <thead>
+              <tr>
+                <th class="hide-sort-icons"></th>
+                <th class="text-left">{{ 'PageTitle' | translate }}</th>
+                <th>{{ 'PageLanguage' | translate }}</th>
+                <th>{{ 'PageCreatedAt' | translate }}</th>
+                <th>{{ 'PageUpdatedAt' | translate }}</th>
+                <th>{{ 'PageAuthor' | translate }}</th>
+                <th class="text-right hide-sort-icons">{{ 'Actions' | translate }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let page of allPages| async">
+                <td class="file-manager__item-icon sorting_1">
+                  <div>
+                    <i class="material-icons">insert_drive_file</i>
+                  </div>
+                </td>
+                <td class="text-left lo-stats__order-details">
+                  <span>{{ page.title }}</span>
+                  <span>{{ '/' + page.slug }}</span>
+                </td>
+                <td>{{ allLanguages[page.lang].label | translate }}</td>
+                <td>{{ page.createdAt | date:'dd MMMM yyyy HH:mm' }}</td>
+                <td>{{ page.updatedAt | date:'dd MMMM yyyy HH:mm' }}</td>
+                <td>
+                  <a *ngIf="page.createdBy" [routerLink]="navigation.getRouterLink('users', 'profile', page.createdBy)">
+                    {{ page.author | async }}
+                  </a>
+                </td>
+                <td class="text-right">
+                  <div class="btn-group btn-group-sm" role="group" aria-label="Table row actions">
+                    <button *ngIf="page.isTranslatable" type="button" class="btn btn-white active-light" title="{{ 'Translate' | translate }}" [routerLink]="navigation.getRouterLink('pages', 'translate', page.id)">
+                      <i class="material-icons">translate</i>
+                    </button>
+                    <button type="button" class="btn btn-white active-light" title="{{ 'Edit' | translate }}" [routerLink]="navigation.getRouterLink('pages', 'edit', page.id)">
+                      <i class="material-icons">edit</i>
+                    </button>
+                    <button type="button" class="btn btn-danger" title="{{ 'Delete' | translate }}" data-toggle="modal" data-target="#deleteModal" (click)="selectedPage = page">
+                      <i class="material-icons">delete</i>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
 </fa-layout>
+
+<!-- Delete Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">{{ 'DeletePage' | translate }}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body" innerHTML="{{ 'ConfirmDeletePage' | translate: {title: selectedPage?.title} }}"></div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-white" data-dismiss="modal">{{ 'Cancel' | translate }}</button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="deletePage(selectedPage)">{{ 'Delete' | translate }}</button>
+      </div>
+    </div>
+  </div>
+</div>
