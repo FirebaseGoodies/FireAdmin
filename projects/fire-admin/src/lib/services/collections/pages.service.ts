@@ -123,11 +123,22 @@ export class PagesService extends DocumentTranslationsService {
       title: data.title,
       lang: data.lang,
       slug: data.slug,
-      blocks: data.blocks || {},
+      //blocks: data.blocks || {}, // blocks should be replaced instead of been merged
       updatedAt: now(),
       updatedBy: this.auth.currentUser.id
     };
-    return this.db.setDocument('pages', id, page);
+    return new Promise((resolve, reject) => {
+      this.db.setDocument('pages', id, page).then(() => {
+        // replace blocks
+        this.db.updateDocument('pages', id, { blocks: data.blocks || {} }).then(() => {
+          resolve();
+        }).catch((error: Error) => {
+          reject(error);
+        });
+      }).catch((error: Error) => {
+        reject(error);
+      });
+    });
   }
 
   delete(id: string, data: { lang: string, translationId: string, translations: PageTranslation }) {

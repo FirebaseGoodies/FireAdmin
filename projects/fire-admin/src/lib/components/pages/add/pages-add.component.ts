@@ -2,12 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { slugify } from '../../../helpers/functions.helper';
 import { Language } from '../../../models/language.model';
 import { SettingsService } from '../../../services/settings.service';
-import { PageBlock, PageBlockType, Page } from '../../../models/collections/page.model';
+import { PageBlock, PageBlockType } from '../../../models/collections/page.model';
 import { I18nService } from '../../../services/i18n.service';
 import { PagesService } from '../../../services/collections/pages.service';
 import { AlertService } from '../../../services/alert.service';
 import { NavigationService } from '../../../services/navigation.service';
-import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'fa-pages-add',

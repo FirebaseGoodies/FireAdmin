@@ -73,6 +73,17 @@ export class DatabaseService {
   }
 
   /**
+   * Update document
+   * 
+   * @param collectionPath 
+   * @param documentPath 
+   * @param data 
+   */
+  updateDocument(collectionPath: string, documentPath: string, data: any): Promise<void> {
+    return this.db.collection(collectionPath).doc(documentPath).update(data);
+  }
+
+  /**
    * Get document ref
    * 
    * @param collectionPath 

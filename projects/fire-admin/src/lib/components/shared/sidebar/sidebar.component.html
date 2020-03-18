@@ -42,11 +42,11 @@
       </a>
     </li>
     <li class="nav-item dropdown">
-      <a class="nav-link dropdown-toggle" [class.active]="isActive(['pages', 'list'], ['pages', 'add'])" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="true">
+      <a class="nav-link dropdown-toggle" [class.active]="isActive(['pages', 'list'], ['pages', 'add'], ['pages', 'edit'], ['pages', 'translate'])" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="true">
         <i class="material-icons">insert_drive_file</i>
         <span>{{ 'Pages' | translate }}</span>
       </a>
-      <div class="dropdown-menu dropdown-menu-small" [class.show]="style === 'expanded' && isActive(['pages', 'list'], ['pages', 'add'])">
+      <div class="dropdown-menu dropdown-menu-small" [class.show]="style === 'expanded' && isActive(['pages', 'list'], ['pages', 'add'], ['pages', 'edit'], ['pages', 'translate'])">
         <a class="dropdown-item " [routerLink]="navigation.getRouterLink('pages', 'list')" routerLinkActive="active">{{ 'List' | translate }}</a>
         <a class="dropdown-item " [routerLink]="navigation.getRouterLink('pages', 'add')" routerLinkActive="active">{{ 'Add' | translate }}</a>
       </div>

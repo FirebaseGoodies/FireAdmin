@@ -50,6 +50,7 @@ import { LoadingIndicatorComponent } from './components/shared/loading-indicator
 import { TranslationsComponent } from './components/translations/translations.component';
 import { TranslationsService } from './services/collections/translations.service';
 import { PagesService } from './services/collections/pages.service';
+import { PagesTranslateComponent } from './components/pages/translate/pages-translate.component';
 
 @NgModule({
   declarations: [
@@ -78,7 +79,8 @@ import { PagesService } from './services/collections/pages.service';
     UsersProfileComponent,
     UsersEditComponent,
     LoadingIndicatorComponent,
-    TranslationsComponent
+    TranslationsComponent,
+    PagesTranslateComponent
   ],
   imports: [
     CommonModule,

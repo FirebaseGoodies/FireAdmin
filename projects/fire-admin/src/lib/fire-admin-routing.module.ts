@@ -12,6 +12,7 @@ import { PostsCategoriesComponent } from './components/posts/categories/posts-ca
 import { PagesListComponent } from './components/pages/list/pages-list.component';
 import { PagesAddComponent } from './components/pages/add/pages-add.component';
 import { PagesEditComponent } from './components/pages/edit/pages-edit.component';
+import { PagesTranslateComponent } from './components/pages/translate/pages-translate.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import { PostsTranslateComponent } from './components/posts/translate/posts-translate.component';
 import { UsersListComponent } from './components/users/list/users-list.component';
@@ -53,12 +54,20 @@ const routes: Routes = [
             component: PagesListComponent
           },
           {
+            path: 'list/author/:authorId',
+            component: PagesListComponent
+          },
+          {
             path: 'add',
             component: PagesAddComponent
           },
           {
-            path: 'edit/:id/:lang',
+            path: 'edit/:id',
             component: PagesEditComponent
+          },
+          {
+            path: 'translate/:id',
+            component: PagesTranslateComponent
           },
           {
             path: '**',
