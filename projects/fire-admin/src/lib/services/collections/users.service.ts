@@ -92,6 +92,10 @@ export class UsersService {
     return this.db.getDocument('users', id);
   }
 
+  getFullName(id: string) {
+    return this.get(id).pipe(map((user: User) => `${user.firstName} ${user.lastName}`));
+  }
+
   getAll() {
     return this.db.getCollection('users');
   }

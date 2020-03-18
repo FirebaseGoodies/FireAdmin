@@ -9,7 +9,6 @@ import { mergeMap, take, map } from 'rxjs/operators';
 import { SettingsService } from '../settings.service';
 import { Language } from '../../models/language.model';
 import { Observable, of } from 'rxjs';
-import { User } from '../../models/collections/user.model';
 import { QueryFn } from '@angular/fire/firestore';
 
 @Injectable()
@@ -96,7 +95,7 @@ export class PagesService extends DocumentTranslationsService {
         page.translations = await this.getTranslations(page.translationId).pipe(take(1)).toPromise();
         // console.log(page.translations);
         const pageLanguages = Object.keys(page.translations);
-        page.author = page.createdBy ? this.users.get(page.createdBy).pipe(map((user: User) => `${user.firstName} ${user.lastName}`)) : of(null);
+        page.author = page.createdBy ? this.users.getFullName(page.createdBy) : of(null);
         page.isTranslatable = !activeSupportedLanguages.every((lang: string) => pageLanguages.includes(lang));
       }
       //});

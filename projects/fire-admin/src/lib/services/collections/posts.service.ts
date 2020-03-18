@@ -10,7 +10,6 @@ import { SettingsService } from '../settings.service';
 import { Language } from '../../models/language.model';
 import { AuthService } from '../auth.service';
 import { UsersService } from './users.service';
-import { User } from '../../models/collections/user.model';
 import { QueryFn } from '@angular/fire/firestore';
 import { DocumentTranslationsService } from './abstract/document-translations.service';
 
@@ -151,7 +150,7 @@ export class PostsService extends DocumentTranslationsService {
           path: post.image,
           url: post.image ? merge(of(getLoadingImage()), this.getImageUrl(post.image as string)) : of(getEmptyImage())
         };
-        post.author = post.createdBy ? this.users.get(post.createdBy).pipe(map((user: User) => `${user.firstName} ${user.lastName}`)) : of(null);
+        post.author = post.createdBy ? this.users.getFullName(post.createdBy) : of(null);
         post.isTranslatable = !activeSupportedLanguages.every((lang: string) => postLanguages.includes(lang));
       }
       //});
