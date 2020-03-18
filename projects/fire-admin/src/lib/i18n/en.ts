@@ -27,7 +27,7 @@ export const en = {
   "Logout": "Logout",
   // Pages: Add
   "AddNewPage": "Add New Page",
-  "PageTitle": "Title",
+  "PageTitle": "Page Title",
   "PageSlug": "Slug",
   "PageLanguage": "Language",
   "PageBlock": "Block",
