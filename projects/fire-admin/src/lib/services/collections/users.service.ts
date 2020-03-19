@@ -14,6 +14,7 @@ export class UsersService {
   private allRoles: object = {};
   private imagesCache: object = {};
   private currentUser: User = null;
+  private fullNameCache: object = {};
 
   constructor(
     private db: DatabaseService,
@@ -93,7 +94,15 @@ export class UsersService {
   }
 
   getFullName(id: string) {
-    return this.get(id).pipe(map((user: User) => `${user.firstName} ${user.lastName}`));
+    if (this.fullNameCache[id]) {
+      return of(this.fullNameCache[id]);
+    } else {
+      return this.get(id).pipe(map((user: User) => {
+        const fullName = `${user.firstName} ${user.lastName}`;
+        this.fullNameCache[id] = fullName;
+        return fullName;
+      }));
+    }
   }
 
   getAll() {

@@ -5,7 +5,7 @@ import { AuthService } from '../auth.service';
 import { DocumentTranslationsService } from './abstract/document-translations.service';
 import { Page, PageBlock, PageTranslation } from '../../models/collections/page.model';
 import { now } from '../../helpers/functions.helper';
-import { mergeMap, take, map } from 'rxjs/operators';
+import { mergeMap, take } from 'rxjs/operators';
 import { SettingsService } from '../settings.service';
 import { Language } from '../../models/language.model';
 import { Observable, of } from 'rxjs';
