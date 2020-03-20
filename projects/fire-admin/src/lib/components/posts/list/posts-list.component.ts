@@ -125,7 +125,6 @@ export class PostsListComponent implements OnInit, OnDestroy {
   }
 
   deletePost(post: Post) {
-    this.isLoading = true;
     this.posts.delete(post.id, {
       imagePath: (post.image as any).path as string,
       lang: post.lang,
@@ -133,9 +132,9 @@ export class PostsListComponent implements OnInit, OnDestroy {
       translations: post.translations
     }).then(() => {
       clearDataTable(this.dataTableElement);
+      this.isLoading = true;
       this.alert.success(this.i18n.get('PostDeleted', { title: post.title }), false, 5000);
     }).catch((error: Error) => {
-      this.isLoading = false;
       this.alert.error(error.message);
     });
   }

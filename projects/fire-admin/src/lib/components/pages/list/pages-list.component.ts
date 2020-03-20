@@ -80,16 +80,15 @@ export class PagesListComponent implements OnInit, OnDestroy {
   }
 
   deletePage(page: Page) {
-    this.isLoading = true;
     this.pages.delete(page.id, {
       lang: page.lang,
       translationId: page.translationId,
       translations: page.translations
     }).then(() => {
       clearDataTable(this.dataTableElement);
+      this.isLoading = true;
       this.alert.success(this.i18n.get('PageDeleted', { title: page.title }), false, 5000);
     }).catch((error: Error) => {
-      this.isLoading = false;
       this.alert.error(error.message);
     });
   }
