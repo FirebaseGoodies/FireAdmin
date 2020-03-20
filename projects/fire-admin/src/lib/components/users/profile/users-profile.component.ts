@@ -11,7 +11,6 @@ import { Language } from '../../../models/language.model';
 import { SettingsService } from '../../../services/settings.service';
 import { Category } from '../../../models/collections/category.model';
 import { CategoriesService } from '../../../services/collections/categories.service';
-import { AuthService } from '../../../services/auth.service';
 import { PagesService } from '../../../services/collections/pages.service';
 
 @Component({
@@ -40,13 +39,10 @@ export class UsersProfileComponent implements OnInit, OnDestroy {
     private categories: CategoriesService,
     private settings: SettingsService,
     private route: ActivatedRoute,
-    private auth: AuthService,
     private pages: PagesService
   ) { }
 
   ngOnInit() {
-    // Get statistics
-    this.getStatistics();
     // Get all roles
     this.allRoles = this.users.getAllRoles();
     // Get languages
@@ -85,6 +81,8 @@ export class UsersProfileComponent implements OnInit, OnDestroy {
             if (user) {
               this.user = user;
               this.user.id = params.id;
+              // Get statistics
+              this.getStatistics();
               // Get latest posts
               this.getLatestPosts();
             } else {
@@ -125,20 +123,14 @@ export class UsersProfileComponent implements OnInit, OnDestroy {
     this.getLatestPosts();
   }
 
-  private getStatistics() {
-    this.subscription.add(
-      this.auth.currentUserChange.subscribe(async (user: User) => {
-        // console.log(user);
-        if (user) {
-          this.statistics.posts = await this.posts.countWhere('createdBy', '==', user.id);
-          const publishedPosts = await this.posts.countWhereFn(ref => ref.where('createdBy', '==', user.id).where('status', '==', PostStatus.Published));
-          this.statistics.publishedPosts = Math.round((publishedPosts / this.statistics.posts) * 100);
-          this.statistics.comments = 0; // ToDo
-          this.statistics.pages = await this.pages.countWhere('createdBy', '==', user.id);
-        }
-      })
-    );
-    this.auth.currentUserChange.next(this.auth.currentUser); // push currentUser in case current user is already set
+  private async getStatistics() {
+    if (this.user && this.user.id) {
+      this.statistics.posts = await this.posts.countWhere('createdBy', '==', this.user.id);
+      const publishedPosts = await this.posts.countWhereFn(ref => ref.where('createdBy', '==', this.user.id).where('status', '==', PostStatus.Published));
+      this.statistics.publishedPosts = Math.round((publishedPosts / this.statistics.posts) * 100);
+      this.statistics.comments = 0; // ToDo
+      this.statistics.pages = await this.pages.countWhere('createdBy', '==', this.user.id);
+    }
   }
 
 }
