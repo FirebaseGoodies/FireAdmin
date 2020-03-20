@@ -108,8 +108,7 @@ export class PagesService extends DocumentTranslationsService {
   }
 
   getWhere(field: string, operator: firebase.firestore.WhereFilterOp, value: string, applyPipe: boolean = false) {
-    const pagesObservable = this.db.getCollection('pages', ref => ref.where(field, operator, value));
-    return applyPipe ? this.pipePages(pagesObservable) : pagesObservable;
+    return this.getWhereFn(ref => ref.where(field, operator, value), applyPipe);
   }
 
   getWhereFn(queryFn: QueryFn, applyPipe: boolean = false) {

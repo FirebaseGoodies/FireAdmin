@@ -163,8 +163,7 @@ export class PostsService extends DocumentTranslationsService {
   }
 
   getWhere(field: string, operator: firebase.firestore.WhereFilterOp, value: string, applyPipe: boolean = false) {
-    const postsObservable = this.db.getCollection('posts', ref => ref.where(field, operator, value));
-    return applyPipe ? this.pipePosts(postsObservable) : postsObservable;
+    return this.getWhereFn(ref => ref.where(field, operator, value), applyPipe);
   }
 
   getWhereFn(queryFn: QueryFn, applyPipe: boolean = false) {
