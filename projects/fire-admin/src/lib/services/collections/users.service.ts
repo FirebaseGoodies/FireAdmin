@@ -6,7 +6,8 @@ import { StorageService } from '../storage.service';
 import { FirebaseUserService } from '../firebase-user.service';
 import { getDefaultAvatar, getLoadingImage } from '../../helpers/assets.helper';
 import { of, merge } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
+import { QueryFn } from '@angular/fire/firestore';
 
 @Injectable()
 export class UsersService {
@@ -110,7 +111,11 @@ export class UsersService {
   }
 
   getWhere(field: string, operator: firebase.firestore.WhereFilterOp, value: string) {
-    return this.db.getCollection('users', ref => ref.where(field, operator, value));
+    return this.getWhereFn(ref => ref.where(field, operator, value));
+  }
+
+  getWhereFn(queryFn: QueryFn) {
+    return this.db.getCollection('users', queryFn);
   }
 
   getAvatarUrl(imagePath: string) {
@@ -218,6 +223,21 @@ export class UsersService {
         reject(error);
       });
     });
+  }
+
+  async countAll() {
+    const users = await this.getAll().pipe(take(1)).toPromise();
+    return users ? users.length : 0;
+  }
+
+  async countWhere(field: string, operator: firebase.firestore.WhereFilterOp, value: string) {
+    const users = await this.getWhere(field, operator, value).pipe(take(1)).toPromise();
+    return users ? users.length : 0;
+  }
+
+  async countWhereFn(queryFn: QueryFn) {
+    const users = await this.getWhereFn(queryFn).pipe(take(1)).toPromise();
+    return users ? users.length : 0;
   }
 
 }

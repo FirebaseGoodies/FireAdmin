@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { DatabaseService } from '../database.service';
 import { Translation, TranslationData } from '../../models/collections/translation.model';
 import { take, map } from 'rxjs/operators';
+import { QueryFn } from '@angular/fire/firestore';
 
 @Injectable()
 export class TranslationsService {
@@ -38,7 +39,11 @@ export class TranslationsService {
   }
 
   getWhere(field: string, operator: firebase.firestore.WhereFilterOp, value: string) {
-    return this.db.getCollection('translations', ref => ref.where(field, operator, value));
+    return this.getWhereFn(ref => ref.where(field, operator, value));
+  }
+
+  getWhereFn(queryFn: QueryFn) {
+    return this.db.getCollection('translations', queryFn);
   }
 
   edit(data: TranslationData) {
@@ -75,6 +80,21 @@ export class TranslationsService {
         resolve(false);
       });
     });
+  }
+
+  async countAll() {
+    const translations = await this.getAll().pipe(take(1)).toPromise();
+    return translations ? translations.length : 0;
+  }
+
+  async countWhere(field: string, operator: firebase.firestore.WhereFilterOp, value: string) {
+    const translations = await this.getWhere(field, operator, value).pipe(take(1)).toPromise();
+    return translations ? translations.length : 0;
+  }
+
+  async countWhereFn(queryFn: QueryFn) {
+    const translations = await this.getWhereFn(queryFn).pipe(take(1)).toPromise();
+    return translations ? translations.length : 0;
   }
 
 }
