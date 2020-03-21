@@ -59,7 +59,7 @@ export class PostsService extends DocumentTranslationsService {
       categories: data.categories,
       createdAt: now(), // timestamp
       updatedAt: null,
-      createdBy: this.db.currentUser.data.id,
+      createdBy: this.db.currentUser.id,
       updatedBy: null
     };
     if (translationId && data.image && !isFile(data.image)) {
@@ -179,7 +179,7 @@ export class PostsService extends DocumentTranslationsService {
       status: data.status,
       categories: data.categories,
       updatedAt: now(),
-      updatedBy: this.db.currentUser.data.id
+      updatedBy: this.db.currentUser.id
     };
     if (/*data.image !== undefined && */data.image === null) {
       post.image = null;

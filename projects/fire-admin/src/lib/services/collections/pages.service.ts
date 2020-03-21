@@ -46,7 +46,7 @@ export class PagesService extends DocumentTranslationsService {
       blocks: data.blocks || {},
       createdAt: now(), // timestamp
       updatedAt: null,
-      createdBy: this.db.currentUser.data.id,
+      createdBy: this.db.currentUser.id,
       updatedBy: null
     };
     return new Promise((resolve, reject) => {
@@ -121,7 +121,7 @@ export class PagesService extends DocumentTranslationsService {
       slug: data.slug,
       //blocks: data.blocks || {}, // blocks should be replaced instead of been merged
       updatedAt: now(),
-      updatedBy: this.db.currentUser.data.id
+      updatedBy: this.db.currentUser.id
     };
     return new Promise((resolve, reject) => {
       this.db.setDocument('pages', id, page).then(() => {

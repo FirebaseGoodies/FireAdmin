@@ -3,6 +3,7 @@ import { map, takeUntil, take } from 'rxjs/operators';
 import { User, UserRole } from '../models/collections/user.model';
 import { UsersService } from './collections/users.service';
 import { Subject, Subscription } from 'rxjs';
+import { DatabaseService } from './database.service';
 
 @Injectable()
 export class CurrentUserService {
@@ -12,7 +13,7 @@ export class CurrentUserService {
   private userChange: Subject<void> = new Subject<void>(); // used to stop users service subscription on each new subscription
   private subscription: Subscription = new Subscription();
 
-  constructor(private users: UsersService) { }
+  constructor(private users: UsersService, private db: DatabaseService) { }
 
   get() {
     return this.data ? this.data : this.dataChange.pipe(take(1)).toPromise();
@@ -30,6 +31,7 @@ export class CurrentUserService {
         }
         this.data = user;
         this.dataChange.next(this.data);
+        this.db.setCurrentUser(user); // used to avoid circular dependency issue (when injecting currentUser service into database service)
       })
     );
   }

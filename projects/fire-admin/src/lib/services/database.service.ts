@@ -2,15 +2,25 @@ import { AngularFirestore, DocumentReference, QueryFn, AngularFirestoreDocument,
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { UserRole } from '../models/collections/user.model';
+import { UserRole, User } from '../models/collections/user.model';
 import { I18nService } from './i18n.service';
-import { CurrentUserService } from './current-user.service';
 
 @Injectable()
 export class DatabaseService {
 
-  constructor(private db: AngularFirestore, public currentUser: CurrentUserService, private i18n: I18nService) { }
+  currentUser: User = null;
 
+  constructor(private db: AngularFirestore, private i18n: I18nService) { }
+
+  /**
+   * Set current user
+   * 
+   * @param user 
+   */
+  setCurrentUser(user: User) {
+    this.currentUser = user;
+  }
+  
   /**
    * Check user role before perfoming an action/promise
    * 
@@ -18,7 +28,7 @@ export class DatabaseService {
    */
   private afterUserRoleCheck(promise: Promise<any>) {
     return new Promise((resolve, reject) => {
-      if (!this.currentUser.data || this.currentUser.data.role === UserRole.Guest) {
+      if (!this.currentUser || this.currentUser.role === UserRole.Guest) {
         reject(this.i18n.get('GuestsAreNotAllowedToMakeChanges'));
       } else {
         promise.then((value?: DocumentReference) => {

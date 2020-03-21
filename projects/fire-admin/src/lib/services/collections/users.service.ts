@@ -42,7 +42,7 @@ export class UsersService {
       avatar: null,
       createdAt: now(), // timestamp
       updatedAt: null,
-      createdBy: this.db.currentUser.data.id,
+      createdBy: this.db.currentUser.id,
       updatedBy: null
     };
     return new Promise((resolve, reject) => {
@@ -166,7 +166,7 @@ export class UsersService {
       role: data.role,
       bio: data.bio,
       updatedAt: now(),
-      updatedBy: this.db.currentUser.data.id
+      updatedBy: this.db.currentUser.id
     };
     if (/*data.avatar !== undefined && */data.avatar === null) {
       user.avatar = null;

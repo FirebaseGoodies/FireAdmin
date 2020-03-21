@@ -15,7 +15,7 @@ export class CategoriesService {
       lang: data.lang,
       createdAt: now(), // timestamp
       updatedAt: null,
-      createdBy: this.db.currentUser.data.id,
+      createdBy: this.db.currentUser.id,
       updatedBy: null
     };
     return this.db.addDocument('categories', category);
@@ -39,7 +39,7 @@ export class CategoriesService {
       slug: data.slug,
       lang: data.lang,
       updatedAt: now(),
-      updatedBy: this.db.currentUser.data.id
+      updatedBy: this.db.currentUser.id
     };
     return this.db.setDocument('categories', id, category);
   }
