@@ -91,13 +91,20 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   private getLatestPosts() {
-    this.latestPosts = this.posts.getAll().pipe(
+    this.latestPosts = this.posts.getWhereFn(ref => {
+      let query: any = ref;
+      // Filter by lang
+      if (this.postsLanguage !== '*') {
+        query = query.where('lang', '==', this.postsLanguage);
+      }
+      // orderBy & limit requires a database index to work with the where condition above
+      // as a workaround, they were replaced with client side sort/slice functions below
+      // query = query.orderBy('createdAt', 'desc');
+      // query = query.limit(5);
+      return query;
+    }, true).pipe(
       map((posts: Post[]) => {
         // console.log(posts);
-        // Filter by lang
-        if (this.postsLanguage !== '*') {
-          posts = posts.filter((post: Post) => post.lang === this.postsLanguage);
-        }
         return posts.sort((a: Post, b: Post) => b.createdAt - a.createdAt).slice(0, 5);
       }),
       takeUntil(this.postsLanguageChange)
@@ -110,14 +117,16 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   private getPostsByStatus() {
-    this.postsByStatus = this.posts.getAll().pipe(
+    this.postsByStatus = this.posts.getWhereFn(ref => {
+      let query: any = ref;
+      // Filter by lang
+      if (this.postsByStatusLanguage !== '*') {
+        query = query.where('lang', '==', this.postsByStatusLanguage);
+      }
+      return query;
+    }, true).pipe(
       map((posts: Post[]) => {
         // console.log(posts);
-        // Filter by lang
-        if (this.postsByStatusLanguage !== '*') {
-          posts = posts.filter((post: Post) => post.lang === this.postsByStatusLanguage);
-        }
-        // Get status count
         let postsByStatus: PostByStatus[] = [];
         Object.keys(PostStatus).forEach((key: string) => {
           postsByStatus[PostStatus[key]] = {
@@ -126,6 +135,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
             //percentage: 0
           };
         });
+        // Get status count
         posts.forEach((post: Post) => {
           postsByStatus[post.status].count += 1;
         })

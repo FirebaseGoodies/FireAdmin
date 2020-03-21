@@ -106,8 +106,10 @@ export class UsersProfileComponent implements OnInit, OnDestroy {
       if (this.postsLanguage !== '*') {
         query = query.where('lang', '==', this.postsLanguage);
       }
-      //query = query.orderBy('createdAt', 'desc'); // needs a database index to work
-      //query = query.limit(5); // avoid using limit here without sort, replaced with slice function below
+      // orderBy & limit requires a database index to work with the where condition above
+      // as a workaround, they were replaced with client side sort/slice functions below
+      // query = query.orderBy('createdAt', 'desc');
+      // query = query.limit(5);
       return query;
     }, true).pipe(
       map((posts: Post[]) => {
