@@ -30,10 +30,13 @@ export class DatabaseService {
   /**
    * Get collection
    * 
+   * known issue on several subscriptions: https://github.com/angular/angularfire/issues/1405
+   * 
    * @param path 
    */
   getCollection(path: string, queryFn?: QueryFn): Observable<any> {
-    return this.getCollectionRef(path, queryFn).snapshotChanges().pipe(map((changes) => {
+    return this.getCollectionRef(path, queryFn).snapshotChanges().pipe(
+      map((changes) => {
         // console.log(changes);
         let docs = [];
         changes.forEach(({ payload: { doc } }) => {
