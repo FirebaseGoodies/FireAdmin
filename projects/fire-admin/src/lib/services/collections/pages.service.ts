@@ -72,7 +72,7 @@ export class PagesService extends DocumentTranslationsService {
 
   get(id: string) {
     return this.db.getDocument('pages', id).pipe(mergeMap(async (page: Page) => {
-      const translations = await this.getTranslations(page.translationId).pipe(take(1)).toPromise();
+      const translations = page.translationId ? await this.getTranslations(page.translationId).pipe(take(1)).toPromise() : {};
       page.id = id;
       page.translations = translations;
       return page;
@@ -90,7 +90,7 @@ export class PagesService extends DocumentTranslationsService {
       //pages.forEach((page: Page) => { // forEach loop doesn't seems to work well with async/await
       for (let page of pages) {
         // console.log(page);
-        page.translations = await this.getTranslations(page.translationId).pipe(take(1)).toPromise();
+        page.translations = page.translationId ? await this.getTranslations(page.translationId).pipe(take(1)).toPromise() : {};
         // console.log(page.translations);
         const pageLanguages = Object.keys(page.translations);
         page.author = page.createdBy ? this.users.getFullName(page.createdBy) : of(null);
