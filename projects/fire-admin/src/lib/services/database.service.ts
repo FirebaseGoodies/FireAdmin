@@ -26,12 +26,12 @@ export class DatabaseService {
    * 
    * @param promise 
    */
-  private afterUserRoleCheck(promise: Promise<any>) {
+  private afterUserRoleCheck(promiseFn: Function) {
     return new Promise((resolve, reject) => {
       if (!this.currentUser || this.currentUser.role === UserRole.Guest) {
-        reject(this.i18n.get('GuestsAreNotAllowedToMakeChanges'));
+        reject({ message: this.i18n.get('GuestsAreNotAllowedToMakeChanges') });
       } else {
-        promise.then((value?: DocumentReference) => {
+        promiseFn().then((value?: DocumentReference) => {
           resolve(value);
         }).catch((error: Error) => {
           reject(error);
@@ -47,7 +47,7 @@ export class DatabaseService {
    * @param data 
    */
   addCollection(path: string, data: any): Promise<DocumentReference|any> {
-    return this.afterUserRoleCheck(this.db.collection(path).add(data));
+    return this.afterUserRoleCheck(() => this.db.collection(path).add(data));
   }
 
   /**
@@ -90,9 +90,9 @@ export class DatabaseService {
    */
   addDocument(collectionPath: string, data: any, documentPath?: string): Promise<any> {
     if (documentPath && documentPath.length) {
-      return this.afterUserRoleCheck(this.setDocument(collectionPath, documentPath, data));
+      return this.afterUserRoleCheck(() => this.setDocument(collectionPath, documentPath, data));
     } else {
-      return this.afterUserRoleCheck(this.addCollection(collectionPath, data));
+      return this.afterUserRoleCheck(() => this.addCollection(collectionPath, data));
     }
   }
 
@@ -104,7 +104,7 @@ export class DatabaseService {
    * @param data 
    */
   setDocument(collectionPath: string, documentPath: string, data: any, merge: boolean = true): Promise<void|any> {
-    return this.afterUserRoleCheck(this.db.collection(collectionPath).doc(documentPath).set(data, { merge: merge }));
+    return this.afterUserRoleCheck(() => this.db.collection(collectionPath).doc(documentPath).set(data, { merge: merge }));
   }
 
   /**
@@ -115,7 +115,7 @@ export class DatabaseService {
    * @param data 
    */
   updateDocument(collectionPath: string, documentPath: string, data: any): Promise<void|any> {
-    return this.afterUserRoleCheck(this.db.collection(collectionPath).doc(documentPath).update(data));
+    return this.afterUserRoleCheck(() => this.db.collection(collectionPath).doc(documentPath).update(data));
   }
 
   /**
@@ -145,7 +145,7 @@ export class DatabaseService {
    * @param documentPath 
    */
   deleteDocument(collectionPath: string, documentPath: string): Promise<void|any> {
-    return this.afterUserRoleCheck(this.db.collection(collectionPath).doc(documentPath).delete());
+    return this.afterUserRoleCheck(() => this.db.collection(collectionPath).doc(documentPath).delete());
   }
 
   /**
