@@ -1,18 +1,17 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
-import { AuthService } from '../auth.service';
 import { NavigationService } from '../navigation.service';
-import { take } from 'rxjs/operators';
 import { User, UserRole } from '../../models/collections/user.model';
+import { CurrentUserService } from '../current-user.service';
 
 @Injectable()
 export class UserGuardService implements CanActivate {
 
-  constructor(private auth: AuthService, private navigation: NavigationService) { }
+  constructor(private currentUser: CurrentUserService, private navigation: NavigationService) { }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean> {
     return new Promise(async (resolve, reject) => {
-      const user: User = this.auth.currentUser ? this.auth.currentUser : await this.auth.currentUserChange.pipe(take(1)).toPromise();
+      const user: User = await this.currentUser.get();
       //console.log(user);
       if (user.role === UserRole.Administrator) {
         resolve(true);

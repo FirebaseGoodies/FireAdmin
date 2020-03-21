@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewEncapsulation, OnDestroy } from '@angular/core';
 import { AlertService } from './services/alert.service';
-import { AuthService } from './services/auth.service';
+import { CurrentUserService } from './services/current-user.service';
 
 @Component({
   selector: 'fa-root',
@@ -10,13 +10,13 @@ import { AuthService } from './services/auth.service';
 })
 export class FireAdminComponent implements OnInit, OnDestroy {
 
-  constructor(private alert: AlertService, private auth: AuthService) { }
+  constructor(private alert: AlertService, private currentUser: CurrentUserService) { }
 
   ngOnInit() {
   }
 
   ngOnDestroy() {
-    this.auth.unsubscribe();
+    this.currentUser.unsubscribe();
   }
 
   clearAlert() {

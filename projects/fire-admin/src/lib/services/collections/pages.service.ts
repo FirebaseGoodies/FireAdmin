@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { DatabaseService } from '../database.service';
 import { UsersService } from './users.service';
-import { AuthService } from '../auth.service';
 import { DocumentTranslationsService } from './abstract/document-translations.service';
 import { Page, PageBlock, PageTranslation } from '../../models/collections/page.model';
 import { now } from '../../helpers/functions.helper';
@@ -10,6 +9,7 @@ import { SettingsService } from '../settings.service';
 import { Language } from '../../models/language.model';
 import { Observable, of } from 'rxjs';
 import { QueryFn } from '@angular/fire/firestore';
+import { CurrentUserService } from '../current-user.service';
 
 @Injectable()
 export class PagesService extends DocumentTranslationsService {
@@ -18,7 +18,7 @@ export class PagesService extends DocumentTranslationsService {
     protected db: DatabaseService,
     private settings: SettingsService,
     private users: UsersService,
-    private auth: AuthService
+    private currentUser: CurrentUserService
   ) {
     super(db, 'pageTranslations');
   }
@@ -48,7 +48,7 @@ export class PagesService extends DocumentTranslationsService {
       blocks: data.blocks || {},
       createdAt: now(), // timestamp
       updatedAt: null,
-      createdBy: this.auth.currentUser.id,
+      createdBy: this.currentUser.data.id,
       updatedBy: null
     };
     return new Promise((resolve, reject) => {
@@ -123,7 +123,7 @@ export class PagesService extends DocumentTranslationsService {
       slug: data.slug,
       //blocks: data.blocks || {}, // blocks should be replaced instead of been merged
       updatedAt: now(),
-      updatedBy: this.auth.currentUser.id
+      updatedBy: this.currentUser.data.id
     };
     return new Promise((resolve, reject) => {
       this.db.setDocument('pages', id, page).then(() => {

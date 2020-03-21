@@ -8,10 +8,10 @@ import { of, merge, Observable } from 'rxjs';
 import { getEmptyImage, getLoadingImage } from '../../helpers/assets.helper';
 import { SettingsService } from '../settings.service';
 import { Language } from '../../models/language.model';
-import { AuthService } from '../auth.service';
 import { UsersService } from './users.service';
 import { QueryFn } from '@angular/fire/firestore';
 import { DocumentTranslationsService } from './abstract/document-translations.service';
+import { CurrentUserService } from '../current-user.service';
 
 @Injectable()
 export class PostsService extends DocumentTranslationsService {
@@ -29,7 +29,7 @@ export class PostsService extends DocumentTranslationsService {
     private storage: StorageService,
     private settings: SettingsService,
     private users: UsersService,
-    private auth: AuthService
+    private currentUser: CurrentUserService
   ) {
     super(db, 'postTranslations');
     Object.keys(PostStatus).forEach((key: string) => {
@@ -61,7 +61,7 @@ export class PostsService extends DocumentTranslationsService {
       categories: data.categories,
       createdAt: now(), // timestamp
       updatedAt: null,
-      createdBy: this.auth.currentUser.id,
+      createdBy: this.currentUser.data.id,
       updatedBy: null
     };
     if (translationId && data.image && !isFile(data.image)) {
@@ -181,7 +181,7 @@ export class PostsService extends DocumentTranslationsService {
       status: data.status,
       categories: data.categories,
       updatedAt: now(),
-      updatedBy: this.auth.currentUser.id
+      updatedBy: this.currentUser.data.id
     };
     if (/*data.image !== undefined && */data.image === null) {
       post.image = null;

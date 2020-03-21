@@ -52,6 +52,7 @@ import { TranslationsService } from './services/collections/translations.service
 import { PagesService } from './services/collections/pages.service';
 import { PagesTranslateComponent } from './components/pages/translate/pages-translate.component';
 import { UserGuardService } from './services/guards/user-guard.service';
+import { CurrentUserService } from './services/current-user.service';
 
 @NgModule({
   declarations: [
@@ -116,6 +117,7 @@ import { UserGuardService } from './services/guards/user-guard.service';
     FirebaseUserService,
     TranslationsService,
     PagesService,
+    CurrentUserService,
     // Set database config (for AngularFireModule)
     {
       provide: FirebaseOptionsToken,

@@ -12,7 +12,7 @@ import { SettingsService } from '../../../services/settings.service';
 import { Category } from '../../../models/collections/category.model';
 import { CategoriesService } from '../../../services/collections/categories.service';
 import { PagesService } from '../../../services/collections/pages.service';
-import { AuthService } from '../../../services/auth.service';
+import { CurrentUserService } from '../../../services/current-user.service';
 
 @Component({
   selector: 'fa-users-profile',
@@ -41,7 +41,7 @@ export class UsersProfileComponent implements OnInit, OnDestroy {
     private settings: SettingsService,
     private route: ActivatedRoute,
     private pages: PagesService,
-    private auth: AuthService
+    private currentUser: CurrentUserService
   ) { }
 
   ngOnInit() {
@@ -138,7 +138,7 @@ export class UsersProfileComponent implements OnInit, OnDestroy {
   }
 
   canEditProfile() {
-    return this.auth.currentUser && this.auth.currentUser.role !== UserRole.Guest;
+    return this.currentUser.data && this.currentUser.data.role !== UserRole.Guest;
   }
 
 }

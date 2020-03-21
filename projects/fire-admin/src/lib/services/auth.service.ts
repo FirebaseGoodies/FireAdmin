@@ -1,50 +1,23 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { first, map, takeUntil } from 'rxjs/operators';
+import { first } from 'rxjs/operators';
 import { auth } from 'firebase/app';
-import { User, UserRole } from '../models/collections/user.model';
-import { UsersService } from './collections/users.service';
-import { Subject, Subscription } from 'rxjs';
+import { CurrentUserService } from './current-user.service';
 
 @Injectable()
 export class AuthService {
 
-  currentUser: User = null;
-  currentUserChange: Subject<User> = new Subject<User>(); // emit User object on each user change
   firebaseUser: firebase.User = null;
   lastError: firebase.FirebaseError = null;
-  private userChange: Subject<void> = new Subject<void>(); // used to stop users service subscription on auth state change
-  private subscription: Subscription = new Subscription();
 
-  constructor(private afa: AngularFireAuth, private users: UsersService) {
+  constructor(private afa: AngularFireAuth, private currentUser: CurrentUserService) {
     this.afa.auth.onAuthStateChanged((user: firebase.User) => {
       // console.log(user);
       this.firebaseUser = user;
       if (user) {
-        this.userChange.next();
-        this.subscription.add(
-          this.users.getWhere('uid', '==', user.uid).pipe(
-            map((users: User[]) => users[0] || null),
-            takeUntil(this.userChange)
-          ).subscribe((user: User) => {
-            if (user) {
-              user.avatar = this.users.getAvatarUrl(user.avatar as string);
-            }
-            this.currentUser = user;
-            this.currentUserChange.next(this.currentUser);
-            this.users.setCurrentUser(user); // used to avoid circular dependency issue (when injecting auth service into users service)
-          })
-        );
+        this.currentUser.set(user);
       }
     });
-  }
-
-  unsubscribe() {
-    this.subscription.unsubscribe();
-  }
-
-  isAdmin() {
-    return this.currentUser && this.currentUser.role === UserRole.Administrator;
   }
 
   private _isSignedIn(): boolean {

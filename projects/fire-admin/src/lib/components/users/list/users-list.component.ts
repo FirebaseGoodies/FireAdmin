@@ -9,7 +9,7 @@ import { ActivatedRoute } from '@angular/router';
 import { NavigationService } from '../../../services/navigation.service';
 import { map, takeUntil, skip } from 'rxjs/operators';
 import { refreshDataTable } from '../../../helpers/datatables.helper';
-import { AuthService } from '../../../services/auth.service';
+import { CurrentUserService } from '../../../services/current-user.service';
 
 @Component({
   selector: 'fa-users-list',
@@ -36,7 +36,7 @@ export class UsersListComponent implements OnInit, OnDestroy {
     private alert: AlertService,
     private i18n: I18nService,
     private route: ActivatedRoute,
-    private auth: AuthService,
+    private currentUser: CurrentUserService,
     public navigation: NavigationService
   ) { }
 
@@ -50,7 +50,7 @@ export class UsersListComponent implements OnInit, OnDestroy {
         this.isLoading = true;
         // Get all users
         this.allUsers = this.users.getAll().pipe(
-          skip(this.auth.currentUser ? 1 : 0), // workaround to skip first emitted value when currentUser subscription is running
+          skip(this.currentUser.data ? 1 : 0), // workaround to skip first emitted value when currentUser subscription is running
           map((users: User[]) => {
             // Filter by role
             if (params.role) {
