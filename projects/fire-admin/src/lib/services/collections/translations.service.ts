@@ -98,19 +98,19 @@ export class TranslationsService {
 
   private count(docs: DocumentData[]) {
     let count = 0;
-    docs.forEach(doc => {
+    docs.forEach((doc: DocumentData) => {
       count += Object.keys(doc.data()).length;
     });
     return count;
   }
 
   async countAll() {
-    const docs = await this.db.getDocumentsData('translations');
+    const docs = await this.db.getDocumentsDataAsPromise('translations');
     return this.count(docs);
   }
 
   async countWhereFn(queryFn: QueryFn) {
-    const docs = await this.db.getDocumentsData('translations', queryFn);
+    const docs = await this.db.getDocumentsDataAsPromise('translations', queryFn);
     return this.count(docs);
   }
 

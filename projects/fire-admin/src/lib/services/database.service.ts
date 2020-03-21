@@ -114,12 +114,12 @@ export class DatabaseService {
   }
 
   /**
-   * Get documents data
+   * Get documents data as a promise
    * 
    * @param collectionPath 
    * @param queryFn 
    */
-  async getDocumentsData(collectionPath: string, queryFn?: QueryFn): Promise<DocumentData[]> {
+  async getDocumentsDataAsPromise(collectionPath: string, queryFn?: QueryFn): Promise<DocumentData[]> {
     const ref = await this.getCollectionRef(collectionPath, queryFn).get().toPromise();
     return ref ? ref.docs : [];
   }
@@ -131,7 +131,7 @@ export class DatabaseService {
    * @param queryFn 
    */
   async getDocumentsCount(collectionPath: string, queryFn?: QueryFn): Promise<number> {
-    const docs = await this.getDocumentsData(collectionPath, queryFn);
+    const docs = await this.getDocumentsDataAsPromise(collectionPath, queryFn);
     return docs.length;
   }
 
