@@ -225,19 +225,16 @@ export class UsersService {
     });
   }
 
-  async countAll() {
-    const users = await this.getAll().pipe(take(1)).toPromise();
-    return users ? users.length : 0;
+  countAll() {
+    return this.db.getDocumentsCount('users');
   }
 
-  async countWhere(field: string, operator: firebase.firestore.WhereFilterOp, value: string) {
-    const users = await this.getWhere(field, operator, value).pipe(take(1)).toPromise();
-    return users ? users.length : 0;
+  countWhereFn(queryFn: QueryFn) {
+    return this.db.getDocumentsCount('users', queryFn);
   }
 
-  async countWhereFn(queryFn: QueryFn) {
-    const users = await this.getWhereFn(queryFn).pipe(take(1)).toPromise();
-    return users ? users.length : 0;
+  countWhere(field: string, operator: firebase.firestore.WhereFilterOp, value: string) {
+    return this.countWhereFn(ref => ref.where(field, operator, value));
   }
 
 }

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { DatabaseService } from '../database.service';
 import { Translation, TranslationData } from '../../models/collections/translation.model';
 import { take, map } from 'rxjs/operators';
-import { QueryFn } from '@angular/fire/firestore';
+import { QueryFn, DocumentData } from '@angular/fire/firestore';
 
 @Injectable()
 export class TranslationsService {
@@ -82,19 +82,40 @@ export class TranslationsService {
     });
   }
 
-  async countAll() {
-    const translations = await this.getAll().pipe(take(1)).toPromise();
-    return translations ? translations.length : 0;
+  // async countAll() {
+  //   const translations = await this.getAll().pipe(take(1)).toPromise();
+  //   return translations ? translations.length : 0;
+  // }
+
+  // async countWhereFn(queryFn: QueryFn) {
+  //   const translations = await this.getWhereFn(queryFn).pipe(take(1)).toPromise();
+  //   return translations ? translations.length : 0;
+  // }
+
+  // countWhere(field: string, operator: firebase.firestore.WhereFilterOp, value: string) {
+  //   return this.countWhereFn(ref => ref.where(field, operator, value));
+  // }
+
+  private count(docs: DocumentData[]) {
+    let count = 0;
+    docs.forEach(doc => {
+      count += Object.keys(doc.data()).length;
+    });
+    return count;
   }
 
-  async countWhere(field: string, operator: firebase.firestore.WhereFilterOp, value: string) {
-    const translations = await this.getWhere(field, operator, value).pipe(take(1)).toPromise();
-    return translations ? translations.length : 0;
+  async countAll() {
+    const docs = await this.db.getDocumentsData('translations');
+    return this.count(docs);
   }
 
   async countWhereFn(queryFn: QueryFn) {
-    const translations = await this.getWhereFn(queryFn).pipe(take(1)).toPromise();
-    return translations ? translations.length : 0;
+    const docs = await this.db.getDocumentsData('translations', queryFn);
+    return this.count(docs);
+  }
+
+  countWhere(field: string, operator: firebase.firestore.WhereFilterOp, value: string) {
+    return this.countWhereFn(ref => ref.where(field, operator, value));
   }
 
 }

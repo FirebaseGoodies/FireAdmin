@@ -1,4 +1,4 @@
-import { AngularFirestore, DocumentReference, QueryFn, AngularFirestoreDocument, AngularFirestoreCollection } from '@angular/fire/firestore';
+import { AngularFirestore, DocumentReference, QueryFn, AngularFirestoreDocument, AngularFirestoreCollection, DocumentData } from '@angular/fire/firestore';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -23,7 +23,7 @@ export class DatabaseService {
    * 
    * @param path 
    */
-  getCollectionRef(path: string, queryFn?: QueryFn): AngularFirestoreCollection<firebase.firestore.DocumentData> {
+  getCollectionRef(path: string, queryFn?: QueryFn): AngularFirestoreCollection<DocumentData> {
     return this.db.collection(path, queryFn);
   }
 
@@ -89,7 +89,7 @@ export class DatabaseService {
    * @param collectionPath 
    * @param documentPath 
    */
-  getDocumentRef(collectionPath: string, documentPath: string): AngularFirestoreDocument<firebase.firestore.DocumentData> {
+  getDocumentRef(collectionPath: string, documentPath: string): AngularFirestoreDocument<DocumentData> {
     return this.db.collection(collectionPath).doc(documentPath);
   }
 
@@ -111,6 +111,28 @@ export class DatabaseService {
    */
   deleteDocument(collectionPath: string, documentPath: string): Promise<void> {
     return this.db.collection(collectionPath).doc(documentPath).delete();
+  }
+
+  /**
+   * Get documents data
+   * 
+   * @param collectionPath 
+   * @param queryFn 
+   */
+  async getDocumentsData(collectionPath: string, queryFn?: QueryFn): Promise<DocumentData[]> {
+    const ref = await this.getCollectionRef(collectionPath, queryFn).get().toPromise();
+    return ref ? ref.docs : [];
+  }
+
+  /**
+   * Get documents count
+   * 
+   * @param collectionPath 
+   * @param queryFn 
+   */
+  async getDocumentsCount(collectionPath: string, queryFn?: QueryFn): Promise<number> {
+    const docs = await this.getDocumentsData(collectionPath, queryFn);
+    return docs.length;
   }
 
 }
