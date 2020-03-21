@@ -29,7 +29,7 @@ export class DatabaseService {
   private afterUserRoleCheck(promiseFn: Function) {
     return new Promise((resolve, reject) => {
       if (!this.currentUser || this.currentUser.role === UserRole.Guest) {
-        reject({ message: this.i18n.get('GuestsAreNotAllowedToMakeChanges') });
+        reject({ message: this.i18n.get('GuestsAreNotAllowedToPerformChanges') });
       } else {
         promiseFn().then((value?: DocumentReference) => {
           resolve(value);
