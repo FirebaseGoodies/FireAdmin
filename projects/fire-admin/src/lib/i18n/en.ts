@@ -25,6 +25,8 @@ export const en = {
   "Profile": "Profile",
   "Settings": "Settings",
   "Logout": "Logout",
+  // Dashboard
+  "PostsByStatus": "Posts By Status",
   // Pages: Add
   "AddNewPage": "Add New Page",
   "PageTitle": "Page Title",
