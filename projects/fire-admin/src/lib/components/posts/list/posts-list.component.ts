@@ -72,20 +72,24 @@ export class PostsListComponent implements OnInit, OnDestroy {
         this.routeParamsChange.next();
         this.isLoading = true;
         // Get all posts
-        this.allPosts = this.posts.getAll().pipe(
+        this.allPosts = this.posts.getWhereFn(ref => {
+          let query: any = ref;
+          // Filter by status
+          if (params.status) {
+            query = query.where('status', '==', params.status);
+          }
+          // Filter by category
+          else if (params.categoryId) {
+            query = query.where('categories', 'array-contains', params.categoryId);
+          }
+          // Filter by author
+          else if (params.authorId) {
+            query = query.where('createdBy', '==', params.authorId);
+          }
+          //query = query.orderBy('createdAt', 'desc'); // requires an index to work
+          return query;
+        }, true).pipe(
           map((posts: Post[]) => {
-            // Filter by status
-            if (params.status) {
-              posts = posts.filter((post: Post) => post.status === params.status);
-            }
-            // Filter by category
-            else if (params.categoryId) {
-              posts = posts.filter((post: Post) => post.categories.indexOf(params.categoryId) !== -1);
-            }
-            // Filter by author
-            else if (params.authorId) {
-              posts = posts.filter((post: Post) => post.createdBy === params.authorId);
-            }
             return posts.sort((a: Post, b: Post) => b.createdAt - a.createdAt);
           }),
           takeUntil(this.routeParamsChange)

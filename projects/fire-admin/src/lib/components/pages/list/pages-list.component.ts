@@ -52,12 +52,16 @@ export class PagesListComponent implements OnInit, OnDestroy {
         this.routeParamsChange.next();
         this.isLoading = true;
         // Get all pages
-        this.allPages = this.pages.getAll().pipe(
+        this.allPages = this.pages.getWhereFn(ref => {
+          let query: any = ref;
+          // Filter by author
+          if (params.authorId) {
+            query = query.where('createdBy', '==', params.authorId);
+          }
+          //query = query.orderBy('createdAt', 'desc'); // requires an index to work
+          return query;
+        }, true).pipe(
           map((pages: Page[]) => {
-            // Filter by author
-            if (params.authorId) {
-              pages = pages.filter((page: Page) => page.createdBy === params.authorId);
-            }
             return pages.sort((a: Page, b: Page) => b.createdAt - a.createdAt);
           }),
           takeUntil(this.routeParamsChange)
