@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { first, map, takeUntil } from 'rxjs/operators';
 import { auth } from 'firebase/app';
-import { User } from '../models/collections/user.model';
+import { User, UserRole } from '../models/collections/user.model';
 import { UsersService } from './collections/users.service';
 import { Subject, Subscription } from 'rxjs';
 
@@ -10,6 +10,7 @@ import { Subject, Subscription } from 'rxjs';
 export class AuthService {
 
   currentUser: User = null;
+  currentUserChange: Subject<User> = new Subject<User>(); // emit User object on each user change
   firebaseUser: firebase.User = null;
   lastError: firebase.FirebaseError = null;
   private userChange: Subject<void> = new Subject<void>(); // used to stop users service subscription on auth state change
@@ -30,6 +31,7 @@ export class AuthService {
               user.avatar = this.users.getAvatarUrl(user.avatar as string);
             }
             this.currentUser = user;
+            this.currentUserChange.next(this.currentUser);
             this.users.setCurrentUser(user); // used to avoid circular dependency issue (when injecting auth service into users service)
           })
         );
@@ -39,6 +41,10 @@ export class AuthService {
 
   unsubscribe() {
     this.subscription.unsubscribe();
+  }
+
+  isAdmin() {
+    return this.currentUser && this.currentUser.role === UserRole.Administrator;
   }
 
   private _isSignedIn(): boolean {

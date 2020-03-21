@@ -51,6 +51,7 @@ import { TranslationsComponent } from './components/translations/translations.co
 import { TranslationsService } from './services/collections/translations.service';
 import { PagesService } from './services/collections/pages.service';
 import { PagesTranslateComponent } from './components/pages/translate/pages-translate.component';
+import { UserGuardService } from './services/guards/user-guard.service';
 
 @NgModule({
   declarations: [
@@ -101,6 +102,7 @@ import { PagesTranslateComponent } from './components/pages/translate/pages-tran
     AuthService,
     AuthGuardService,
     LoginGuardService,
+    UserGuardService,
     NavigationService,
     AlertService,
     LocalStorageService,

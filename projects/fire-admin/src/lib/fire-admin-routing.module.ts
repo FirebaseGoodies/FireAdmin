@@ -20,6 +20,7 @@ import { UsersAddComponent } from './components/users/add/users-add.component';
 import { UsersProfileComponent } from './components/users/profile/users-profile.component';
 import { UsersEditComponent } from './components/users/edit/users-edit.component';
 import { TranslationsComponent } from './components/translations/translations.component';
+import { UserGuardService } from './services/guards/user-guard.service';
 
 const routes: Routes = [
   {
@@ -125,23 +126,28 @@ const routes: Routes = [
         children: [
           {
             path: 'list',
-            component: UsersListComponent
+            component: UsersListComponent,
+            canActivate: [UserGuardService]
           },
           {
             path: 'list/role/:role',
-            component: UsersListComponent
+            component: UsersListComponent,
+            canActivate: [UserGuardService]
           },
           {
             path: 'add',
-            component: UsersAddComponent
+            component: UsersAddComponent,
+            canActivate: [UserGuardService]
           },
           {
             path: 'edit/:id',
-            component: UsersEditComponent
+            component: UsersEditComponent,
+            canActivate: [UserGuardService]
           },
           {
             path: 'profile/:id',
-            component: UsersProfileComponent
+            component: UsersProfileComponent,
+            canActivate: [UserGuardService]
           },
           {
             path: '**',

@@ -2,11 +2,33 @@ import { AngularFirestore, DocumentReference, QueryFn, AngularFirestoreDocument,
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { AuthService } from './auth.service';
+import { UserRole } from '../models/collections/user.model';
+import { I18nService } from './i18n.service';
 
 @Injectable()
 export class DatabaseService {
 
-  constructor(private db: AngularFirestore) { }
+  constructor(private db: AngularFirestore, private auth: AuthService, private i18n: I18nService) { }
+  
+  /**
+   * Check user role before perfoming an action/promise
+   * 
+   * @param promise 
+   */
+  private afterUserRoleCheck(promise: Promise<any>) {
+    return new Promise((resolve, reject) => {
+      if (!this.auth.currentUser || this.auth.currentUser.role === UserRole.Guest) {
+        reject(this.i18n.get('GuestsAreNotAllowedToMakeChanges'));
+      } else {
+        promise.then((value?: DocumentReference) => {
+          resolve(value);
+        }).catch((error: Error) => {
+          reject(error);
+        });
+      }
+    });
+  }
 
   /**
    * Add collection
@@ -14,8 +36,8 @@ export class DatabaseService {
    * @param path 
    * @param data 
    */
-  addCollection(path: string, data: any): Promise<DocumentReference> {
-    return this.db.collection(path).add(data);
+  addCollection(path: string, data: any): Promise<DocumentReference|any> {
+    return this.afterUserRoleCheck(this.db.collection(path).add(data));
   }
 
   /**
@@ -58,9 +80,9 @@ export class DatabaseService {
    */
   addDocument(collectionPath: string, data: any, documentPath?: string): Promise<any> {
     if (documentPath && documentPath.length) {
-      return this.setDocument(collectionPath, documentPath, data);
+      return this.afterUserRoleCheck(this.setDocument(collectionPath, documentPath, data));
     } else {
-      return this.addCollection(collectionPath, data);
+      return this.afterUserRoleCheck(this.addCollection(collectionPath, data));
     }
   }
 
@@ -71,8 +93,8 @@ export class DatabaseService {
    * @param documentPath 
    * @param data 
    */
-  setDocument(collectionPath: string, documentPath: string, data: any, merge: boolean = true): Promise<void> {
-    return this.db.collection(collectionPath).doc(documentPath).set(data, { merge: merge });
+  setDocument(collectionPath: string, documentPath: string, data: any, merge: boolean = true): Promise<void|any> {
+    return this.afterUserRoleCheck(this.db.collection(collectionPath).doc(documentPath).set(data, { merge: merge }));
   }
 
   /**
@@ -82,8 +104,8 @@ export class DatabaseService {
    * @param documentPath 
    * @param data 
    */
-  updateDocument(collectionPath: string, documentPath: string, data: any): Promise<void> {
-    return this.db.collection(collectionPath).doc(documentPath).update(data);
+  updateDocument(collectionPath: string, documentPath: string, data: any): Promise<void|any> {
+    return this.afterUserRoleCheck(this.db.collection(collectionPath).doc(documentPath).update(data));
   }
 
   /**
@@ -112,8 +134,8 @@ export class DatabaseService {
    * @param collectionPath 
    * @param documentPath 
    */
-  deleteDocument(collectionPath: string, documentPath: string): Promise<void> {
-    return this.db.collection(collectionPath).doc(documentPath).delete();
+  deleteDocument(collectionPath: string, documentPath: string): Promise<void|any> {
+    return this.afterUserRoleCheck(this.db.collection(collectionPath).doc(documentPath).delete());
   }
 
   /**

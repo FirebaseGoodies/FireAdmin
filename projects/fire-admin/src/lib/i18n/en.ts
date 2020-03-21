@@ -176,4 +176,6 @@ export const en = {
   "TranslationSaved": "Translation <b>${key}</b> has been saved!",
   "TranslationKeyAlreadyExists": "Translation key <b>${key}</b> already exists for language <b>${lang}</b>.",
   "TranslationsTooltip": "Translations can be used with <a href=\"http://www.ngx-translate.com/\" target=\"_blank\">ngx-translate</a> library, for any repetitive text (on header/footer or breadcrumb) that needs to be translated.",
+  // Error messages
+  "GuestsAreNotAllowedToMakeChanges": "Guest users are not allowed to make changes.",
 };

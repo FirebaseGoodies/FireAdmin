@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NavigationService } from '../../../services/navigation.service';
-import { User } from '../../../models/collections/user.model';
+import { User, UserRole } from '../../../models/collections/user.model';
 import { ActivatedRoute } from '@angular/router';
 import { UsersService } from '../../../services/collections/users.service';
 import { Subscription, Subject, Observable } from 'rxjs';
@@ -12,6 +12,7 @@ import { SettingsService } from '../../../services/settings.service';
 import { Category } from '../../../models/collections/category.model';
 import { CategoriesService } from '../../../services/collections/categories.service';
 import { PagesService } from '../../../services/collections/pages.service';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'fa-users-profile',
@@ -39,7 +40,8 @@ export class UsersProfileComponent implements OnInit, OnDestroy {
     private categories: CategoriesService,
     private settings: SettingsService,
     private route: ActivatedRoute,
-    private pages: PagesService
+    private pages: PagesService,
+    private auth: AuthService
   ) { }
 
   ngOnInit() {
@@ -133,6 +135,10 @@ export class UsersProfileComponent implements OnInit, OnDestroy {
       this.statistics.comments = 0; // ToDo
       this.statistics.pages = await this.pages.countWhere('createdBy', '==', this.user.id);
     }
+  }
+
+  canEditProfile() {
+    return this.auth.currentUser && this.auth.currentUser.role !== UserRole.Guest;
   }
 
 }

@@ -2,6 +2,7 @@ import { Component, OnInit, AfterViewInit, Input } from '@angular/core';
 import { NavigationService } from '../../../services/navigation.service';
 import { initDropdown, toggleSidebar } from '../../../helpers/layout.helper';
 import { getLogo } from '../../../helpers/assets.helper';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'fa-sidebar',
@@ -13,7 +14,7 @@ export class SidebarComponent implements OnInit, AfterViewInit {
   @Input() style: string = 'expanded';
   logo: string = getLogo();
 
-  constructor(public navigation: NavigationService) { }
+  constructor(public navigation: NavigationService, public auth: AuthService) { }
 
   ngOnInit() {
   }
