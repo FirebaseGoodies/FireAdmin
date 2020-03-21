@@ -6,7 +6,7 @@ import { StorageService } from '../storage.service';
 import { FirebaseUserService } from '../firebase-user.service';
 import { getDefaultAvatar, getLoadingImage } from '../../helpers/assets.helper';
 import { of, merge } from 'rxjs';
-import { map, take } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { QueryFn } from '@angular/fire/firestore';
 
 @Injectable()
@@ -14,7 +14,6 @@ export class UsersService {
 
   private allRoles: object = {};
   private imagesCache: object = {};
-  private currentUser: User = null;
   private fullNameCache: object = {};
 
   constructor(
@@ -31,10 +30,6 @@ export class UsersService {
     return this.allRoles;
   }
 
-  setCurrentUser(user: User) {
-    this.currentUser = user;
-  }
-
   add(data: User) {
     const user: User = {
       firstName: data.firstName,
@@ -47,7 +42,7 @@ export class UsersService {
       avatar: null,
       createdAt: now(), // timestamp
       updatedAt: null,
-      createdBy: this.currentUser.id,
+      createdBy: this.db.currentUser.data.id,
       updatedBy: null
     };
     return new Promise((resolve, reject) => {
@@ -171,7 +166,7 @@ export class UsersService {
       role: data.role,
       bio: data.bio,
       updatedAt: now(),
-      updatedBy: this.currentUser.id
+      updatedBy: this.db.currentUser.data.id
     };
     if (/*data.avatar !== undefined && */data.avatar === null) {
       user.avatar = null;

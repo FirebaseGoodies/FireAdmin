@@ -9,7 +9,6 @@ import { SettingsService } from '../settings.service';
 import { Language } from '../../models/language.model';
 import { Observable, of } from 'rxjs';
 import { QueryFn } from '@angular/fire/firestore';
-import { CurrentUserService } from '../current-user.service';
 
 @Injectable()
 export class PagesService extends DocumentTranslationsService {
@@ -17,8 +16,7 @@ export class PagesService extends DocumentTranslationsService {
   constructor(
     protected db: DatabaseService,
     private settings: SettingsService,
-    private users: UsersService,
-    private currentUser: CurrentUserService
+    private users: UsersService
   ) {
     super(db, 'pageTranslations');
   }
@@ -48,7 +46,7 @@ export class PagesService extends DocumentTranslationsService {
       blocks: data.blocks || {},
       createdAt: now(), // timestamp
       updatedAt: null,
-      createdBy: this.currentUser.data.id,
+      createdBy: this.db.currentUser.data.id,
       updatedBy: null
     };
     return new Promise((resolve, reject) => {
@@ -123,7 +121,7 @@ export class PagesService extends DocumentTranslationsService {
       slug: data.slug,
       //blocks: data.blocks || {}, // blocks should be replaced instead of been merged
       updatedAt: now(),
-      updatedBy: this.currentUser.data.id
+      updatedBy: this.db.currentUser.data.id
     };
     return new Promise((resolve, reject) => {
       this.db.setDocument('pages', id, page).then(() => {

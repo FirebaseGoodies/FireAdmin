@@ -9,8 +9,8 @@ import { CurrentUserService } from './current-user.service';
 @Injectable()
 export class DatabaseService {
 
-  constructor(private db: AngularFirestore, private currentUser: CurrentUserService, private i18n: I18nService) { }
-  
+  constructor(private db: AngularFirestore, public currentUser: CurrentUserService, private i18n: I18nService) { }
+
   /**
    * Check user role before perfoming an action/promise
    * 

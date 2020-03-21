@@ -30,7 +30,6 @@ export class CurrentUserService {
         }
         this.data = user;
         this.dataChange.next(this.data);
-        this.users.setCurrentUser(user); // used to avoid circular dependency issue (when injecting currentUser service into users service)
       })
     );
   }
