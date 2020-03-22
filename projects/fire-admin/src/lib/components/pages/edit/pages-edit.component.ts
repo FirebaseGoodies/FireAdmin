@@ -30,7 +30,7 @@ export class PagesEditComponent implements OnInit, OnDestroy {
     private i18n: I18nService,
     private pages: PagesService,
     private alert: AlertService,
-    private navigation: NavigationService,
+    public navigation: NavigationService,
     private route: ActivatedRoute
   ) { }
 
