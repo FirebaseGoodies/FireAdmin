@@ -56,7 +56,8 @@
             "aot": false,
             "assets": [
               "projects/demo/src/favicon.ico",
-              "projects/demo/src/assets"
+              "projects/demo/src/assets",
+              "projects/demo/src/.nojekyll"
             ],
             "styles": [
               "projects/demo/src/styles.css",
