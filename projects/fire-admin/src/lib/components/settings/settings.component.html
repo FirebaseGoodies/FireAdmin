@@ -83,7 +83,7 @@
         </div>
         <div class="card-footer border-top">
           <span class="ml-auto d-table mr-3">
-            <a [href]="navigation.getRouterLink('settings').join('/')" class="btn btn-sm btn-white mr-2">{{ 'Cancel' | translate }}</a>
+            <a [href]="'.' + navigation.getRouterLink('settings').join('/')" class="btn btn-sm btn-white mr-2">{{ 'Cancel' | translate }}</a>
             <a href="#" class="btn btn-sm btn-accent" (click)="saveChanges($event)">{{ 'SaveChanges' | translate }}</a>
           </span>
         </div>
