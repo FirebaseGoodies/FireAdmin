@@ -51,6 +51,11 @@ export const en = {
   "Text": "Text",
   "HTML": "HTML",
   "JSON": "JSON",
+  // Pages: Edit
+  "EditPage": "Edit Page",
+  "PageSaved": "Page successfully saved!",
+  // Pages: Translate
+  "TranslatePage": "Translate Page",
   // Pages: List
   "PageCreatedAt": "Creation date",
   "PageUpdatedAt": "Last Modification date",
@@ -76,11 +81,6 @@ export const en = {
   "MoveToTrash": "Move To Trash",
   "PostAdded": "Post successfully added!",
   "PostSlugAlreadyExists": "Post slug already exists! Choose another one.",
-  // Pages: Edit
-  "EditPage": "Edit Page",
-  "PageSaved": "Page successfully saved!",
-  // Pages: Translate
-  "TranslatePage": "Translate Page",
   // Posts: List
   "PostCreatedAt": "Creation date",
   "PostUpdatedAt": "Last Modification date",

@@ -28,6 +28,7 @@ export class SettingsComponent implements OnInit {
   saveChanges(event: Event) {
     event.preventDefault();
     this.settings.save();
+    this.i18n.setLanguage(this.settings.language);
     this.alert.success(this.i18n.get('SettingsSaved'), true);
     window.location.reload();
   }
