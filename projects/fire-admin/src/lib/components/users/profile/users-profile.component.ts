@@ -71,33 +71,33 @@ export class UsersProfileComponent implements OnInit, OnDestroy {
         // console.log(params);
         this.routeParamsChange.next();
         this.postsLanguageChange.next(); // trigger language change too
-        this.subscription.add(
-          this.users.get(params.id).pipe(
-            map((user: User) => {
-              user.avatar = this.users.getAvatarUrl(user.avatar as string);
-              return user;
-            }),
-            takeUntil(this.routeParamsChange)
-          ).subscribe((user: User) => {
-            // console.log(user);
-            if (user) {
-              this.user = user;
-              this.user.id = params.id;
-              // Get statistics
-              this.getStatistics();
-              // Get latest posts
-              this.getLatestPosts();
-            } else {
-              this.navigation.redirectTo('users', 'list');
-            }
-          })
-        );
+        this.users.get(params.id).pipe(
+          map((user: User) => {
+            user.avatar = this.users.getAvatarUrl(user.avatar as string);
+            return user;
+          }),
+          takeUntil(this.routeParamsChange)
+        ).subscribe((user: User) => {
+          // console.log(user);
+          if (user) {
+            this.user = user;
+            this.user.id = params.id;
+            // Get statistics
+            this.getStatistics();
+            // Get latest posts
+            this.getLatestPosts();
+          } else {
+            this.navigation.redirectTo('users', 'list');
+          }
+        });
       })
     );
   }
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
+    this.routeParamsChange.next();
+    this.postsLanguageChange.next();
   }
 
   private getLatestPosts() {

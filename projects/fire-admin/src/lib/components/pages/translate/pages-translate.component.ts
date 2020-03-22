@@ -77,6 +77,7 @@ export class PagesTranslateComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
+    this.routeParamsChange.next();
   }
 
   onTitleInput() {

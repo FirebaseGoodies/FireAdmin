@@ -87,6 +87,7 @@ export class PostsEditComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
+    this.routeParamsChange.next();
   }
 
   private setCategoriesObservable() {

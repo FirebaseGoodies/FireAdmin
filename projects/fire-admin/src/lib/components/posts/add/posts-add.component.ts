@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
 import { initTextEditor } from '../../../helpers/posts.helper';
 import { I18nService } from '../../../services/i18n.service';
 import { SettingsService } from '../../../services/settings.service';
@@ -19,7 +19,7 @@ import { getEmptyImage } from '../../../helpers/assets.helper';
   templateUrl: './posts-add.component.html',
   styleUrls: ['./posts-add.component.css']
 })
-export class PostsAddComponent implements OnInit, AfterViewInit {
+export class PostsAddComponent implements OnInit, AfterViewInit, OnDestroy {
 
   title: string;
   editor: any;
@@ -57,6 +57,10 @@ export class PostsAddComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this.editor = initTextEditor('#editor-container', this.i18n.get('PostContent'));
+  }
+
+  ngOnDestroy() {
+    this.languageChange.next();
   }
 
   private setCategoriesObservable() {

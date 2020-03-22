@@ -109,6 +109,7 @@ export class PostsListComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.dataTableTrigger.unsubscribe();
     this.subscription.unsubscribe();
+    this.routeParamsChange.next();
   }
 
   private setPostStatus(event: Event, post: Post, status: PostStatus) {

@@ -70,6 +70,7 @@ export class PagesEditComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
+    this.routeParamsChange.next();
   }
 
   onTitleInput() {

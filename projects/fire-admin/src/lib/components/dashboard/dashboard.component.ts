@@ -80,6 +80,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
+    this.postsLanguageChange.next();
+    this.postsByStatusLanguageChange.next();
   }
 
   private async getStatistics() {

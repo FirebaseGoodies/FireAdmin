@@ -85,6 +85,7 @@ export class UsersListComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.dataTableTrigger.unsubscribe();
     this.subscription.unsubscribe();
+    this.routeParamsChange.next();
   }
 
   deleteUser(user: User) {

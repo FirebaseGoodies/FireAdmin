@@ -92,6 +92,7 @@ export class PostsTranslateComponent implements OnInit, AfterViewInit, OnDestroy
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
+    this.languageOrRouteParamsChange.next();
   }
 
   private setCategoriesObservable() {

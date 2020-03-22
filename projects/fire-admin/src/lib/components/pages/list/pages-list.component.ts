@@ -81,6 +81,7 @@ export class PagesListComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.dataTableTrigger.unsubscribe();
     this.subscription.unsubscribe();
+    this.routeParamsChange.next();
   }
 
   deletePage(page: Page) {
