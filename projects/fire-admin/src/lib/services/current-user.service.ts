@@ -21,19 +21,21 @@ export class CurrentUserService {
 
   set(user: firebase.User) {
     this.userChange.next();
-    this.subscription.add(
-      this.users.getWhere('uid', '==', user.uid).pipe(
-        map((users: User[]) => users[0] || null),
-        takeUntil(this.userChange)
-      ).subscribe((user: User) => {
-        if (user) {
-          user.avatar = this.users.getAvatarUrl(user.avatar as string);
-        }
-        this.data = user;
-        this.dataChange.next(this.data);
-        this.db.setCurrentUser(user); // used to avoid circular dependency issue (when injecting currentUser service into database service)
-      })
-    );
+    if (user) {
+      this.subscription.add(
+        this.users.getWhere('uid', '==', user.uid).pipe(
+          map((users: User[]) => users[0] || null),
+          takeUntil(this.userChange)
+        ).subscribe((user: User) => {
+          if (user) {
+            user.avatar = this.users.getAvatarUrl(user.avatar as string);
+          }
+          this.data = user;
+          this.dataChange.next(this.data);
+          this.db.setCurrentUser(user); // used to avoid circular dependency issue (when injecting currentUser service into database service)
+        })
+      );
+    }
   }
 
   unsubscribe() {

@@ -14,9 +14,7 @@ export class AuthService {
     this.afa.auth.onAuthStateChanged((user: firebase.User) => {
       // console.log(user);
       this.firebaseUser = user;
-      if (user) {
-        this.currentUser.set(user);
-      }
+      this.currentUser.set(user);
     });
   }
 
