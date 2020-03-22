@@ -1,8 +1,8 @@
 # FireAdmin
 
-[![NPM version](https://img.shields.io/npm/v/fire-admin)](https://www.npmjs.com/package/fire-admin)
-[![Downloads](https://img.shields.io/npm/dt/fire-admin)](https://www.npmjs.com/package/fire-admin)
-[![License](https://img.shields.io/npm/l/fire-admin)](LICENSE)
+[![NPM version](https://img.shields.io/npm/v/ng-fire-admin)](https://www.npmjs.com/package/ng-fire-admin)
+[![Downloads](https://img.shields.io/npm/dt/ng-fire-admin)](https://www.npmjs.com/package/ng-fire-admin)
+[![License](https://img.shields.io/npm/l/ng-fire-admin)](LICENSE)
 
 A minimalistic headless CMS around Angular & Firebase.
 
@@ -30,7 +30,7 @@ A minimalistic headless CMS around Angular & Firebase.
 ## Installation
 
 ```
-npm install --save fire-admin
+npm install --save ng-fire-admin
 ```
 
 ## Usage
@@ -61,7 +61,7 @@ npm install --save fire-admin
   import { NgModule } from '@angular/core';
 
   import { AppComponent } from './app.component';
-+ import { FireAdminModule } from 'fire-admin';
++ import { FireAdminModule } from 'ng-fire-admin';
 + import { environment } from '../environments/environment';
 
   @NgModule({
@@ -85,7 +85,7 @@ npm install --save fire-admin
   const routes: Routes = [
 +   {
 +     path: 'admin',
-+     loadChildren: () => import('fire-admin').then(m => m.FireAdminModule)
++     loadChildren: () => import('ng-fire-admin').then(m => m.FireAdminModule)
 +   },
 +   {
 +     path: '**',

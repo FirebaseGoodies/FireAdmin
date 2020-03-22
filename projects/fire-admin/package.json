@@ -1,5 +1,5 @@
 {
-  "name": "fire-admin",
+  "name": "ng-fire-admin",
   "version": "0.0.1",
   "description": "A mini headless CMS around Angular & Firebase.",
   "keywords": [
