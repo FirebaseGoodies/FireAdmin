@@ -19,7 +19,7 @@
           <a class="dropdown-item" [routerLink]="navigation.getRouterLink('users', 'profile', currentUser.data?.id || '')"><i class="material-icons">person</i> {{ 'Profile' | translate }}</a>
           <a class="dropdown-item" [routerLink]="navigation.getRouterLink('settings')"><i class="material-icons">&#xE8B8;</i> {{ 'Settings' | translate }}</a>
           <div class="dropdown-divider"></div>
-          <a class="dropdown-item text-danger" href="#" (click)="signOut($event)">
+          <a class="dropdown-item text-danger" [routerLink]="navigation.getRouterLink('logout')">
             <i class="material-icons text-danger">&#xE879;</i> {{ 'Logout' | translate }}
           </a>
         </div>

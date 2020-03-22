@@ -33,11 +33,6 @@ export class NavbarComponent implements OnInit {
     );
   }
 
-  signOut(event: Event): void {
-    event.preventDefault();
-    this.navigation.redirectTo('logout');
-  }
-
   toggleSidebar(event: Event) {
     event.preventDefault();
     event.stopPropagation();
