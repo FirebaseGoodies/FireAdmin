@@ -6,7 +6,7 @@
 
 A minimalistic headless CMS around Angular & Firebase.
 
-![screenshot](screenshots/dashboard.png)
+![screenshot](https://github.com/AXeL-dev/FireAdmin/blob/master/screenshots/dashboard.png?raw=true)
 
 ## Demo
 
@@ -35,7 +35,7 @@ npm install --save ng-fire-admin
 
 ## Usage
 
-> It's recommended to use a [multi-project workspace](https://angular.io/guide/file-structure#multiple-projects) with basically 2 main applications (one named frontend & the other backend, or whatever you like) to avoid any potential conflicts, then apply the following on your backend app:
+> It's recommended to use a [multi-project workspace](https://angular.io/guide/file-structure#multiple-projects) with basically 2 main applications (one for the frontend part & the other for the backend) to avoid any potential conflicts, then apply the following changes on your backend app:
 
 **1**. Add your firebase configuration in `environment.ts`:
 
