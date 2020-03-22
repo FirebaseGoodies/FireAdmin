@@ -56,6 +56,7 @@ import { CurrentUserService } from './services/current-user.service';
 import { RegisterComponent } from './components/register/register.component';
 import { RegisterGuardService } from './services/guards/register-guard.service';
 import { ConfigService } from './services/collections/config.service';
+import { LogoutComponent } from './components/logout/logout.component';
 
 @NgModule({
   declarations: [
@@ -86,7 +87,8 @@ import { ConfigService } from './services/collections/config.service';
     LoadingIndicatorComponent,
     TranslationsComponent,
     PagesTranslateComponent,
-    RegisterComponent
+    RegisterComponent,
+    LogoutComponent
   ],
   imports: [
     CommonModule,

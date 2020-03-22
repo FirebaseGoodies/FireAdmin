@@ -23,6 +23,7 @@ import { TranslationsComponent } from './components/translations/translations.co
 import { UserGuardService } from './services/guards/user-guard.service';
 import { RegisterComponent } from './components/register/register.component';
 import { RegisterGuardService } from './services/guards/register-guard.service';
+import { LogoutComponent } from './components/logout/logout.component';
 
 const routes: Routes = [
   {
@@ -34,6 +35,11 @@ const routes: Routes = [
         path: 'login',
         component: LoginComponent,
         canActivate: [LoginGuardService]
+      },
+      // Logout
+      {
+        path: 'logout',
+        component: LogoutComponent
       },
       // Register
       {
