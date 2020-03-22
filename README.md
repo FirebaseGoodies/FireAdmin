@@ -1,27 +1,154 @@
 # FireAdmin
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.3.24.
+[![NPM version](https://img.shields.io/npm/v/fire-admin)](https://www.npmjs.com/package/fire-admin)
+[![Downloads](https://img.shields.io/npm/dt/fire-admin)](https://www.npmjs.com/package/fire-admin)
+[![License](https://img.shields.io/npm/l/fire-admin)](LICENSE)
 
-## Development server
+A minimalistic headless CMS around Angular & Firebase.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+![screenshot](screenshots/dashboard.png)
 
-## Code scaffolding
+## Demo
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+[FireAdmin Demo](https://axel-dev.github.io/FireAdmin/admin/login?email=guest@fireadmin.com&password=fireadmin)
+
+## Features
+
+- Simple & minimalistic
+- Customizable
+- Responsive
+- Internationalization ready
+- Easy/automated updates (via npm)
+
+## ToDo
+
+- [ ] Menus handler
+- [ ] Password reset feature
+- [ ] Posts comments
+- [ ] Posts custom fields
+
+## Installation
+
+```
+npm install --save fire-admin
+```
+
+## Usage
+
+> It's recommended to use a [multi-project workspace](https://angular.io/guide/file-structure#multiple-projects) with basically 2 main applications (one named frontend & the other backend, or whatever you like) to avoid any potential conflicts, then apply the following on your backend app:
+
+**1**. Add your firebase configuration in `environment.ts`:
+
+```diff
+  export const environment = {
+    production: false,
++   firebase: {
++     apiKey: "<API_KEY>",
++     authDomain: "<PROJECT_ID>.firebaseapp.com",
++     databaseURL: "https://<DATABASE_NAME>.firebaseio.com",
++     projectId: "<PROJECT_ID>",
++     storageBucket: "<BUCKET>.appspot.com",
++     messagingSenderId: "<SENDER_ID>",
++     appId: "<APP_ID>"
++   }
+  };
+```
+
+**2**. Register the `FireAdminModule` in a module, for example app module:
+
+```diff
+  import { BrowserModule } from '@angular/platform-browser';
+  import { NgModule } from '@angular/core';
+
+  import { AppComponent } from './app.component';
++ import { FireAdminModule } from 'fire-admin';
++ import { environment } from '../environments/environment';
+
+  @NgModule({
+    declarations: [AppComponent],
+    imports: [
+      BrowserModule,
++     FireAdminModule.initialize(environment.firebase)
+    ],
+    providers: [],
+    bootstrap: [AppComponent]
+  })
+  export class AppModule {}
+```
+
+**3**. Setup a simple routing as below:
+
+```diff
+  import { NgModule } from '@angular/core';
+  import { Routes, RouterModule } from '@angular/router';
+
+  const routes: Routes = [
++   {
++     path: 'admin',
++     loadChildren: () => import('fire-admin').then(m => m.FireAdminModule)
++   },
++   {
++     path: '**',
++     redirectTo: 'admin'
++   }
+  ];
+
+  @NgModule({
+    imports: [RouterModule.forRoot(routes)],
+    exports: [RouterModule]
+  })
+  export class AppRoutingModule { }
+```
+
+**4**. You may also need to add the following lines to `polyfills.ts`:
+
+```diff
+  // Add global to window, assigning the value of window itself.
++ (window as any).global = window;
+```
+
+**5**. In order to protect your database & storage data, you must add the following rules in your firebase console:
+
+**Firestore Database rules:**
+
+```
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /{collection}/{document=**} {
+      allow read: if collection != 'users' || request.auth != null;
+      allow write: if request.auth != null;
+    }
+  }
+}
+```
+
+**Storage rules:**
+
+```
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    match /{allPaths=**} {
+      allow read;
+      allow write: if request.auth != null;
+    }
+  }
+}
+```
 
 ## Build
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
 
-## Running unit tests
+## Publishing
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+After building your library with `ng build`, go to the dist folder `cd dist/fire-admin` and run `npm publish`.
 
-## Running end-to-end tests
+## Credits
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+<a target="_blank" href="https://icons8.com/icons/set/firebase">Firebase icon</a> by <a target="_blank" href="https://icons8.com">Icons8</a>.
 
-## Further help
+## License
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+This project is licensed under the [MIT](LICENSE) license.
