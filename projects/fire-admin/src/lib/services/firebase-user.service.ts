@@ -33,14 +33,18 @@ export class FirebaseUserService {
     });
   }
 
-  register(user: User, collectionPath: string = 'users'): Promise<string> {
+  register(user: User): Promise<string> {
     return new Promise((resolve, reject) => {
       this.app.auth().createUserWithEmailAndPassword(user.email, user.password).then((userCredential: auth.UserCredential) => {
         // console.log('User ' + userCredential.user.uid + ' created successfully!');
         user.uid = userCredential.user.uid;
-        this.app.firestore().collection(collectionPath).add(user).then(() => {
-          this.app.auth().signOut();
-          resolve(userCredential.user.uid);
+        this.app.firestore().collection('users').add(user).then(() => {
+          this.app.firestore().collection('config').doc('registration').set({ enabled: false }, { merge: true }).then(() => {
+            this.app.auth().signOut();
+            resolve(userCredential.user.uid);
+          }).catch((error: firebase.FirebaseError) => {
+            reject(error);
+          });
         }).catch((error: firebase.FirebaseError) => {
           reject(error);
         });

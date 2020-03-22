@@ -32,3 +32,15 @@ export function guid(): string {
  * Stolen from: https://stackoverflow.com/a/60461693
  */
 export const isFile = (input: File|any) => 'File' in window && input instanceof File;
+
+/**
+ * Stolen from: https://stackoverflow.com/a/24221895
+ */
+export function resolve(obj: object, ...path: string[]){
+  let current = obj;
+  while(path.length) {
+    if(typeof current !== 'object') return undefined;
+    current = current[path.shift()];
+  }
+  return current as any;
+}

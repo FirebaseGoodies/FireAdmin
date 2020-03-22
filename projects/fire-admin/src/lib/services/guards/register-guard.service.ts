@@ -1,21 +1,22 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
-import { UsersService } from '../collections/users.service';
 import { NavigationService } from '../navigation.service';
+import { ConfigService } from '../collections/config.service';
 
 @Injectable()
 export class RegisterGuardService implements CanActivate {
 
-  constructor(private users: UsersService, private navigation: NavigationService) { }
+  constructor(private navigation: NavigationService, private config: ConfigService) { }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean> {
     return new Promise(async (resolve, reject) => {
-      const usersCount = await this.users.countAll();
-      if (usersCount > 0) {
+      const registrationEnabled = await this.config.isRegistrationEnabled();
+      //console.log(registrationEnabled);
+      if (registrationEnabled) {
+        resolve(true);
+      } else {
         this.navigation.redirectTo('login');
         resolve(false);
-      } else {
-        resolve(true);
       }
     });
   }

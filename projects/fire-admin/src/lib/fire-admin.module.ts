@@ -55,6 +55,7 @@ import { UserGuardService } from './services/guards/user-guard.service';
 import { CurrentUserService } from './services/current-user.service';
 import { RegisterComponent } from './components/register/register.component';
 import { RegisterGuardService } from './services/guards/register-guard.service';
+import { ConfigService } from './services/collections/config.service';
 
 @NgModule({
   declarations: [
@@ -122,6 +123,7 @@ import { RegisterGuardService } from './services/guards/register-guard.service';
     TranslationsService,
     PagesService,
     CurrentUserService,
+    ConfigService,
     // Set database config (for AngularFireModule)
     {
       provide: FirebaseOptionsToken,

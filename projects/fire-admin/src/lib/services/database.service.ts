@@ -41,6 +41,18 @@ export class DatabaseService {
   }
 
   /**
+   * Check if collection exists
+   * 
+   * @param path 
+   */
+  async collectionExists(path: string): Promise<boolean> {
+    const query = await this.db.collection(path).get().toPromise().catch((error: firebase.FirebaseError) => {
+      console.log(error);
+    });
+    return query ? !!query.size : false;
+  }
+
+  /**
    * Add collection
    * 
    * @param path 
@@ -155,7 +167,9 @@ export class DatabaseService {
    * @param queryFn 
    */
   async getDocumentsDataAsPromise(collectionPath: string, queryFn?: QueryFn): Promise<DocumentData[]> {
-    const ref = await this.getCollectionRef(collectionPath, queryFn).get().toPromise();
+    const ref = await this.getCollectionRef(collectionPath, queryFn).get().toPromise().catch((error: firebase.FirebaseError) => {
+      console.log(error);
+    });
     return ref ? ref.docs : [];
   }
 
