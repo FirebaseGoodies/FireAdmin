@@ -21,6 +21,8 @@ import { UsersProfileComponent } from './components/users/profile/users-profile.
 import { UsersEditComponent } from './components/users/edit/users-edit.component';
 import { TranslationsComponent } from './components/translations/translations.component';
 import { UserGuardService } from './services/guards/user-guard.service';
+import { RegisterComponent } from './components/register/register.component';
+import { RegisterGuardService } from './services/guards/register-guard.service';
 
 const routes: Routes = [
   {
@@ -32,6 +34,12 @@ const routes: Routes = [
         path: 'login',
         component: LoginComponent,
         canActivate: [LoginGuardService]
+      },
+      // Register
+      {
+        path: 'register',
+        component: RegisterComponent,
+        canActivate: [RegisterGuardService]
       },
       // Dashboard
       {

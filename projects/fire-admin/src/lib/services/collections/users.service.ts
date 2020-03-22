@@ -59,6 +59,30 @@ export class UsersService {
     });
   }
 
+  register(data: User) {
+    const user: User = {
+      firstName: data.firstName,
+      lastName: data.lastName,
+      email: data.email,
+      password: data.password, // ToDo: add encryption for password (do not use hashing, since we need plain password on update/delete @see FirebaseUserService)
+      birthDate: data.birthDate,
+      role: data.role,
+      bio: data.bio,
+      avatar: null,
+      createdAt: now(), // timestamp
+      updatedAt: null,
+      createdBy: null,
+      updatedBy: null
+    };
+    return new Promise((resolve, reject) => {
+      this.firebaseUser.register(user).then(() => {
+        resolve();
+      }).catch((error: Error) => {
+        reject(error);
+      });
+    });
+  }
+
   private uploadImageAfter(promise: Promise<any>, user: User, data: User) {
     return new Promise((resolve, reject) => {
       promise.then((doc: any) => {

@@ -53,6 +53,8 @@ import { PagesService } from './services/collections/pages.service';
 import { PagesTranslateComponent } from './components/pages/translate/pages-translate.component';
 import { UserGuardService } from './services/guards/user-guard.service';
 import { CurrentUserService } from './services/current-user.service';
+import { RegisterComponent } from './components/register/register.component';
+import { RegisterGuardService } from './services/guards/register-guard.service';
 
 @NgModule({
   declarations: [
@@ -82,7 +84,8 @@ import { CurrentUserService } from './services/current-user.service';
     UsersEditComponent,
     LoadingIndicatorComponent,
     TranslationsComponent,
-    PagesTranslateComponent
+    PagesTranslateComponent,
+    RegisterComponent
   ],
   imports: [
     CommonModule,
@@ -103,6 +106,7 @@ import { CurrentUserService } from './services/current-user.service';
     AuthService,
     AuthGuardService,
     LoginGuardService,
+    RegisterGuardService,
     UserGuardService,
     NavigationService,
     AlertService,

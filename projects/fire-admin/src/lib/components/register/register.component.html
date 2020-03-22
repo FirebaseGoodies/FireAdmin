@@ -1,0 +1,46 @@
+
+<div class="container-fluid icon-sidebar-nav h-100">
+  <div class="row h-100">
+    <main class="main-content col">
+      <div class="main-content-container container-fluid px-4 my-auto h-100">
+        <div class="row no-gutters h-100">
+          <div class="col-lg-3 col-md-5 auth-form mx-auto my-auto">
+            <div *ngIf="error?.length" class="alert alert-warning alert-dismissible fade show mb-4" role="alert">
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="dismissError($event)">
+                <span aria-hidden="true">×</span>
+              </button>
+              <i class="fa fa-exclamation mx-2"></i>
+              {{ error }}
+            </div>
+            <div class="card">
+              <div class="card-body">
+                <img class="auth-form__logo d-table mx-auto mb-3" [src]="logo | escapeUrl" alt="FireAdmin">
+                <h5 class="auth-form__title text-center mb-4">{{ 'WelcomeToFireAdmin' | translate }}</h5>
+                <form (ngSubmit)="onSubmit($event, submitButton)" #registerForm>
+                  <div class="form-group">
+                    <label for="inputEmail">{{ 'EmailAddress' | translate }}</label>
+                    <input type="email" class="form-control" id="inputEmail" name="inputEmail" aria-describedby="emailHelp" placeholder="{{ 'EnterEmail' | translate }}" [(ngModel)]="email" [class.is-invalid]="registerForm.isSubmitted && !emailInput.checkValidity()" required #emailInput>
+                  </div>
+                  <div class="form-group">
+                    <label for="inputPassword">{{ 'Password' | translate }}</label>
+                    <input type="password" class="form-control" id="inputPassword" name="inputPassword" placeholder="{{ 'Password' | translate }}" [(ngModel)]="password" [class.is-invalid]="registerForm.isSubmitted && (!passwordInput.checkValidity() || password !== passwordConfirmation)" required #passwordInput>
+                  </div>
+                  <div class="form-group mb-4">
+                    <label for="inputPasswordConfirmation">{{ 'RepeatPassword' | translate }}</label>
+                    <input type="password" class="form-control" id="inputPasswordConfirmation" name="inputPasswordConfirmation" placeholder="{{ 'RepeatPassword' | translate }}" [(ngModel)]="passwordConfirmation" [class.is-invalid]="registerForm.isSubmitted && (!passwordConfirmationInput.checkValidity() || password !== passwordConfirmation)" required #passwordConfirmationInput>
+                  </div>
+                  <button type="submit" class="btn btn-pill btn-accent d-table mx-auto" [disabled]="submitButton.isDisabled" #submitButton>
+                    {{ 'CreateAccount' | translate }} <i *ngIf="submitButton.isLoading" class="fas fa-circle-notch fa-spin ml-1"></i>
+                  </button>
+                </form>
+              </div>
+            </div>
+            <div class="auth-form__meta d-flex mt-4">
+              <a [routerLink]="navigation.getRouterLink('login')">{{ ('SignIn' | translate) + '?' }}</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>

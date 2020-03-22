@@ -8,6 +8,10 @@ export const en = {
   "RememberMe": "Remember me",
   "SignIn": "Sign In",
   "ForgotYourPassword": "Forgot your password?",
+  // Register page
+  "WelcomeToFireAdmin": "Welcome To FireAdmin",
+  "RepeatPassword": "Repeat Password",
+  "CreateAccount": "Create Account",
   // Sidebar
   "Dashboard": "Dashboard",
   "Pages": "Pages",

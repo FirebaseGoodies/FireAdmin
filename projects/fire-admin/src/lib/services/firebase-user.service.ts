@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { auth, initializeApp } from 'firebase/app';
 import { FireAdminService } from '../fire-admin.service';
+import { User } from '../models/collections/user.model';
 
 /**
  * This service is used to create/update users without signing out the current user
@@ -26,6 +27,23 @@ export class FirebaseUserService {
         // console.log('User ' + userCredential.user.uid + ' created successfully!');
         this.app.auth().signOut();
         resolve(userCredential.user.uid);
+      }).catch((error: firebase.FirebaseError) => {
+        reject(error);
+      });
+    });
+  }
+
+  register(user: User, collectionPath: string = 'users'): Promise<string> {
+    return new Promise((resolve, reject) => {
+      this.app.auth().createUserWithEmailAndPassword(user.email, user.password).then((userCredential: auth.UserCredential) => {
+        // console.log('User ' + userCredential.user.uid + ' created successfully!');
+        user.uid = userCredential.user.uid;
+        this.app.firestore().collection(collectionPath).add(user).then(() => {
+          this.app.auth().signOut();
+          resolve(userCredential.user.uid);
+        }).catch((error: firebase.FirebaseError) => {
+          reject(error);
+        });
       }).catch((error: firebase.FirebaseError) => {
         reject(error);
       });
