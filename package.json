@@ -4,7 +4,11 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "build": "ng build && npm run copy:readme",
+    "copy:readme": "cp README.md dist/fire-admin/ && cp -r screenshots dist/fire-admin/screenshots",
+    "build:demo": "ng build demo",
+    "build:demo:github": "ng build demo --prod --base-href \"/FireAdmin/\"",
+    "deploy:demo:github": "ngh --dir=dist/demo",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"

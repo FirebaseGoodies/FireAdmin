@@ -2,6 +2,34 @@
   "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
   "dest": "../../dist/fire-admin",
   "lib": {
-    "entryFile": "src/public-api.ts"
-  }
+    "entryFile": "src/public-api.ts",
+    "umdModuleIds": {
+      "@angular/fire": "@angular/fire",
+      "@fortawesome/fontawesome-free": "@fortawesome/fontawesome-free",
+      "angular-datatables": "angular-datatables",
+      "bootstrap": "bootstrap",
+      "chart.js": "chart.js",
+      "datatables.net-responsive-dt": "datatables.net-responsive-dt",
+      "firebase": "firebase",
+      "jquery": "jquery",
+      "material-icons-font": "material-icons-font",
+      "popper.js": "popper.js",
+      "quill": "quill",
+      "shards-ui": "shards-ui"
+    }
+  },
+  "whitelistedNonPeerDependencies": [
+    "@angular/fire",
+    "@fortawesome/fontawesome-free",
+    "angular-datatables",
+    "bootstrap",
+    "chart.js",
+    "datatables.net-responsive-dt",
+    "firebase",
+    "jquery",
+    "material-icons-font",
+    "popper.js",
+    "quill",
+    "shards-ui"
+  ]
 }
