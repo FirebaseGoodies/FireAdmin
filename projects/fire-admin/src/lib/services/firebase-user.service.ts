@@ -43,9 +43,11 @@ export class FirebaseUserService {
             this.app.auth().signOut();
             resolve(userCredential.user.uid);
           }).catch((error: firebase.FirebaseError) => {
+            this.app.auth().signOut();
             reject(error);
           });
         }).catch((error: firebase.FirebaseError) => {
+          this.app.auth().signOut();
           reject(error);
         });
       }).catch((error: firebase.FirebaseError) => {
