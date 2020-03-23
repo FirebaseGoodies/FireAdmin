@@ -37,6 +37,18 @@ npm install --save ng-fire-admin
 
 > It's recommended to use a [multi-project workspace](https://angular.io/guide/file-structure#multiple-projects) with basically 2 main applications (one for the frontend part & the other for the backend) to avoid any potential conflicts, then apply the following changes on your backend app:
 
+<details>
+  <summary>Multi-project creation steps</summary>
+  
+  ```bash
+    ng new my-workspace --createApplication="false"
+    cd my-workspace
+    ng generate application backend --defaults --routing=true
+    // you can still add the frontend app the same way
+    npm install --save ng-fire-admin
+  ```
+</details>
+
 **1**. Add your firebase configuration in `environment.ts`:
 
 ```diff
@@ -60,6 +72,7 @@ npm install --save ng-fire-admin
   import { BrowserModule } from '@angular/platform-browser';
   import { NgModule } from '@angular/core';
 
+  import { AppRoutingModule } from './app-routing.module';
   import { AppComponent } from './app.component';
 + import { FireAdminModule } from 'ng-fire-admin';
 + import { environment } from '../environments/environment';
@@ -68,6 +81,7 @@ npm install --save ng-fire-admin
     declarations: [AppComponent],
     imports: [
       BrowserModule,
+      AppRoutingModule,
 +     FireAdminModule.initialize(environment.firebase)
     ],
     providers: [],
@@ -100,18 +114,51 @@ npm install --save ng-fire-admin
   export class AppRoutingModule { }
 ```
 
-**4**. You may also need to add the following lines to `polyfills.ts`:
+**4**. Edit your main component template (generally `app.component.html`) & keep only the `<router-outlet></router-outlet>` line:
+
+```diff
++ <router-outlet></router-outlet>
+```
+
+**5**. Add the following styles & scripts entries to `angular.json`:
+
+```diff
+  "assets": [
+    "projects/backend/src/favicon.ico",
+    "projects/backend/src/assets"
+  ],
+  "styles": [
+    "projects/backend/src/styles.css",
++   "node_modules/@fortawesome/fontawesome-free/css/all.min.css",
++   "node_modules/material-icons-font/material-icons-font.css",
++   "node_modules/bootstrap/dist/css/bootstrap.min.css",
++   "node_modules/datatables.net-responsive-dt/css/responsive.dataTables.min.css",
++   "node_modules/quill/dist/quill.snow.css"
+  ],
+  "scripts": [
++   "node_modules/jquery/dist/jquery.min.js",
++   "node_modules/popper.js/dist/umd/popper.min.js",
++   "node_modules/bootstrap/dist/js/bootstrap.min.js",
++   "node_modules/datatables.net/js/jquery.dataTables.min.js",
++   "node_modules/datatables.net-responsive-dt/js/responsive.dataTables.min.js",
++   "node_modules/chart.js/dist/Chart.min.js",
++   "node_modules/shards-ui/dist/js/shards.min.js",
++   "node_modules/quill/dist/quill.min.js"
+  ]
+```
+
+**6**. You may also need to add the following lines to `polyfills.ts`:
 
 ```diff
   // Add global to window, assigning the value of window itself.
 + (window as any).global = window;
 ```
 
-**5**. In order to protect your database & storage data, you must add the following rules in your firebase console:
+**7**. In order to protect your database & storage data, you must set the following rules in your firebase console:
 
 **Firestore Database rules:**
 
-```
+```javascript
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
@@ -125,7 +172,7 @@ service cloud.firestore {
 
 **Storage rules:**
 
-```
+```javascript
 rules_version = '2';
 service firebase.storage {
   match /b/{bucket}/o {
@@ -136,6 +183,8 @@ service firebase.storage {
   }
 }
 ```
+
+That's it :tada:, enjoy your ready to use backend app!
 
 ## Build
 
