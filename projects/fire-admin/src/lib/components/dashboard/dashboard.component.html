@@ -99,7 +99,7 @@
                     <span>{{ post.title }}</span>
                     <span>{{ '/' + post.slug }}</span>
                   </td>
-                  <td class="text-center">{{ post.date | date:'dd MMMM yyyy' }}</td>
+                  <td class="text-center">{{ post.date | shortdate }}</td>
                   <td class="text-center">
                     <span class="badge badge-pill badge-{{ allPostsStatus.colors[post.status] || 'primary' }}">{{ allPostsStatus.labels[post.status] | translate }}</span>
                   </td>

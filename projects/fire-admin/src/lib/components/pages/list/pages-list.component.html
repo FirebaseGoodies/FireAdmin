@@ -36,8 +36,8 @@
                   <span>{{ '/' + page.slug }}</span>
                 </td>
                 <td>{{ allLanguages[page.lang].label | translate }}</td>
-                <td>{{ page.createdAt | date:'dd MMMM yyyy HH:mm' }}</td>
-                <td>{{ page.updatedAt | date:'dd MMMM yyyy HH:mm' }}</td>
+                <td>{{ page.createdAt | datetime }}</td>
+                <td>{{ page.updatedAt | datetime }}</td>
                 <td>
                   <a *ngIf="page.createdBy" [routerLink]="navigation.getRouterLink('users', 'profile', page.createdBy)">
                     {{ page.author | async }}

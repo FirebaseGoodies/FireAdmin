@@ -36,7 +36,7 @@
                   <span>{{ post.title }}</span>
                   <span>{{ '/' + post.slug }}</span>
                 </td>
-                <td>{{ post.date | date:'dd MMMM yyyy' }}</td>
+                <td>{{ post.date | shortdate }}</td>
                 <td>
                   <a [routerLink]="navigation.getRouterLink('posts', 'list', 'status', post.status)">
                     <span class="badge badge-pill badge-{{ allStatus.colors[post.status] || 'primary' }}">{{ allStatus.labels[post.status] | translate }}</span>
@@ -49,8 +49,8 @@
                     <a [routerLink]="navigation.getRouterLink('posts', 'list', 'category', categoryId)">{{ allCategories[categoryId]?.label }}</a>
                   </ng-container>
                 </td>
-                <td>{{ post.createdAt | date:'dd MMMM yyyy HH:mm' }}</td>
-                <td>{{ post.updatedAt | date:'dd MMMM yyyy HH:mm' }}</td>
+                <td>{{ post.createdAt | datetime }}</td>
+                <td>{{ post.updatedAt | datetime }}</td>
                 <td>
                   <a *ngIf="post.createdBy" [routerLink]="navigation.getRouterLink('users', 'profile', post.createdBy)">
                     {{ post.author | async }}

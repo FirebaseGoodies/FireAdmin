@@ -19,7 +19,7 @@
               <input type="file" accept="image/*" id="userProfilePicture" class="d-none" (change)="onAvatarChange($event)">
             </label>
           </div>
-          <h4 class="mb-0" title="{{ (userData?.birthDate | date:'dd MMMM yyyy') || '' }}">
+          <h4 class="mb-0" title="{{ (userData?.birthDate | shortdate) || '' }}">
             {{ (userData?.firstName || '') + ' ' + (userData?.lastName || '') }}
           </h4>
           <span class="text-muted d-block mb-2">{{ allRoles[userData?.role] || '' }}</span>

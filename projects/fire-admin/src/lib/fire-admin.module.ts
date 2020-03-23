@@ -57,6 +57,15 @@ import { RegisterComponent } from './components/register/register.component';
 import { RegisterGuardService } from './services/guards/register-guard.service';
 import { ConfigService } from './services/collections/config.service';
 import { LogoutComponent } from './components/logout/logout.component';
+import { ShortDatePipe } from './pipes/shortdate.pipe';
+import { DateTimePipe } from './pipes/datetime.pipe';
+
+// Register locales for date pipe
+import { registerLocaleData } from '@angular/common';
+import localeFr from '@angular/common/locales/fr';
+import localeAr from '@angular/common/locales/ar';
+registerLocaleData(localeFr);
+registerLocaleData(localeAr);
 
 @NgModule({
   declarations: [
@@ -88,7 +97,9 @@ import { LogoutComponent } from './components/logout/logout.component';
     TranslationsComponent,
     PagesTranslateComponent,
     RegisterComponent,
-    LogoutComponent
+    LogoutComponent,
+    ShortDatePipe,
+    DateTimePipe
   ],
   imports: [
     CommonModule,
