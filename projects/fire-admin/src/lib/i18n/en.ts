@@ -73,14 +73,15 @@ export const en = {
   "PostDate": "Date",
   "PostImage": "Image",
   "PostSlug": "Slug",
-  "Draft": "Draft",
-  "Published": "Published",
-  "Trash": "Trash",
   "SaveDraft": "Save Draft",
   "Publish": "Publish",
   "MoveToTrash": "Move To Trash",
   "PostAdded": "Post successfully added!",
   "PostSlugAlreadyExists": "Post slug already exists! Choose another one.",
+  // Posts: Status
+  "Draft": "Draft",
+  "Published": "Published",
+  "Trash": "Trash",
   // Posts: List
   "PostCreatedAt": "Creation date",
   "PostUpdatedAt": "Last Modification date",
@@ -160,7 +161,7 @@ export const en = {
   "DeleteUser": "Delete User",
   "ConfirmDeleteUser": "Please confirm deleting user <b>${name}</b> ?",
   "UserDeleted": "User <b>${name}</b> has been deleted!",
-  // Roles
+  // Users: Roles
   "Administrator": "Administrator",
   "Editor": "Editor",
   "Author": "Author",
