@@ -44,7 +44,7 @@ npm install --save ng-fire-admin
     ng new my-workspace --createApplication="false"
     cd my-workspace
     ng generate application backend --defaults --routing=true
-    // you can still add the frontend app the same way
+    // you can add the frontend app the same way
     npm install --save ng-fire-admin
   ```
 </details>
@@ -185,6 +185,21 @@ service firebase.storage {
 ```
 
 That's it :tada:, enjoy your ready to use backend app!
+
+## Troubleshoot
+
+In case you encounter one of the following errors while trying to serve or build your app:
+
+```javascript
+Cannot find type definition file for 'datatables.net'.
+Cannot find namespace 'DataTables'.
+```
+
+Just install the following package:
+
+```
+npm install --save-dev @types/datatables.net
+```
 
 ## Build
 
