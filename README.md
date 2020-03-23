@@ -163,12 +163,46 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
     match /{collection}/{document=**} {
-      allow read: if collection != 'users' || request.auth != null;
-      allow write: if request.auth != null;
+      allow read: if collection != 'users' || isAdmin() || isOwner();
+      allow write: if registrationEnabled() || isAdmin() || (isEditor() && collection != 'users');
+    }
+    function isSignedIn() {
+      return request.auth != null;
+    }
+    function hasRole(role) {
+      return isSignedIn() && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == role;
+    }
+    function isAdmin() {
+      return hasRole('admin');
+    }
+    function isEditor() {
+      return hasRole('editor');
+    }
+    function isOwner() {
+      return isSignedIn() && request.auth.uid == resource.id;
+    }
+    function registrationEnabled() {
+      return get(/databases/$(database)/documents/config/registration).data.enabled || true;
     }
   }
 }
 ```
+
+<details>
+  <summary>More basic database rules?</summary>
+  
+  ```javascript
+    rules_version = '2';
+    service cloud.firestore {
+      match /databases/{database}/documents {
+        match /{collection}/{document=**} {
+          allow read: if collection != 'users' || request.auth != null;
+          allow write: if request.auth != null;
+        }
+      }
+    }
+  ```
+</details>
 
 **Storage rules:**
 
