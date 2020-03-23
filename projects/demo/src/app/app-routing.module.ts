@@ -4,13 +4,13 @@ import { Routes, RouterModule } from '@angular/router';
 
 const routes: Routes = [
   {
-    path: 'admin',
+    path: 'demo',
     //loadChildren: () => import('fire-admin').then(m => m.FireAdminModule)
     loadChildren: () => import('projects/fire-admin/src/public-api').then(m => m.FireAdminModule)
   },
   {
     path: '**',
-    redirectTo: 'admin'
+    redirectTo: 'demo'
   }
 ];
 
