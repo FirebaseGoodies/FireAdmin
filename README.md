@@ -204,7 +204,7 @@ service cloud.firestore {
 ```
 
 <details>
-  <summary>More basic database rules?</summary>
+  <summary>More basic database rules? (not recommended)</summary>
   
   ```javascript
     rules_version = '2';
