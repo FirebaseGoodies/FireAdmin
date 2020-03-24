@@ -70,7 +70,7 @@ export class TranslationsService {
     return new Promise((resolve, reject) => {
       this.db.getDocumentRef('translations', lang).get().toPromise().then((doc) => {
         const translations = doc.data();
-        if (translations[key]) {
+        if (translations && translations[key]) {
           resolve(true);
         } else {
           resolve(false);
