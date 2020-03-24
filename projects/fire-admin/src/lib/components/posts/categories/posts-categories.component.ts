@@ -56,7 +56,7 @@ export class PostsCategoriesComponent implements OnInit, OnDestroy {
       this.allCategories.subscribe((categories: Category[]) => {
         // console.log(categories);
         // Refresh datatable on data change
-        refreshDataTable(this.dataTableElement, this.dataTableTrigger);
+        refreshDataTable(this.dataTableElement, this.dataTableTrigger, true);
       })
     );
   }
