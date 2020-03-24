@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { DatabaseService } from '../database.service';
 import { Category } from '../../models/collections/category.model';
 import { now } from '../../helpers/functions.helper';
+import { map } from 'rxjs/operators';
 
 @Injectable()
 export class CategoriesService {
@@ -22,7 +23,10 @@ export class CategoriesService {
   }
 
   get(id: string) {
-    return this.db.getDocument('categories', id);
+    return this.db.getDocument('categories', id).pipe(map((category: Category) => {
+      category.id = id;
+      return category;
+    }));
   }
 
   getAll() {
