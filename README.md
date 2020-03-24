@@ -156,19 +156,71 @@ npm install --save ng-fire-admin
 
 **7**. In order to protect your database & storage data, you must set the following rules in your firebase console:
 
+<details>
+  <summary>How to setup your firebase project?</summary>
+  
+  - Start by adding a new project in your firebase console.
+
+  - Enable Authentication by email & password.
+
+  - Add a database to your project.
+
+  - Add a storage.
+</details>
+
 **Firestore Database rules:**
 
 ```javascript
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    match /{collection}/{document=**} {
-      allow read: if collection != 'users' || request.auth != null;
-      allow write: if request.auth != null;
+    match /{collection}/{document}/{path=**} {
+      allow read: if isPublic(collection, document) || isAdmin();
+      allow write: if registrationEnabled(collection) || isAdmin() || (isEditor() && isPublic(collection, document));
+    }
+    function isPublic(collection, document) {
+      return collection != 'config' && (collection != 'users' || isOwner(document));
+    }
+    function isSignedIn() {
+      return request.auth != null;
+    }
+    function hasRole(role) {
+      return isSignedIn() && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == role;
+    }
+    function isAdmin() {
+      return hasRole('admin');
+    }
+    function isEditor() {
+      return hasRole('editor');
+    }
+    function isOwner(ownerId) {
+      return isSignedIn() && request.auth.uid == ownerId;
+    }
+    function registrationEnabled(collection) {
+      return collection == 'users' && (
+        !exists(/databases/$(database)/documents/config/registration) ||
+        get(/databases/$(database)/documents/config/registration).data.enabled
+      );
     }
   }
 }
 ```
+
+<details>
+  <summary>More basic database rules? (not recommended)</summary>
+  
+  ```javascript
+    rules_version = '2';
+    service cloud.firestore {
+      match /databases/{database}/documents {
+        match /{collection}/{document=**} {
+          allow read: if collection != 'users' || request.auth != null;
+          allow write: if request.auth != null;
+        }
+      }
+    }
+  ```
+</details>
 
 **Storage rules:**
 

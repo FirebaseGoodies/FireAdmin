@@ -63,7 +63,7 @@ export class UsersListComponent implements OnInit, OnDestroy {
                 url: this.users.getAvatarUrl(user.avatar as string)
               };
               if (user.createdBy) {
-                user.creator = this.users.get(user.createdBy);
+                user.creator = this.users.getFullName(user.createdBy);
               }
             });
             return users.sort((a: User, b: User) => b.createdAt - a.createdAt);

@@ -9,8 +9,7 @@ export enum UserRole {
 }
 
 export interface User {
-  id?: string, // document id
-  uid?: string, // firebase user id
+  id?: string, // document id == firebase user id
   firstName: string,
   lastName: string,
   email: string,
@@ -21,7 +20,7 @@ export interface User {
   avatar?: File|string|Observable<string>|{ path: string|any, url: string|Observable<string> },
   createdAt?: number,
   updatedAt?: number,
-  createdBy?: string,
+  createdBy?: string, // creator id
   creator?: string|Observable<string>, // used to fetch creator name without overriding createdBy field
   updatedBy?: string
 }

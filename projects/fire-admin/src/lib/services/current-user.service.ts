@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { map, takeUntil, take } from 'rxjs/operators';
+import { take, takeUntil } from 'rxjs/operators';
 import { User, UserRole } from '../models/collections/user.model';
 import { UsersService } from './collections/users.service';
 import { Subject } from 'rxjs';
@@ -21,8 +21,7 @@ export class CurrentUserService {
   set(user: firebase.User) {
     this.unsubscribe();
     if (user) {
-      this.users.getWhere('uid', '==', user.uid).pipe(
-        map((users: User[]) => users[0] || null),
+      this.users.get(user.uid).pipe(
         takeUntil(this.userChange)
       ).subscribe((user: User) => {
         if (user) {

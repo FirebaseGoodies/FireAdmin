@@ -20,7 +20,7 @@
                 <th>{{ 'PageLanguage' | translate }}</th>
                 <th>{{ 'PageCreatedAt' | translate }}</th>
                 <th>{{ 'PageUpdatedAt' | translate }}</th>
-                <th>{{ 'PageAuthor' | translate }}</th>
+                <th *ngIf="currentUser?.isAdmin()">{{ 'PageAuthor' | translate }}</th>
                 <th class="text-right hide-sort-icons">{{ 'Actions' | translate }}</th>
               </tr>
             </thead>
@@ -38,7 +38,7 @@
                 <td>{{ allLanguages[page.lang].label | translate }}</td>
                 <td>{{ page.createdAt | datetime }}</td>
                 <td>{{ page.updatedAt | datetime }}</td>
-                <td>
+                <td *ngIf="currentUser?.isAdmin()">
                   <a *ngIf="page.createdBy" [routerLink]="navigation.getRouterLink('users', 'profile', page.createdBy)">
                     {{ page.author | async }}
                   </a>
