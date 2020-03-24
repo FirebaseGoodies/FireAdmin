@@ -53,7 +53,7 @@ export class TranslationsComponent implements OnInit, OnDestroy, AfterViewInit {
       this.allTranslations.subscribe((translations: TranslationData[]) => {
         // console.log(translations);
         // Refresh datatable on data change
-        refreshDataTable(this.dataTableElement, this.dataTableTrigger);
+        refreshDataTable(this.dataTableElement, this.dataTableTrigger, true);
       })
     );
   }
