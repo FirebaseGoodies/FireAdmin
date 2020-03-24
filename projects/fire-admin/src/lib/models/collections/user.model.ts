@@ -9,8 +9,7 @@ export enum UserRole {
 }
 
 export interface User {
-  id?: string, // document id
-  uid?: string, // firebase user id
+  id?: string, // document id == firebase user id
   firstName: string,
   lastName: string,
   email: string,

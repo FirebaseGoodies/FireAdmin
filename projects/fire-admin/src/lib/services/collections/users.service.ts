@@ -47,8 +47,7 @@ export class UsersService {
     };
     return new Promise((resolve, reject) => {
       this.firebaseUser.create(data.email, data.password).then((uid: string) => {
-        user.uid = uid;
-        this.uploadImageAfter(this.db.addDocument('users', user), user, data).then(() => {
+        this.uploadImageAfter(this.db.addDocument('users', user, uid), user, data).then(() => {
           resolve();
         }).catch((error: Error) => {
           reject(error);
