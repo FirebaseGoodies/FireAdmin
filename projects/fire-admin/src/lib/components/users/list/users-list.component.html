@@ -44,9 +44,7 @@
                 <td>{{ user.updatedAt | datetime }}</td>
                 <td>
                   <a *ngIf="user.createdBy" [routerLink]="navigation.getRouterLink('users', 'profile', user.createdBy)">
-                    <span *ngIf="user.creator | async as creator">
-                      {{ creator.firstName + ' ' + creator.lastName }}
-                    </span>
+                    <span *ngIf="user.creator | async as creator">{{ creator }}</span>
                   </a>
                 </td>
                 <td class="text-right">
