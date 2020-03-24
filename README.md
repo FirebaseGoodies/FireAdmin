@@ -156,15 +156,30 @@ npm install --save ng-fire-admin
 
 **7**. In order to protect your database & storage data, you must set the following rules in your firebase console:
 
+<details>
+  <summary>How to setup your firebase project?</summary>
+  
+  **1**. Add a new project in your firebase console.
+
+  **2**. Enable Authentication by email & password.
+
+  **3**. Create a database.
+
+  **4**. Create a storage bucket.
+</details>
+
 **Firestore Database rules:**
 
 ```javascript
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    match /{collection}/{document=**} {
-      allow read: if collection != 'users' || isAdmin() || isOwner();
-      allow write: if registrationEnabled() || isAdmin() || (isEditor() && collection != 'users');
+    match /{collection}/{document}/{subCollection=**} {
+      allow read: if isPublic(collection, document) || isAdmin();
+      allow write: if registrationEnabled() || isAdmin() || (isEditor() && isPublic(collection, document));
+    }
+    function isPublic(collection, document) {
+    	return collection != 'users' || isOwner(document);
     }
     function isSignedIn() {
       return request.auth != null;
@@ -178,11 +193,11 @@ service cloud.firestore {
     function isEditor() {
       return hasRole('editor');
     }
-    function isOwner() {
-      return isSignedIn() && request.auth.uid == resource.id;
+    function isOwner(ownerId) {
+      return isSignedIn() && request.auth.uid == ownerId;
     }
     function registrationEnabled() {
-      return get(/databases/$(database)/documents/config/registration).data.enabled || true;
+      return !exists(/databases/$(database)/documents/config/registration) || get(/databases/$(database)/documents/config/registration).data.enabled;
     }
   }
 }
