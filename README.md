@@ -174,9 +174,9 @@ npm install --save ng-fire-admin
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    match /{collection}/{document}/{subCollection=**} {
+    match /{collection}/{document}/{path=**} {
       allow read: if isPublic(collection, document) || isAdmin();
-      allow write: if registrationEnabled() || isAdmin() || (isEditor() && isPublic(collection, document));
+      allow write: if registrationEnabled(collection) || isAdmin() || (isEditor() && isPublic(collection, document));
     }
     function isPublic(collection, document) {
     	return collection != 'users' || isOwner(document);
@@ -196,8 +196,8 @@ service cloud.firestore {
     function isOwner(ownerId) {
       return isSignedIn() && request.auth.uid == ownerId;
     }
-    function registrationEnabled() {
-      return !exists(/databases/$(database)/documents/config/registration) || get(/databases/$(database)/documents/config/registration).data.enabled;
+    function registrationEnabled(collection) {
+      return collection == 'users' && (!exists(/databases/$(database)/documents/config/registration) || get(/databases/$(database)/documents/config/registration).data.enabled);
     }
   }
 }
