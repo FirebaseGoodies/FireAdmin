@@ -4,7 +4,7 @@ import { Subject, Subscription, Observable } from 'rxjs';
 import { Post, PostStatus } from '../../../models/collections/post.model';
 import { PostsService } from '../../../services/collections/posts.service';
 import { map, takeUntil } from 'rxjs/operators';
-import { refreshDataTable, clearDataTable } from '../../../helpers/datatables.helper';
+import { refreshDataTable } from '../../../helpers/datatables.helper';
 import { AlertService } from '../../../services/alert.service';
 import { NavigationService } from '../../../services/navigation.service';
 import { I18nService } from '../../../services/i18n.service';
@@ -138,8 +138,6 @@ export class PostsListComponent implements OnInit, OnDestroy {
       translationId: post.translationId,
       translations: post.translations
     }).then(() => {
-      clearDataTable(this.dataTableElement);
-      this.isLoading = true;
       this.alert.success(this.i18n.get('PostDeleted', { title: post.title }), false, 5000);
     }).catch((error: Error) => {
       this.alert.error(error.message);

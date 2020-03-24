@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { DataTableDirective } from 'angular-datatables';
 import { Subject, Subscription, Observable } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
-import { refreshDataTable, clearDataTable } from '../../../helpers/datatables.helper';
+import { refreshDataTable } from '../../../helpers/datatables.helper';
 import { AlertService } from '../../../services/alert.service';
 import { NavigationService } from '../../../services/navigation.service';
 import { I18nService } from '../../../services/i18n.service';
@@ -92,8 +92,6 @@ export class PagesListComponent implements OnInit, OnDestroy {
       translationId: page.translationId,
       translations: page.translations
     }).then(() => {
-      clearDataTable(this.dataTableElement);
-      this.isLoading = true;
       this.alert.success(this.i18n.get('PageDeleted', { title: page.title }), false, 5000);
     }).catch((error: Error) => {
       this.alert.error(error.message);
