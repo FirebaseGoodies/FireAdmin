@@ -109,7 +109,10 @@ export class UsersService {
   }
 
   get(id: string) {
-    return this.db.getDocument('users', id);
+    return this.db.getDocument('users', id).pipe(map((user: User) => {
+      user.id = id;
+      return user;
+    }));
   }
 
   getFullName(id: string) {
