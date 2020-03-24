@@ -23,7 +23,7 @@
                 <th>{{ 'Categories' | translate }}</th>
                 <th>{{ 'PostCreatedAt' | translate }}</th>
                 <th>{{ 'PostUpdatedAt' | translate }}</th>
-                <th>{{ 'PostAuthor' | translate }}</th>
+                <th *ngIf="currentUser?.isAdmin()">{{ 'PostAuthor' | translate }}</th>
                 <th class="text-right hide-sort-icons">{{ 'Actions' | translate }}</th>
               </tr>
             </thead>
@@ -51,7 +51,7 @@
                 </td>
                 <td>{{ post.createdAt | datetime }}</td>
                 <td>{{ post.updatedAt | datetime }}</td>
-                <td>
+                <td *ngIf="currentUser?.isAdmin()">
                   <a *ngIf="post.createdBy" [routerLink]="navigation.getRouterLink('users', 'profile', post.createdBy)">
                     {{ post.author | async }}
                   </a>

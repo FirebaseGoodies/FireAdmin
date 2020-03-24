@@ -13,6 +13,7 @@ import { CategoriesService } from '../../../services/collections/categories.serv
 import { ActivatedRoute } from '@angular/router';
 import { SettingsService } from '../../../services/settings.service';
 import { Language } from '../../../models/language.model';
+import { CurrentUserService } from '../../../services/current-user.service';
 
 @Component({
   selector: 'fa-posts-list',
@@ -43,6 +44,7 @@ export class PostsListComponent implements OnInit, OnDestroy {
     private i18n: I18nService,
     private route: ActivatedRoute,
     public navigation: NavigationService,
+    public currentUser: CurrentUserService,
     private settings: SettingsService
   ) { }
 

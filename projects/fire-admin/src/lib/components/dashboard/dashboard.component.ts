@@ -13,6 +13,7 @@ import { map, takeUntil } from 'rxjs/operators';
 import { NavigationService } from '../../services/navigation.service';
 import { initPieChart } from '../../helpers/charts.helper';
 import { I18nService } from '../../services/i18n.service';
+import { CurrentUserService } from '../../services/current-user.service';
 
 type PostByStatus = {
   label: string,
@@ -47,6 +48,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     private categories: CategoriesService,
     private settings: SettingsService,
     public navigation: NavigationService,
+    public currentUser: CurrentUserService,
     private i18n: I18nService
   ) { }
 
@@ -88,7 +90,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.statistics.posts = await this.posts.countAll();
     this.statistics.pages = await this.pages.countAll();
     this.statistics.comments = 0; // ToDo
-    this.statistics.users = await this.users.countAll();
+    if (this.currentUser.isAdmin()) {
+      this.statistics.users = await this.users.countAll();
+    }
     this.statistics.translations = await this.translations.countAll();
   }
 
