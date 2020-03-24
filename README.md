@@ -159,13 +159,13 @@ npm install --save ng-fire-admin
 <details>
   <summary>How to setup your firebase project?</summary>
   
-  **1**. Add a new project in your firebase console.
+  - Start by adding a new project in your firebase console.
 
-  **2**. Enable Authentication by email & password.
+  - Enable Authentication by email & password.
 
-  **3**. Create a database.
+  - Add a database to your project.
 
-  **4**. Create a storage bucket.
+  - Add a storage.
 </details>
 
 **Firestore Database rules:**
