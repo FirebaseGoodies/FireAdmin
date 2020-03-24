@@ -179,7 +179,7 @@ service cloud.firestore {
       allow write: if registrationEnabled(collection) || isAdmin() || (isEditor() && isPublic(collection, document));
     }
     function isPublic(collection, document) {
-      return collection != 'users' || isOwner(document);
+      return collection != 'config' && (collection != 'users' || isOwner(document));
     }
     function isSignedIn() {
       return request.auth != null;
