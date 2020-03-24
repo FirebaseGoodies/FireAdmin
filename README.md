@@ -175,11 +175,19 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
     match /{collection}/{document}/{path=**} {
-      allow read: if isPublic(collection, document) || isAdmin();
-      allow write: if registrationEnabled(collection) || isAdmin() || (isEditor() && isPublic(collection, document));
+      allow read: if canRead(collection, document);
+      allow write: if canWrite(collection, document);
     }
-    function isPublic(collection, document) {
-      return collection != 'config' && (collection != 'users' || isOwner(document));
+    function canRead(collection, document) {
+      return isAccessible(collection, document) || isAdmin();
+    }
+    function canWrite(collection, document) {
+      return registrationEnabled(collection) || isAdmin() || (
+        isEditor() && collection != 'config' && isAccessible(collection, document)
+      );
+    }
+    function isAccessible(collection, document) {
+      return collection != 'users' || isOwner(document);
     }
     function isSignedIn() {
       return request.auth != null;
