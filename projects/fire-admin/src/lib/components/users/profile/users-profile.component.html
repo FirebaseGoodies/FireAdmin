@@ -16,7 +16,7 @@
             <img [src]="user?.avatar | async | escapeUrl" alt="User Avatar">
           </div>
           <h4 class="text-center m-0 mt-2">{{ (user?.firstName || '') + ' ' + (user?.lastName || '') }}</h4>
-          <p class="text-center text-light m-0 mb-2">{{ allRoles[user?.role] || '' }}</p>
+          <p class="text-center text-light m-0 mb-2">{{ (allRoles[user?.role] || '') | translate }}</p>
           <ul class="user-details__social user-details__social--primary d-table mx-auto mb-4">
             <li class="mx-1" *ngIf="canEditProfile()">
               <a [routerLink]="navigation.getRouterLink('users', 'edit', user?.id || '')" title="{{ 'EditUser' | translate }}"><i class="far fa-edit"></i></a>
