@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { first } from 'rxjs/operators';
+import { first, map } from 'rxjs/operators';
 import { auth } from 'firebase/app';
 import { CurrentUserService } from './current-user.service';
 
@@ -18,23 +18,19 @@ export class AuthService {
     });
   }
 
-  private _isSignedIn(): boolean {
-    return !!this.firebaseUser;
-  }
-
   private setLastError(error: firebase.FirebaseError): void {
     this.lastError = error;
     console.error(`[${error.code}] ${error.message}`);
   }
 
-  isSignedIn(): Promise<firebase.User> {
-    return this.afa.authState.pipe(first()).toPromise();
+  isSignedIn(): Promise<boolean> {
+    return this.afa.authState.pipe(first(), map((user: firebase.User) => !!user)).toPromise();
   }
 
   signIn(email: string, password: string, isPersistent: boolean = false): Promise<void> {
     // console.log('sign in', email, password);
     return new Promise((resolve, reject) => {
-      if (this._isSignedIn()) {
+      if (!!this.firebaseUser) {
         console.log('already signed in!');
         resolve();
       } else {
@@ -56,9 +52,9 @@ export class AuthService {
   }
 
   signOut(force: boolean = false): Promise<void> {
-    // console.log('sign out', this._isSignedIn());
+    // console.log('sign out', this.firebaseUser);
     return new Promise((resolve, reject) => {
-      if (force || this._isSignedIn()) {
+      if (force || !!this.firebaseUser) {
         this.afa.auth.signOut().then(() => {
           resolve();
         }).catch((error: firebase.FirebaseError) => {
