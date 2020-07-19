@@ -138,7 +138,7 @@ export class UsersProfileComponent implements OnInit, OnDestroy {
   }
 
   canEditProfile() {
-    return this.currentUser.data && this.currentUser.data.role !== UserRole.Guest;
+    return !this.currentUser.isGuest();
   }
 
 }

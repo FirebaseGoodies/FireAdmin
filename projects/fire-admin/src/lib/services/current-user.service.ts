@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { take, takeUntil } from 'rxjs/operators';
 import { User, UserRole } from '../models/collections/user.model';
 import { UsersService } from './collections/users.service';
-import { Subject } from 'rxjs';
 import { DatabaseService } from './database.service';
+import { Subject } from 'rxjs';
 
 @Injectable()
 export class CurrentUserService {
@@ -12,7 +12,9 @@ export class CurrentUserService {
   private dataChange: Subject<User> = new Subject<User>(); // emit User object on each user change
   private userChange: Subject<void> = new Subject<void>(); // used to stop users service subscription on each new subscription
 
-  constructor(private users: UsersService, private db: DatabaseService) { }
+  constructor(private users: UsersService, private db: DatabaseService) {
+    this.db.setCurrentUser(this); // used to avoid circular dependency issue (when injecting currentUser service into users or database services)
+  }
 
   get() {
     return this.data ? this.data : this.dataChange.pipe(take(1)).toPromise();
@@ -29,7 +31,6 @@ export class CurrentUserService {
         }
         this.data = user;
         this.dataChange.next(this.data);
-        this.db.setCurrentUser(user); // used to avoid circular dependency issue (when injecting currentUser service into database service)
       });
     }
   }
@@ -38,8 +39,16 @@ export class CurrentUserService {
     this.userChange.next();
   }
 
+  private hasRole(role: UserRole) {
+    return this.data && this.data.role === role;
+  }
+
   isAdmin() {
-    return this.data && this.data.role === UserRole.Administrator;
+    return this.hasRole(UserRole.Administrator);
+  }
+
+  isGuest() {
+    return this.hasRole(UserRole.Guest);
   }
 
 }
