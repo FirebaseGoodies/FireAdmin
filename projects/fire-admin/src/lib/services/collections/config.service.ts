@@ -25,7 +25,7 @@ export class ConfigService {
 
   async isRegistrationEnabled() {
     const enabled = await this.get('registration', 'enabled');
-    return enabled === false ? false : true;
+    return !!enabled;
   }
 
 }
