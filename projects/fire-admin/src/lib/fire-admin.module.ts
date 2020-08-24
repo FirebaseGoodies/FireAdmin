@@ -14,9 +14,9 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { FireAdminService } from './fire-admin.service';
 import { AuthService } from './services/auth.service';
-import { AuthGuardService } from './services/guards/auth-guard.service';
+import { AuthGuard } from './guards/auth.guard';
 import { NavigationService } from './services/navigation.service';
-import { LoginGuardService } from './services/guards/login-guard.service';
+import { LoginGuard } from './guards/login.guard';
 import { FooterComponent } from './components/shared/footer/footer.component';
 import { PagesListComponent } from './components/pages/list/pages-list.component';
 import { PagesAddComponent } from './components/pages/add/pages-add.component';
@@ -51,10 +51,10 @@ import { TranslationsComponent } from './components/translations/translations.co
 import { TranslationsService } from './services/collections/translations.service';
 import { PagesService } from './services/collections/pages.service';
 import { PagesTranslateComponent } from './components/pages/translate/pages-translate.component';
-import { UserGuardService } from './services/guards/user-guard.service';
+import { UserGuard } from './guards/user.guard';
 import { CurrentUserService } from './services/current-user.service';
 import { RegisterComponent } from './components/register/register.component';
-import { RegisterGuardService } from './services/guards/register-guard.service';
+import { RegisterGuard } from './guards/register.guard';
 import { ConfigService } from './services/collections/config.service';
 import { LogoutComponent } from './components/logout/logout.component';
 import { ShortDatePipe } from './pipes/shortdate.pipe';
@@ -118,10 +118,10 @@ registerLocaleData(localeAr);
     I18nService,
     TranslatePipe,
     AuthService,
-    AuthGuardService,
-    LoginGuardService,
-    RegisterGuardService,
-    UserGuardService,
+    AuthGuard,
+    LoginGuard,
+    RegisterGuard,
+    UserGuard,
     NavigationService,
     AlertService,
     LocalStorageService,

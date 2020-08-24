@@ -3,8 +3,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { FireAdminComponent } from './fire-admin.component';
 import { LoginComponent } from './components/login/login.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
-import { AuthGuardService } from './services/guards/auth-guard.service';
-import { LoginGuardService } from './services/guards/login-guard.service';
+import { AuthGuard } from './guards/auth.guard';
+import { LoginGuard } from './guards/login.guard';
 import { PostsListComponent } from './components/posts/list/posts-list.component';
 import { PostsAddComponent } from './components/posts/add/posts-add.component';
 import { PostsEditComponent } from './components/posts/edit/posts-edit.component';
@@ -20,9 +20,9 @@ import { UsersAddComponent } from './components/users/add/users-add.component';
 import { UsersProfileComponent } from './components/users/profile/users-profile.component';
 import { UsersEditComponent } from './components/users/edit/users-edit.component';
 import { TranslationsComponent } from './components/translations/translations.component';
-import { UserGuardService } from './services/guards/user-guard.service';
+import { UserGuard } from './guards/user.guard';
 import { RegisterComponent } from './components/register/register.component';
-import { RegisterGuardService } from './services/guards/register-guard.service';
+import { RegisterGuard } from './guards/register.guard';
 import { LogoutComponent } from './components/logout/logout.component';
 
 const routes: Routes = [
@@ -34,7 +34,7 @@ const routes: Routes = [
       {
         path: 'login',
         component: LoginComponent,
-        canActivate: [LoginGuardService]
+        canActivate: [LoginGuard]
       },
       // Logout
       {
@@ -45,24 +45,24 @@ const routes: Routes = [
       {
         path: 'register',
         component: RegisterComponent,
-        canActivate: [RegisterGuardService]
+        canActivate: [RegisterGuard]
       },
       // Dashboard
       {
         path: 'dashboard',
         component: DashboardComponent,
-        canActivate: [AuthGuardService]
+        canActivate: [AuthGuard]
       },
       // Settings
       {
         path: 'settings',
         component: SettingsComponent,
-        canActivate: [AuthGuardService]
+        canActivate: [AuthGuard]
       },
       // Pages
       {
         path: 'pages',
-        canActivate: [AuthGuardService],
+        canActivate: [AuthGuard],
         children: [
           {
             path: 'list',
@@ -93,7 +93,7 @@ const routes: Routes = [
       // Posts
       {
         path: 'posts',
-        canActivate: [AuthGuardService],
+        canActivate: [AuthGuard],
         children: [
           {
             path: 'list',
@@ -136,32 +136,32 @@ const routes: Routes = [
       // Users
       {
         path: 'users',
-        canActivate: [AuthGuardService],
+        canActivate: [AuthGuard],
         children: [
           {
             path: 'list',
             component: UsersListComponent,
-            canActivate: [UserGuardService]
+            canActivate: [UserGuard]
           },
           {
             path: 'list/role/:role',
             component: UsersListComponent,
-            canActivate: [UserGuardService]
+            canActivate: [UserGuard]
           },
           {
             path: 'add',
             component: UsersAddComponent,
-            canActivate: [UserGuardService]
+            canActivate: [UserGuard]
           },
           {
             path: 'edit/:id',
             component: UsersEditComponent,
-            canActivate: [UserGuardService]
+            canActivate: [UserGuard]
           },
           {
             path: 'profile/:id',
             component: UsersProfileComponent,
-            canActivate: [UserGuardService]
+            canActivate: [UserGuard]
           },
           {
             path: '**',
@@ -173,7 +173,7 @@ const routes: Routes = [
       {
         path: 'translations',
         component: TranslationsComponent,
-        canActivate: [AuthGuardService]
+        canActivate: [AuthGuard]
       },
       // 404
       {

@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
-import { NavigationService } from '../navigation.service';
-import { User, UserRole } from '../../models/collections/user.model';
-import { CurrentUserService } from '../current-user.service';
+import { NavigationService } from '../services/navigation.service';
+import { User, UserRole } from '../models/collections/user.model';
+import { CurrentUserService } from '../services/current-user.service';
 
 @Injectable()
-export class UserGuardService implements CanActivate {
+export class UserGuard implements CanActivate {
 
   constructor(private currentUser: CurrentUserService, private navigation: NavigationService) { }
 
