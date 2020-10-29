@@ -1,4 +1,4 @@
-# <img src="projects/demo/src/assets/images/logo.svg" alt="icon" width="38" style="vertical-align: middle" /> FireAdmin
+# <img src="projects/demo/src/assets/images/logo.svg" alt="icon" width="38" align="top" /> FireAdmin
 
 [![NPM version](https://img.shields.io/npm/v/ng-fire-admin)](https://www.npmjs.com/package/ng-fire-admin)
 [![Downloads](https://img.shields.io/npm/dt/ng-fire-admin)](https://www.npmjs.com/package/ng-fire-admin)
