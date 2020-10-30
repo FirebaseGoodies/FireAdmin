@@ -50,7 +50,17 @@ npm install --save ng-fire-admin
   ```
 </details>
 
-**1**. Add your firebase configuration in `environment.ts`:
+**1**. Setup your firebase project:
+
+- Start by adding a new project in your [firebase console](https://console.firebase.google.com).
+
+- Enable Authentication by email & password.
+
+- Add a database to your project.
+
+- [Get your firebase configuration](https://support.google.com/firebase/answer/7015592?hl=en).
+
+**2**. Add your firebase configuration in `environment.ts`:
 
 ```diff
   export const environment = {
@@ -67,7 +77,7 @@ npm install --save ng-fire-admin
   };
 ```
 
-**2**. Register the `FireAdminModule` in a module, for example app module:
+**3**. Register the `FireAdminModule` in a module, for example app module:
 
 ```diff
   import { BrowserModule } from '@angular/platform-browser';
@@ -91,7 +101,7 @@ npm install --save ng-fire-admin
   export class AppModule {}
 ```
 
-**3**. Setup a simple routing as below:
+**4**. Setup a simple routing as below:
 
 ```diff
   import { NgModule } from '@angular/core';
@@ -115,13 +125,13 @@ npm install --save ng-fire-admin
   export class AppRoutingModule { }
 ```
 
-**4**. Edit your main component template (generally `app.component.html`) & keep only the `<router-outlet></router-outlet>` line:
+**5**. Edit your main component template (generally `app.component.html`) & keep only the `<router-outlet></router-outlet>` line:
 
 ```diff
 + <router-outlet></router-outlet>
 ```
 
-**5**. Add the following styles & scripts entries to `angular.json`:
+**6**. Add the following styles & scripts entries to `angular.json`:
 
 ```diff
   "assets": [
@@ -148,26 +158,14 @@ npm install --save ng-fire-admin
   ]
 ```
 
-**6**. You may also need to add the following lines to `polyfills.ts`:
+**7**. You may also need to add the following lines to `polyfills.ts`:
 
 ```diff
   // Add global to window, assigning the value of window itself.
 + (window as any).global = window;
 ```
 
-**7**. In order to protect your database & storage data, you must set the following rules in your firebase console:
-
-<details>
-  <summary>How to setup your firebase project?</summary>
-  
-  - Start by adding a new project in your firebase console.
-
-  - Enable Authentication by email & password.
-
-  - Add a database to your project.
-
-  - Add a storage.
-</details>
+**8**. In order to protect your database & storage data, you must set the following rules in your firebase console:
 
 **Firestore Database rules:**
 
@@ -245,8 +243,11 @@ service firebase.storage {
 }
 ```
 
+**9**. Launch your project using `ng serve`.
+
 That's it :tada:, enjoy your ready to use backend app!
 
+<!--
 ## Troubleshoot
 
 In case you encounter one of the following errors while trying to serve or build your app:
@@ -261,6 +262,7 @@ Just install the following package:
 ```
 npm install --save-dev @types/datatables.net
 ```
+-->
 
 ## Build
 
