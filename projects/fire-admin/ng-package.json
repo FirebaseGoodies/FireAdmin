@@ -25,6 +25,7 @@
     "bootstrap",
     "chart.js",
     "datatables.net-responsive-dt",
+    "@types/datatables.net",
     "firebase",
     "jquery",
     "material-icons-font",
