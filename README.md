@@ -58,7 +58,7 @@ npm install --save ng-fire-admin
 
 - Add a database to your project.
 
-- [Get your firebase configuration](https://support.google.com/firebase/answer/7015592?hl=en).
+- [Get your firebase configuration](https://support.google.com/firebase/answer/7015592#web).
 
 **2**. Add your firebase configuration in `environment.ts`:
 
