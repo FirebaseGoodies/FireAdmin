@@ -50,7 +50,7 @@ export class UsersListComponent implements OnInit, OnDestroy {
         this.isLoading = true;
         // Get all users
         this.allUsers = this.users.getAll().pipe(
-          skip(this.currentUser.data ? 1 : 0), // workaround to skip first emitted value when currentUser subscription is running
+          //skip(this.currentUser.data ? 1 : 0), // workaround to skip first emitted value when currentUser subscription is running (not working when we only have 1 user)
           map((users: User[]) => {
             // Filter by role
             if (params.role) {
