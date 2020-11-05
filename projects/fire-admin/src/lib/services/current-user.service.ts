@@ -12,7 +12,7 @@ export class CurrentUserService {
   private dataChange: Subject<User> = new Subject<User>(); // emit User object on each user change
   private userChange: Subject<void> = new Subject<void>(); // used to stop users service subscription on each new subscription
 
-  constructor(private users: UsersService, private db: DatabaseService) {
+  constructor(private usersService: UsersService, private db: DatabaseService) {
     this.db.setCurrentUser(this); // used to avoid circular dependency issue (when injecting currentUser service into users or database services)
   }
 
@@ -23,11 +23,11 @@ export class CurrentUserService {
   set(user: firebase.User) {
     this.unsubscribe();
     if (user) {
-      this.users.get(user.uid).pipe(
+      this.usersService.get(user.uid).pipe(
         takeUntil(this.userChange)
       ).subscribe((user: User) => {
         if (user) {
-          user.avatar = this.users.getAvatarUrl(user.avatar as string);
+          user.avatar = this.usersService.getAvatarUrl(user.avatar as string);
         }
         this.data = user;
         this.dataChange.next(this.data);

@@ -9,34 +9,34 @@ import { CurrentUserService } from './current-user.service';
 @Injectable()
 export class DatabaseService {
 
-  private _currentUser: CurrentUserService = null;
+  private _currentUserService: CurrentUserService = null;
 
   constructor(private db: AngularFirestore, private i18n: I18nService) { }
 
   /**
    * Set current user service instance
-   * 
-   * @param instance 
+   *
+   * @param instance
    */
   setCurrentUser(instance: CurrentUserService): void {
-    this._currentUser = instance;
+    this._currentUserService = instance;
   }
 
   /**
    * Return current user data
    */
   get currentUser(): User {
-    return this._currentUser.data || null;
+    return this._currentUserService.data || null;
   }
 
   /**
    * Check user role before perfoming an action/promise
-   * 
-   * @param promise 
+   *
+   * @param promise
    */
   private afterUserRoleCheck(promiseFn: Function): Promise<any> {
     return new Promise((resolve, reject) => {
-      if (!this._currentUser || this._currentUser.isGuest()) {
+      if (!this._currentUserService || this._currentUserService.isGuest()) {
         reject({ message: this.i18n.get('GuestsAreNotAllowedToPerformChanges') });
       } else {
         promiseFn().then((value?: DocumentReference) => {
@@ -50,8 +50,8 @@ export class DatabaseService {
 
   /**
    * Check if collection exists
-   * 
-   * @param path 
+   *
+   * @param path
    */
   async collectionExists(path: string): Promise<boolean> {
     const query = await this.db.collection(path).get().toPromise().catch((error: firebase.FirebaseError) => {
@@ -62,9 +62,9 @@ export class DatabaseService {
 
   /**
    * Add collection
-   * 
-   * @param path 
-   * @param data 
+   *
+   * @param path
+   * @param data
    */
   addCollection(path: string, data: any): Promise<DocumentReference|any> {
     return this.afterUserRoleCheck(() => this.db.collection(path).add(data));
@@ -72,8 +72,8 @@ export class DatabaseService {
 
   /**
    * Get collection ref
-   * 
-   * @param path 
+   *
+   * @param path
    */
   getCollectionRef(path: string, queryFn?: QueryFn): AngularFirestoreCollection<DocumentData> {
     return this.db.collection(path, queryFn);
@@ -81,10 +81,10 @@ export class DatabaseService {
 
   /**
    * Get collection
-   * 
+   *
    * known issue on several subscriptions: https://github.com/angular/angularfire/issues/1405
-   * 
-   * @param path 
+   *
+   * @param path
    */
   getCollection(path: string, queryFn?: QueryFn): Observable<any> {
     return this.getCollectionRef(path, queryFn).snapshotChanges().pipe(
@@ -103,10 +103,10 @@ export class DatabaseService {
 
   /**
    * Add document
-   * 
-   * @param collectionPath 
-   * @param data 
-   * @param documentPath 
+   *
+   * @param collectionPath
+   * @param data
+   * @param documentPath
    */
   addDocument(collectionPath: string, data: any, documentPath?: string): Promise<any> {
     if (documentPath && documentPath.length) {
@@ -118,10 +118,10 @@ export class DatabaseService {
 
   /**
    * Set document
-   * 
-   * @param collectionPath 
-   * @param documentPath 
-   * @param data 
+   *
+   * @param collectionPath
+   * @param documentPath
+   * @param data
    */
   setDocument(collectionPath: string, documentPath: string, data: any, merge: boolean = true): Promise<void|any> {
     return this.afterUserRoleCheck(() => this.db.collection(collectionPath).doc(documentPath).set(data, { merge: merge }));
@@ -129,10 +129,10 @@ export class DatabaseService {
 
   /**
    * Update document
-   * 
-   * @param collectionPath 
-   * @param documentPath 
-   * @param data 
+   *
+   * @param collectionPath
+   * @param documentPath
+   * @param data
    */
   updateDocument(collectionPath: string, documentPath: string, data: any): Promise<void|any> {
     return this.afterUserRoleCheck(() => this.db.collection(collectionPath).doc(documentPath).update(data));
@@ -140,9 +140,9 @@ export class DatabaseService {
 
   /**
    * Get document ref
-   * 
-   * @param collectionPath 
-   * @param documentPath 
+   *
+   * @param collectionPath
+   * @param documentPath
    */
   getDocumentRef(collectionPath: string, documentPath: string): AngularFirestoreDocument<DocumentData> {
     return this.db.collection(collectionPath).doc(documentPath);
@@ -150,9 +150,9 @@ export class DatabaseService {
 
   /**
    * Get document
-   * 
-   * @param collectionPath 
-   * @param documentPath 
+   *
+   * @param collectionPath
+   * @param documentPath
    */
   getDocument(collectionPath: string, documentPath: string): Observable<any> {
     return this.getDocumentRef(collectionPath, documentPath).valueChanges();
@@ -160,9 +160,9 @@ export class DatabaseService {
 
   /**
    * Delete document
-   * 
-   * @param collectionPath 
-   * @param documentPath 
+   *
+   * @param collectionPath
+   * @param documentPath
    */
   deleteDocument(collectionPath: string, documentPath: string): Promise<void|any> {
     return this.afterUserRoleCheck(() => this.db.collection(collectionPath).doc(documentPath).delete());
@@ -170,9 +170,9 @@ export class DatabaseService {
 
   /**
    * Get documents data as a promise
-   * 
-   * @param collectionPath 
-   * @param queryFn 
+   *
+   * @param collectionPath
+   * @param queryFn
    */
   async getDocumentsDataAsPromise(collectionPath: string, queryFn?: QueryFn): Promise<DocumentData[]> {
     const ref = await this.getCollectionRef(collectionPath, queryFn).get().toPromise().catch((error: firebase.FirebaseError) => {
@@ -183,9 +183,9 @@ export class DatabaseService {
 
   /**
    * Get documents count
-   * 
-   * @param collectionPath 
-   * @param queryFn 
+   *
+   * @param collectionPath
+   * @param queryFn
    */
   async getDocumentsCount(collectionPath: string, queryFn?: QueryFn): Promise<number> {
     const docs = await this.getDocumentsDataAsPromise(collectionPath, queryFn);
