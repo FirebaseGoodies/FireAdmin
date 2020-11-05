@@ -1,7 +1,7 @@
 
 export interface Language {
-  label: string,
-  key: string,
-  isActive: boolean
-  isRemovable: boolean
+  label: string;
+  key: string;
+  isActive: boolean;
+  isRemovable: boolean;
 }
