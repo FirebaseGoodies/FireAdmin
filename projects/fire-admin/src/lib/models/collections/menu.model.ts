@@ -9,6 +9,6 @@ export interface Menu {
 export interface MenuItem {
   title: string;
   url: string;
-  //icon?: string,
+  //icon?: string;
   childrens: MenuItem[];
 }
