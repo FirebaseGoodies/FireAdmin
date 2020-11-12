@@ -264,6 +264,18 @@ npm install --save-dev @types/datatables.net
 ```
 -->
 
+## Q & A
+
+**Q**: Why don't you use Firebase functions to handle the `user` part using a custom API for example?
+
+**A**:
+ 1. I just wanted to prove the theory of a serverless CMS (without the need of Firebase functions).
+ 2. Firebase functions cannot be deployed on a free tier (payed feature), which will made some basic features like the user management not usable or at least testable for free.
+
+**Q**: Do you have any plans to continue this project?
+
+**A**: I do, but it mainly depends on my free time & ambition, also the project stills experimental & some parts still need to be reworked, as they say: nothing is perfect.
+
 ## Build
 
 Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
