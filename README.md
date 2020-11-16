@@ -21,13 +21,6 @@ A minimalistic headless CMS around Angular & Firebase.
 - Internationalization ready
 - Easy/automated updates (via npm)
 
-## ToDo
-
-- [ ] Menus handler
-- [ ] Password reset feature
-- [ ] Posts comments
-- [ ] Posts custom fields
-
 ## Installation
 
 ```
@@ -264,17 +257,31 @@ npm install --save-dev @types/datatables.net
 ```
 -->
 
-## Q & A
+## FAQ
 
-**Q**: Why don't you use Firebase functions to handle the `user` part using a custom API for example?
+**Q: Why don't you use Firebase functions to manage `users` through a custom API for example?**
 
-**A**:
- 1. I just wanted to prove the theory of a serverless CMS (without the need of Firebase functions).
- 2. Firebase functions cannot be deployed on a free tier (payed feature), which will made some basic features like the user management not usable or at least testable for free.
+A:
+ 1. I just wanted to prove the theory of a serverless CMS using both Angular & Firebase client side features.
+ 2. Firebase functions needs a `blaze` tier to be deployed, which will make the user management not usable/testable for free.
 
-**Q**: Do you have any plans to continue this project?
+**Q: Do you have any plans to continue this project?**
 
-**A**: I do, but it mainly depends on my free time & ambition, also the project stills experimental & some parts still need to be reworked, as they say: nothing is perfect.
+A: I do, all i need is free time, ambition & some [:coffee:](https://www.paypal.me/axeldev).
+
+**Q: Cool! i liked your project, how can i help? **
+
+A:
+- If you are a developer & you feel interested to contribute, i invite you to check the [todo list](#todo) below or to review the source code, as many parts still need to be reworked.
+- If not, then you can give us a :star2: & why not share the project with your friends.
+
+## ToDo
+
+- [ ] Menus handler
+- [ ] Password reset feature
+- [ ] Posts comments
+- [ ] Posts custom fields
+- [ ] Replace nested components directories with modules
 
 ## Build
 
