@@ -269,7 +269,7 @@ A:
 
 A: I do, all i need is free time, ambition & some [:coffee:](https://www.paypal.me/axeldev).
 
-**Q: Cool! i liked your project, how can i help? **
+**Q: Cool! i liked your project, how can i help?**
 
 A:
 - If you are a developer & you feel interested to contribute, i invite you to check the [todo list](#todo) below or to review the source code, as many parts still need to be reworked.
