@@ -59,12 +59,12 @@ import { ConfigService } from './services/collections/config.service';
 import { LogoutComponent } from './components/logout/logout.component';
 import { ShortDatePipe } from './pipes/shortdate.pipe';
 import { DateTimePipe } from './pipes/datetime.pipe';
+import { TimestampPipe } from './pipes/timestamp.pipe';
 
 // Register locales for date pipe
 import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
 import localeAr from '@angular/common/locales/ar';
-import { TimestampPipe } from './pipes/timestamp.pipe';
 registerLocaleData(localeFr);
 registerLocaleData(localeAr);
 
