@@ -64,6 +64,7 @@ import { DateTimePipe } from './pipes/datetime.pipe';
 import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
 import localeAr from '@angular/common/locales/ar';
+import { TimestampPipe } from './pipes/timestamp.pipe';
 registerLocaleData(localeFr);
 registerLocaleData(localeAr);
 
@@ -99,7 +100,8 @@ registerLocaleData(localeAr);
     RegisterComponent,
     LogoutComponent,
     ShortDatePipe,
-    DateTimePipe
+    DateTimePipe,
+    TimestampPipe
   ],
   imports: [
     CommonModule,
