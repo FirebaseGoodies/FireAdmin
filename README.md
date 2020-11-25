@@ -167,21 +167,22 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
     match /{collection}/{document}/{path=**} {
-      allow read: if isAccessibleForRead(collection, document);
-      allow write: if isAccessibleForWrite(collection, document);
+      allow read: if isReadable(collection, document);
+      allow write: if isWritable(collection, document);
     }
 
-    // Defines which collection/document are accessible for read
-    function isAccessibleForRead(collection, document) {
+    // Checks if collection/document is readable
+    function isReadable(collection, document) {
       return isAdmin() || !isCollectionProtectedForRead(collection) || isOwner(document);
     }
 
+    // Checks if collection is protected against read
     function isCollectionProtectedForRead(collection) {
       return collection in ['users'];
     }
 
-    // Defines which collection/document are accessible for write
-    function isAccessibleForWrite(collection, document) {
+    // Checks if collection/document is writable
+    function isWritable(collection, document) {
       return isAdmin() || (
         collection == 'users' && isRegistrationEnabled()
       ) || (
@@ -189,11 +190,12 @@ service cloud.firestore {
       );
     }
 
+    // Checks if collection is protected against write
     function isCollectionProtectedForWrite(collection) {
       return collection in ['users', 'config'];
     }
 
-    // Registration status check
+    // Checks if registration is enabled
     function isRegistrationEnabled() {
       return !exists(/databases/$(database)/documents/config/registration) || get(/databases/$(database)/documents/config/registration).data.enabled;
     }
