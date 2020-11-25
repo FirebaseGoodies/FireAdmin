@@ -167,40 +167,57 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
     match /{collection}/{document}/{path=**} {
-      allow read: if canRead(collection, document);
-      allow write: if canWrite(collection, document);
+      allow read: if isAccessibleForRead(collection, document);
+      allow write: if isAccessibleForWrite(collection, document);
     }
-    function canRead(collection, document) {
-      return isAccessible(collection, document) || isAdmin();
+
+    // Defines which collection/document are accessible for read
+    function isAccessibleForRead(collection, document) {
+      return isAdmin() || !isCollectionProtectedForRead(collection) || isOwner(document);
     }
-    function canWrite(collection, document) {
-      return registrationEnabled(collection) || isAdmin() || (
-        isEditor() && collection != 'config' && isAccessible(collection, document)
+
+    function isCollectionProtectedForRead(collection) {
+      return collection in ['users'];
+    }
+
+    // Defines which collection/document are accessible for write
+    function isAccessibleForWrite(collection, document) {
+      return isRegistrationEnabled(collection) || isAdmin() || (
+        isEditor() && (!isCollectionProtectedForWrite(collection) || isOwner(document))
       );
     }
-    function isAccessible(collection, document) {
-      return collection != 'users' || isOwner(document);
+
+    function isCollectionProtectedForWrite(collection) {
+      return collection in ['users', 'config'];
     }
-    function isSignedIn() {
-      return request.auth != null;
-    }
-    function hasRole(role) {
-      return isSignedIn() && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == role;
-    }
-    function isAdmin() {
-      return hasRole('admin');
-    }
-    function isEditor() {
-      return hasRole('editor');
-    }
-    function isOwner(ownerId) {
-      return isSignedIn() && request.auth.uid == ownerId;
-    }
-    function registrationEnabled(collection) {
+
+    // Registration status check
+    function isRegistrationEnabled(collection) {
       return collection == 'users' && (
         !exists(/databases/$(database)/documents/config/registration) ||
         get(/databases/$(database)/documents/config/registration).data.enabled
       );
+    }
+
+    // User role check functions
+    function isAdmin() {
+      return hasRole('admin');
+    }
+
+    function isEditor() {
+      return hasRole('editor');
+    }
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function hasRole(role) {
+      return isSignedIn() && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == role;
+    }
+
+    function isOwner(ownerId) {
+      return isSignedIn() && request.auth.uid == ownerId;
     }
   }
 }
