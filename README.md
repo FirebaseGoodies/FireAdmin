@@ -182,7 +182,9 @@ service cloud.firestore {
 
     // Defines which collection/document are accessible for write
     function isAccessibleForWrite(collection, document) {
-      return isRegistrationEnabled(collection) || isAdmin() || (
+      return isAdmin() || (
+        collection == 'users' && isRegistrationEnabled()
+      ) || (
         isEditor() && (!isCollectionProtectedForWrite(collection) || isOwner(document))
       );
     }
@@ -192,11 +194,8 @@ service cloud.firestore {
     }
 
     // Registration status check
-    function isRegistrationEnabled(collection) {
-      return collection == 'users' && (
-        !exists(/databases/$(database)/documents/config/registration) ||
-        get(/databases/$(database)/documents/config/registration).data.enabled
-      );
+    function isRegistrationEnabled() {
+      return !exists(/databases/$(database)/documents/config/registration) || get(/databases/$(database)/documents/config/registration).data.enabled;
     }
 
     // User role check functions
