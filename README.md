@@ -5,7 +5,7 @@
 [![License](https://img.shields.io/npm/l/ng-fire-admin)](LICENSE)
 [![Donate](https://img.shields.io/badge/PayPal-Donate-gray.svg?style=flat&logo=paypal&colorA=0071bb&logoColor=fff)](https://www.paypal.me/axeldev)
 
-A minimalistic headless CMS around Angular & Firebase.
+A minimalistic headless CMS built around Angular & Firebase.
 
 ![screenshot](https://github.com/FirebaseGoodies/FireAdmin/blob/master/screenshots/dashboard.png?raw=true)
 
