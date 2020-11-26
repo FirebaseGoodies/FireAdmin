@@ -173,11 +173,11 @@ service cloud.firestore {
 
     // Checks if collection/document is readable
     function isReadable(collection, document) {
-      return isAdmin() || !isCollectionProtectedForRead(collection) || isOwner(document);
+      return isAdmin() || !isReadProtected(collection) || isOwner(document);
     }
 
     // Checks if collection is protected against read
-    function isCollectionProtectedForRead(collection) {
+    function isReadProtected(collection) {
       return collection in ['users'];
     }
 
@@ -186,12 +186,12 @@ service cloud.firestore {
       return isAdmin() || (
         collection == 'users' && isRegistrationEnabled()
       ) || (
-        isEditor() && (!isCollectionProtectedForWrite(collection) || isOwner(document))
+        isEditor() && (!isWriteProtected(collection) || isOwner(document))
       );
     }
 
     // Checks if collection is protected against write
-    function isCollectionProtectedForWrite(collection) {
+    function isWriteProtected(collection) {
       return collection in ['users', 'config'];
     }
 
