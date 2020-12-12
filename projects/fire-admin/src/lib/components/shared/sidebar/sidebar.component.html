@@ -35,74 +35,31 @@
 
 <ng-template #navItemsTemplate>
   <ul class="nav flex-column" [ngClass]="{ 'nav-tabs border-0 flex-lg-row': style === 'headerbar' }">
-    <li class="nav-item">
-      <a class="nav-link" [routerLink]="navigation.getRouterLink('dashboard')" routerLinkActive="active">
-        <i class="material-icons">&#xE917;</i>
-        <span>{{ 'Dashboard' | translate }}</span>
-      </a>
-    </li>
-    <li class="nav-item dropdown">
-      <a class="nav-link dropdown-toggle" [class.active]="isActive(['pages', 'list'], ['pages', 'add'], ['pages', 'edit'], ['pages', 'translate'])" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="true">
-        <i class="material-icons">insert_drive_file</i>
-        <span>{{ 'Pages' | translate }}</span>
-      </a>
-      <div class="dropdown-menu dropdown-menu-small" [class.show]="style === 'expanded' && isActive(['pages', 'list'], ['pages', 'add'], ['pages', 'edit'], ['pages', 'translate'])">
-        <a class="dropdown-item " [routerLink]="navigation.getRouterLink('pages', 'list')" routerLinkActive="active">{{ 'List' | translate }}</a>
-        <a class="dropdown-item " [routerLink]="navigation.getRouterLink('pages', 'add')" routerLinkActive="active">{{ 'Add' | translate }}</a>
-      </div>
-    </li>
-    <li class="nav-item dropdown">
-      <a class="nav-link dropdown-toggle" [class.active]="isActive(['posts', 'list'], ['posts', 'add'], ['posts', 'edit'], ['posts', 'translate'], ['posts', 'categories'])" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="true">
-        <i class="material-icons">description</i>
-        <span>{{ 'Posts' | translate }}</span>
-      </a>
-      <div class="dropdown-menu dropdown-menu-small" [class.show]="style === 'expanded' && isActive(['posts', 'list'], ['posts', 'add'], ['posts', 'edit'], ['posts', 'translate'], ['posts', 'categories'])">
-        <a class="dropdown-item " [routerLink]="navigation.getRouterLink('posts', 'list')" routerLinkActive="active">{{ 'List' | translate }}</a>
-        <a class="dropdown-item " [routerLink]="navigation.getRouterLink('posts', 'add')" routerLinkActive="active">{{ 'Add' | translate }}</a>
-        <a class="dropdown-item " [routerLink]="navigation.getRouterLink('posts', 'categories')" routerLinkActive="active">{{ 'Categories' | translate }}</a>
-      </div>
-    </li>
-    <li class="nav-item dropdown" [class.d-none]="!currentUser.isAdmin()"> <!-- do not use *ngIf directive here 'cause dropdown js code is executed only once (after the component init) & not on every change -->
-      <a class="nav-link dropdown-toggle" [class.active]="isActive(['users', 'list'], ['users', 'add'], ['users', 'edit'], ['users', 'profile'])" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="true">
-        <i class="material-icons">person</i>
-        <span>{{ 'Users' | translate }}</span>
-      </a>
-      <div class="dropdown-menu dropdown-menu-small" [class.show]="style === 'expanded' && isActive(['users', 'list'], ['users', 'add'], ['users', 'edit'], ['users', 'profile'])">
-        <a class="dropdown-item " [routerLink]="navigation.getRouterLink('users', 'list')" routerLinkActive="active">{{ 'List' | translate }}</a>
-        <a class="dropdown-item " [routerLink]="navigation.getRouterLink('users', 'add')" routerLinkActive="active">{{ 'Add' | translate }}</a>
-      </div>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" [routerLink]="navigation.getRouterLink('translations')" routerLinkActive="active">
-        <i class="material-icons">language</i>
-        <span>{{ 'Translations' | translate }}</span>
-      </a>
-    </li>
-    <!-- <li class="nav-item">
-      <a class="nav-link" [routerLink]="navigation.getRouterLink('menus')" routerLinkActive="active">
-        <i class="material-icons">menu</i>
-        <span>{{ 'Menus' | translate }}</span>
-      </a>
-    </li> -->
-    <!-- <li class="nav-item dropdown">
-      <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="true">
-        <i class="material-icons">comment</i>
-        <span>{{ 'Comments' | translate }}</span>
-      </a>
-      <div class="dropdown-menu dropdown-menu-small">
-        <a class="dropdown-item " href="#">{{ 'List' | translate }}</a>
-        <a class="dropdown-item " href="#">{{ 'Add' | translate }}</a>
-      </div>
-    </li> -->
-    <!-- <li class="nav-item dropdown">
-      <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="true">
-        <i class="material-icons">&#xE251;</i>
-        <span>{{ 'Media' | translate }}</span>
-      </a>
-      <div class="dropdown-menu dropdown-menu-small">
-        <a class="dropdown-item " href="#">{{ 'List' | translate }}</a>
-        <a class="dropdown-item " href="#">{{ 'Add' | translate }}</a>
-      </div>
-    </li> -->
+    <ng-container *ngFor="let item of items">
+      <ng-container *ngIf="item.childrens?.length; else singleItemTemplate">
+        <li class="nav-item dropdown" [class.d-none]="item.isHidden && item.isHidden()"> <!-- do not use *ngIf directive here 'cause dropdown js code is executed only once (after the component init) & not on every change -->
+          <a class="nav-link dropdown-toggle" [class.active]="item.isActive" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="true">
+            <i class="material-icons" [innerHTML]="item.icon"></i>
+            <span>{{ item.label | translate }}</span>
+          </a>
+          <div class="dropdown-menu dropdown-menu-small" [class.show]="style === 'expanded' && item.isActive">
+            <a
+              *ngFor="let child of item.childrens"
+              class="dropdown-item"
+              [routerLink]="child.routerLink"
+              routerLinkActive="active"
+            >{{ child.label | translate }}</a>
+          </div>
+        </li>
+      </ng-container>
+      <ng-template #singleItemTemplate>
+        <li  class="nav-item">
+          <a class="nav-link" [routerLink]="item.routerLink" routerLinkActive="active">
+            <i class="material-icons" [innerHTML]="item.icon"></i>
+            <span>{{ item.label | translate }}</span>
+          </a>
+        </li>
+      </ng-template>
+    </ng-container>
   </ul>
 </ng-template>

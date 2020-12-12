@@ -11,7 +11,7 @@ export class NavigationService {
     this.rootPath = this.router.config[0].path;
   }
 
-  private getQueryParams(path: string) {
+  private getQueryParams(path: string): Object {
     const queryParams = path.split('?')[1] || '';
     const params = queryParams.length ? queryParams.split('&') : [];
     let pair = null;
@@ -23,18 +23,18 @@ export class NavigationService {
     return data;
   }
 
-  redirectTo(...path: string[]) {
+  redirectTo(...path: string[]): void {
     //console.log(path, this.getQueryParams(path[0]));
     this.router.navigate(this.getRouterLink(...path), { queryParams: this.getQueryParams(path[0]) });
   }
 
-  getRouterLink(...path: string[]) {
-    const root = this.rootPath ? '/' + this.rootPath : [];
+  getRouterLink(...path: string[]): string[] {
+    const root: any = this.rootPath ? '/' + this.rootPath : [];
     path = path.map((segment: string) => segment.split('?')[0]); // clean up / remove query params
     return [root, ...path];
   }
 
-  setRootPath(path: string) {
+  setRootPath(path: string): void {
     this.rootPath = path;
   }
 
