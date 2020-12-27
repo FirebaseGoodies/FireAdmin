@@ -38,7 +38,7 @@ npm install --save ng-fire-admin
     ng new my-workspace --createApplication="false"
     cd my-workspace
     ng generate application backend --defaults --routing=true
-    // you can add the frontend app the same way
+    // you can add the frontend app the same way: ng generate application frontend --defaults --routing=true
     npm install --save ng-fire-admin
   ```
 </details>
