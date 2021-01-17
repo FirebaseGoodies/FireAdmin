@@ -12,9 +12,9 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/AXeL-dev/FireAdmin"
+    "url": "https://github.com/FirebaseGoodies/FireAdmin"
   },
-  "homepage": "https://axel-dev.github.io/FireAdmin",
+  "homepage": "https://firebasegoodies.github.io/FireAdmin/demo/login?email=guest@fireadmin.com&password=fireadmin",
   "dependencies": {
     "@angular/fire": "^5.4.2",
     "@fortawesome/fontawesome-free": "^5.12.1",
