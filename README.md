@@ -277,6 +277,12 @@ npm install --save-dev @types/datatables.net
 
 ## FAQ
 
+**Q: How to get & display my data on the frontend side?**
+
+A: FireAdmin is [Headless](https://en.wikipedia.org/wiki/Headless_software#Headless_websites), so it only stores/updates your data. This separation of concerns can avoid style/dependency conflicts & allows you to serve your backend & frontend apps on different servers.
+
+You can retrieve the data on your frontend app using [Firebase client API](https://firebase.google.com/docs/reference/js) & display them in the way you want to.
+
 **Q: Why don't you use Firebase functions to manage `users` through a custom API for example?**
 
 A:
