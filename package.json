@@ -25,7 +25,7 @@
     "@angular/platform-browser-dynamic": "~8.2.14",
     "@angular/router": "~8.2.14",
     "@fortawesome/fontawesome-free": "^5.12.1",
-    "angular-datatables": "^8.1.0",
+    "angular-datatables": "^15.0.0",
     "bootstrap": "^4.4.1",
     "chart.js": "^2.9.4",
     "datatables.net-responsive-dt": "^2.2.3",
@@ -42,7 +42,7 @@
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.803.25",
     "@angular-devkit/build-ng-packagr": "~0.803.25",
-    "@angular/cli": "~8.3.24",
+    "@angular/cli": "~15.1.4",
     "@angular/compiler-cli": "~8.2.14",
     "@angular/language-service": "~8.2.14",
     "@types/datatables.net": "^1.10.18",
